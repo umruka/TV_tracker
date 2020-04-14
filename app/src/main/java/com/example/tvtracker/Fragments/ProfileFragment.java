@@ -1,4 +1,4 @@
-package com.example.tvtracker.tvSeries;
+package com.example.tvtracker.Fragments;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -13,25 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tvtracker.R;
+import com.example.tvtracker.profile.ProfileViewModel;
 
-public class tvSeriesFragment extends Fragment {
+public class ProfileFragment extends Fragment {
 
-    private TvSeriesViewModel mViewModel;
+    private ProfileViewModel mViewModel;
 
-    public static tvSeriesFragment newInstance() {
-        return new tvSeriesFragment();
+    public static ProfileFragment newInstance() {
+        return new ProfileFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.tv_series_fragment, container, false);
+        return inflater.inflate(R.layout.profile_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(TvSeriesViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
         // TODO: Use the ViewModel
     }
 

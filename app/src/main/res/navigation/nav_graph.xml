@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_profile">
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.tvtracker.Fragments.ProfileFragment"
+        android:label="profile_fragment"
+        tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/navigation_movies"
+        android:name="com.example.tvtracker.movies.MoviesFragment"
+        android:label="movies_fragment"
+        tools:layout="@layout/movies_fragment" />
+    <fragment
+        android:id="@+id/navigation_tvseries"
+        android:name="com.example.tvtracker.Fragments.TvShowsFragment"
+        android:label="tv_series_fragment"
+        tools:layout="@layout/tv_series_fragment" />
+    <fragment
+        android:id="@+id/navigation_discover"
+        android:name="com.example.tvtracker.Fragments.DiscoverFragment"
+        android:label="discover_fragment"
+        tools:layout="@layout/discover_fragment" />
+</navigation>
