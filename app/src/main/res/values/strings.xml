@@ -4,9 +4,9 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
-    <string name="nav_tvseries">TV Series</string>
-    <string name="nav_movies">Movies</string>
-    <string name="nav_search">Discover</string>
+    <string name="nav_watchlist">Watchlist</string>
+    <string name="nav_calendar">Calendar</string>
+    <string name="nav_discover">Discover</string>
     <string name="nav_profile">Profile</string>
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -11,18 +11,18 @@
         android:label="profile_fragment"
         tools:layout="@layout/profile_fragment" />
     <fragment
-        android:id="@+id/navigation_movies"
-        android:name="com.example.tvtracker.movies.MoviesFragment"
-        android:label="movies_fragment"
-        tools:layout="@layout/movies_fragment" />
-    <fragment
-        android:id="@+id/navigation_tvseries"
-        android:name="com.example.tvtracker.Fragments.TvShowsFragment"
-        android:label="tv_series_fragment"
-        tools:layout="@layout/tv_series_fragment" />
+        android:id="@+id/navigation_watchlist"
+        android:name="com.example.tvtracker.Fragments.WatchlistFragment"
+        android:label="watchlist_fragment"
+        tools:layout="@layout/watchlist_fragment" />
     <fragment
         android:id="@+id/navigation_discover"
         android:name="com.example.tvtracker.Fragments.DiscoverFragment"
         android:label="discover_fragment"
         tools:layout="@layout/discover_fragment" />
+    <fragment
+        android:id="@+id/moviesFragment"
+        android:name="com.example.tvtracker.movies.MoviesFragment"
+        android:label="movies_fragment"
+        tools:layout="@layout/movies_fragment" />
 </navigation>

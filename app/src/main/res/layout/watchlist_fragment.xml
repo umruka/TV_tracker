@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.TvShowsFragment">
+    tools:context=".Fragments.WatchlistFragment">
 
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tvshows_recycler_view"
+        android:id="@+id/watchlist_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

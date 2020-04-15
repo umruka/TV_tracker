@@ -3,7 +3,6 @@ package com.example.tvtracker.Fragments;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,25 +21,25 @@ import com.example.tvtracker.TvShowModel.TvShowViewModel;
 
 import java.util.List;
 
-public class TvShowsFragment extends Fragment {
+public class WatchlistFragment extends Fragment {
 
     private TvShowViewModel tvShowViewModel;
 
-    public static TvShowsFragment newInstance() {
-        return new TvShowsFragment();
+    public static WatchlistFragment newInstance() {
+        return new WatchlistFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.tv_series_fragment, container, false);
+        return inflater.inflate(R.layout.watchlist_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final RecyclerView recyclerView = getView().findViewById(R.id.tvshows_recycler_view);
+        final RecyclerView recyclerView = getView().findViewById(R.id.watchlist_recycler_view);
         recyclerView.setHasFixedSize(true);
 
         final TvShowAdapter adapter = new TvShowAdapter();
@@ -53,16 +52,8 @@ public class TvShowsFragment extends Fragment {
             adapter.setTvShows(tvShows);
             }
         });
-        new Sync().execute();
-        // TODO: Use the ViewModel
+
     }
 
 
-    class Sync extends AsyncTask<Void, Void, Void>{
-        @Override
-        protected Void doInBackground(Void... voids) {
-            tvShowViewModel.syncTvShows();
-            return null;
-        }
-    }
 }

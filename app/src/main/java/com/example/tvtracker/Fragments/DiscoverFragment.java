@@ -1,5 +1,6 @@
 package com.example.tvtracker.Fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,13 +9,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tvtracker.R;
-import com.example.tvtracker.discover.DiscoverViewModel;
+import com.example.tvtracker.TvShowModel.TvShow;
+import com.example.tvtracker.TvShowModel.TvShowAdapter;
+import com.example.tvtracker.TvShowModel.TvShowViewModel;
+
+import java.util.List;
 
 public class DiscoverFragment extends Fragment {
 
-    private DiscoverViewModel mViewModel;
+    private TvShowViewModel tvShowViewModel;
 
     public static DiscoverFragment newInstance() {
         return new DiscoverFragment();
@@ -29,7 +37,33 @@ public class DiscoverFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        final RecyclerView recyclerView = getView().findViewById(R.id.dicover_recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        final TvShowAdapter adapter = new TvShowAdapter();
+        recyclerView.setAdapter(adapter);
+
+        tvShowViewModel = ViewModelProviders.of(this).get(TvShowViewModel.class);
+        tvShowViewModel.getAllTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
+            @Override
+            public void onChanged(List<TvShow> tvShows) {
+                adapter.setTvShows(tvShows);
+            }
+        });
+
+
+        new Sync().execute();
         // TODO: Use the ViewModel
+    }
+
+
+    class Sync extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            tvShowViewModel.syncTvShows();
+            return null;
+        }
     }
 
 }
