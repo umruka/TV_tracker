@@ -1,10 +1,12 @@
 package com.example.tvtracker.Fragments;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,11 +19,15 @@ import com.example.tvtracker.R;
 import com.example.tvtracker.TvShowModel.TvShow;
 import com.example.tvtracker.TvShowModel.TvShowAdapter;
 import com.example.tvtracker.TvShowModel.TvShowViewModel;
+import com.example.tvtracker.WatchlistModel.Watchlist;
+import com.example.tvtracker.WatchlistModel.WatchlistViewModel;
 
 import java.util.List;
 
 public class DiscoverFragment extends Fragment {
 
+    private Activity activity;
+    private WatchlistViewModel watchlistViewModel;
     private TvShowViewModel tvShowViewModel;
 
     public static DiscoverFragment newInstance() {
@@ -37,12 +43,19 @@ public class DiscoverFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        this.activity = getActivity();
         final RecyclerView recyclerView = getView().findViewById(R.id.dicover_recycler_view);
         recyclerView.setHasFixedSize(true);
 
         final TvShowAdapter adapter = new TvShowAdapter();
         recyclerView.setAdapter(adapter);
+        watchlistViewModel = ViewModelProviders.of(this).get(WatchlistViewModel.class);
+        watchlistViewModel.getAllWatchlist().observe(getViewLifecycleOwner(), new Observer<List<Watchlist>>() {
+            @Override
+            public void onChanged(List<Watchlist> watchlists) {
+
+            }
+        });
 
         tvShowViewModel = ViewModelProviders.of(this).get(TvShowViewModel.class);
         tvShowViewModel.getAllTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
@@ -52,6 +65,15 @@ public class DiscoverFragment extends Fragment {
             }
         });
 
+        adapter.setOnItemClickListener(new TvShowAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(TvShow tvShow) {
+               int tvshowid = tvShow.getTvShowId();
+                Watchlist watchlist = new Watchlist(tvshowid);
+                watchlistViewModel.insertWatchlistItem(watchlist);
+                Toast.makeText(activity, "Done", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         new Sync().execute();
         // TODO: Use the ViewModel

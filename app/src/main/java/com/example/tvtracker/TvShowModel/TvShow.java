@@ -2,13 +2,20 @@ package com.example.tvtracker.TvShowModel;
 
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+/*
+,
+        foreignKeys = @ForeignKey(entity = TvShow.class,
+        parentColumns = "tvShowId",
+        childColumns = "watchlistTvShowId",
+        onDelete = ForeignKey.CASCADE)
+*/
 @Entity(tableName = "tvshow_table")
 public class TvShow {
 @PrimaryKey(autoGenerate = true)
 private int id;
-
 private String tvShowName;
 private String tvShowStatus;
 private int tvShowId;
