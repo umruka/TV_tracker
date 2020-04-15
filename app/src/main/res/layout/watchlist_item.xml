@@ -29,7 +29,7 @@
             android:paddingEnd="16dp">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_movie_year"
+                android:id="@+id/text_view_tvshow_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -40,10 +40,10 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_watchlist_show_id"
+                android:id="@+id/text_view_tvshow_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/text_view_movie_year"
+                android:layout_below="@+id/text_view_tvshow_id"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:ellipsize="end"
@@ -52,10 +52,10 @@
                 android:textAppearance="?textAppearanceHeadline5" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_movie_genre"
+                android:id="@+id/text_view_tvshow_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_movie_title"
+                android:layout_below="@id/text_view_tvshow_name"
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
@@ -66,10 +66,10 @@
                 android:id="@+id/text_view_movie_imdb_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_movie_genre"
+                android:layout_below="@id/text_view_tvshow_status"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="a"
+                android:text="empty"
                 android:textAppearance="?textAppearanceBody2" />
 
         </RelativeLayout>

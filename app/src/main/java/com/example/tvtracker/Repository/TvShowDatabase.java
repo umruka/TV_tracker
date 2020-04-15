@@ -7,15 +7,13 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.tvtracker.TvShowModel.TvShow;
-import com.example.tvtracker.WatchlistModel.Watchlist;
 
-@Database(entities = {TvShow.class, Watchlist.class},version = 2)
+@Database(entities = {TvShow.class},version = 3)
 public abstract class TvShowDatabase extends RoomDatabase {
 
     private static TvShowDatabase instance;
 
     public abstract TvShowDao tv_showDao();
-    public abstract WatchListDao watchListDao();
 
     public static synchronized TvShowDatabase getInstance(Context context){
         if(instance == null){

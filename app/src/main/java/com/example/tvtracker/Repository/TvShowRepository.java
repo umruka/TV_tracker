@@ -7,25 +7,28 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import com.example.tvtracker.TvShowModel.TvShow;
+import com.example.tvtracker.Models.UpdateTvShowWatchingFlagParams;
 
 import java.util.List;
 
 public class TvShowRepository {
     private TvShowDao tvShowDao;
     private LiveData<List<TvShow>> allTvShows;
+    private LiveData<List<TvShow>> allWatchingTvShows;
 
     public TvShowRepository(Application application){
         TvShowDatabase database = TvShowDatabase.getInstance(application);
         tvShowDao = database.tv_showDao();
         allTvShows = tvShowDao.getAllTvShows();
+        allWatchingTvShows = tvShowDao.getWatchlistTvShows("yes");
     }
 
+    public LiveData<List<TvShow>> getAllWatchlistTvShows() { return allWatchingTvShows; }
     public LiveData<List<TvShow>> getAllTvShows() { return allTvShows; }
-
     public void insertTvShow(TvShow tvShow){
         new InsertTvShowAsyncTask(tvShowDao).execute(tvShow);
     }
-
+    public void deleteTvShow(int id) { new DeleteTvShowAsyncTask(tvShowDao).execute(id);}
     public TvShow getTvShowById(int Id){
         try {
             return new GetTvShowAsyncTask(tvShowDao).execute(Id).get();
@@ -34,11 +37,12 @@ public class TvShowRepository {
         }
         return null;
     }
-
     public void deleteAllTvShows() { new DeleteAllTvShows(tvShowDao).execute(); }
-
     public void updateTvShow(TvShow tvShow){
         new UpdateTvShowAsyncTask(tvShowDao).execute(tvShow);
+    }
+    public void updateTvShowWatchingFlag(UpdateTvShowWatchingFlagParams params){
+        new UpdateTvShowWatchingFlagAsyncTask(tvShowDao).execute(params);
     }
 
     private static class  InsertTvShowAsyncTask extends AsyncTask<TvShow, Void, Void> {
@@ -59,6 +63,21 @@ public class TvShowRepository {
         @Override
         protected Void doInBackground(Void... voids) {
             tvShowDao.deleteAllTvShows();
+            return null;
+        }
+    }
+
+    private static class UpdateTvShowWatchingFlagAsyncTask extends AsyncTask<UpdateTvShowWatchingFlagParams, Void, Void> {
+        private TvShowDao tvShowDao;
+        private UpdateTvShowWatchingFlagAsyncTask(TvShowDao tvShowDao){
+            this.tvShowDao = tvShowDao;
+        }
+
+        @Override
+        protected Void doInBackground(UpdateTvShowWatchingFlagParams... params) {
+            int id = params[0].getId();
+            String flag = params[0].getFlag();
+            tvShowDao.updateTvShowWatchingFlag(id, flag);
             return null;
         }
     }
@@ -90,6 +109,15 @@ public class TvShowRepository {
         }
     }
 
+    private static class DeleteTvShowAsyncTask extends AsyncTask<Integer, Void, Void> {
+        private TvShowDao tvShowDao;
+        private DeleteTvShowAsyncTask(TvShowDao tvShowDao) { this.tvShowDao = tvShowDao;}
 
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            tvShowDao.deleteTvShowById(integers[0]);
+            return null;
+        }
+    }
 
 }

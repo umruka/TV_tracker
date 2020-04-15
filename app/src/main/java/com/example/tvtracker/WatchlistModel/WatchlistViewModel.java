@@ -6,24 +6,22 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.tvtracker.Repository.WatchlistRepository;
+import com.example.tvtracker.Repository.TvShowRepository;
+import com.example.tvtracker.TvShowModel.TvShow;
 
 import java.util.List;
 
 public class WatchlistViewModel extends AndroidViewModel {
-    private WatchlistRepository repository;
-    private LiveData<List<Watchlist>> allWatchlist;
+    private TvShowRepository repository;
+    private LiveData<List<TvShow>> allTvShowsWatching;
 
     public WatchlistViewModel(@NonNull Application application){
         super(application);
-        repository = new WatchlistRepository(application);
-        allWatchlist = repository.getAllWatchlistTvShows();
+        repository = new TvShowRepository(application);
+        allTvShowsWatching = repository.getAllWatchlistTvShows();
     }
-    public LiveData<List<Watchlist>> getAllWatchlist() {
-        return allWatchlist;
+    public LiveData<List<TvShow>> getAllWatchlist() {
+        return allTvShowsWatching;
     }
-
-    public void insertWatchlistItem(Watchlist watchlist) { repository.insertWatchListTvShow(watchlist);}
-
 
 }

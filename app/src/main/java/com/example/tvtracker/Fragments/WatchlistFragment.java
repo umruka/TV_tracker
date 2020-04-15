@@ -15,8 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tvtracker.R;
-import com.example.tvtracker.WatchlistModel.Watchlist;
-import com.example.tvtracker.WatchlistModel.WatchlistAdapter;
+import com.example.tvtracker.TvShowModel.TvShow;
+import com.example.tvtracker.TvShowModel.TvShowAdapter;
 import com.example.tvtracker.WatchlistModel.WatchlistViewModel;
 
 import java.util.List;
@@ -42,14 +42,14 @@ public class WatchlistFragment extends Fragment {
         final RecyclerView recyclerView = getView().findViewById(R.id.watchlist_recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        final WatchlistAdapter adapter = new WatchlistAdapter();
+        final TvShowAdapter adapter = new TvShowAdapter();
         recyclerView.setAdapter(adapter);
 
         watchlistViewModel = ViewModelProviders.of(this).get(WatchlistViewModel.class);
-        watchlistViewModel.getAllWatchlist().observe(getViewLifecycleOwner(), new Observer<List<Watchlist>>() {
+        watchlistViewModel.getAllWatchlist().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
             @Override
-            public void onChanged(List<Watchlist> watchlists) {
-            adapter.setWatchlists(watchlists);
+            public void onChanged(List<TvShow> watchlists) {
+            adapter.setTvShows(watchlists);
             }
         });
 

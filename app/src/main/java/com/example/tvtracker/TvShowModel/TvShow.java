@@ -3,6 +3,7 @@ package com.example.tvtracker.TvShowModel;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 /*
@@ -19,11 +20,20 @@ private int id;
 private String tvShowName;
 private String tvShowStatus;
 private int tvShowId;
+private String tvShowWatchingFlag;
 
-    public TvShow(String tvShowName, String tvShowStatus, int tvShowId) {
+    public TvShow(String tvShowName, String tvShowStatus, int tvShowId){
         this.tvShowName = tvShowName;
         this.tvShowStatus = tvShowStatus;
         this.tvShowId = tvShowId;
+    }
+
+    @Ignore
+    public TvShow(String tvShowName, String tvShowStatus, int tvShowId, String tvShowWatchingFlag) {
+        this.tvShowName = tvShowName;
+        this.tvShowStatus = tvShowStatus;
+        this.tvShowId = tvShowId;
+        this.tvShowWatchingFlag = tvShowWatchingFlag;
     }
 
     public int getId() {
@@ -56,5 +66,13 @@ private int tvShowId;
 
     public void setTvShowId(int tvShowId) {
         this.tvShowId = tvShowId;
+    }
+
+    public String getTvShowWatchingFlag() {
+        return tvShowWatchingFlag;
+    }
+
+    public void setTvShowWatchingFlag(String tvShowWatchingFlag) {
+        this.tvShowWatchingFlag = tvShowWatchingFlag;
     }
 }

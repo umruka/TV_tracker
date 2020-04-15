@@ -19,15 +19,13 @@ import com.example.tvtracker.R;
 import com.example.tvtracker.TvShowModel.TvShow;
 import com.example.tvtracker.TvShowModel.TvShowAdapter;
 import com.example.tvtracker.TvShowModel.TvShowViewModel;
-import com.example.tvtracker.WatchlistModel.Watchlist;
-import com.example.tvtracker.WatchlistModel.WatchlistViewModel;
+import com.example.tvtracker.Models.UpdateTvShowWatchingFlagParams;
 
 import java.util.List;
 
 public class DiscoverFragment extends Fragment {
 
     private Activity activity;
-    private WatchlistViewModel watchlistViewModel;
     private TvShowViewModel tvShowViewModel;
 
     public static DiscoverFragment newInstance() {
@@ -49,14 +47,6 @@ public class DiscoverFragment extends Fragment {
 
         final TvShowAdapter adapter = new TvShowAdapter();
         recyclerView.setAdapter(adapter);
-        watchlistViewModel = ViewModelProviders.of(this).get(WatchlistViewModel.class);
-        watchlistViewModel.getAllWatchlist().observe(getViewLifecycleOwner(), new Observer<List<Watchlist>>() {
-            @Override
-            public void onChanged(List<Watchlist> watchlists) {
-
-            }
-        });
-
         tvShowViewModel = ViewModelProviders.of(this).get(TvShowViewModel.class);
         tvShowViewModel.getAllTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
             @Override
@@ -68,9 +58,11 @@ public class DiscoverFragment extends Fragment {
         adapter.setOnItemClickListener(new TvShowAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(TvShow tvShow) {
-               int tvshowid = tvShow.getTvShowId();
-                Watchlist watchlist = new Watchlist(tvshowid);
-                watchlistViewModel.insertWatchlistItem(watchlist);
+
+                int id =   tvShow.getTvShowId();
+                 String flag = "yes";
+                UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, flag);
+                tvShowViewModel.updateTvShowWatchingFlag(params);
                 Toast.makeText(activity, "Done", Toast.LENGTH_SHORT).show();
             }
         });

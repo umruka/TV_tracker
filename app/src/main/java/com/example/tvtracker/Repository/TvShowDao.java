@@ -25,9 +25,15 @@ public interface TvShowDao {
     @Query("UPDATE tvshow_table SET tvShowName=:name, tvShowStatus=:status WHERE tvShowId IN(:tvShowId)")
     void updateTvShow(int tvShowId, String name, String status);
 
+    @Query("UPDATE tvshow_table SET tvShowWatchingFlag=:watchingId WHERE tvShowId IN(:id)")
+    void updateTvShowWatchingFlag(int id, String watchingId);
+
     @Query("SELECT * FROM tvshow_table WHERE tvShowId=:Id")
     TvShow getTvShowById(int Id);
 
     @Query("SELECT * FROM tvshow_table")
     LiveData<List<TvShow>> getAllTvShows();
+
+    @Query("SELECT * FROM tvshow_table WHERE tvShowWatchingFlag=:flag")
+    LiveData<List<TvShow>> getWatchlistTvShows(String flag);
 }
