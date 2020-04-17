@@ -16,24 +16,24 @@ public interface TvShowDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTVShow(TvShow tvShow);
 
-    @Query("DELETE FROM tvshow_table")
+    @Query("DELETE FROM tv_show_table")
     void deleteAllTvShows();
 
-    @Query("DELETE FROM tvshow_table WHERE tvShowId IN (:id)")
+    @Query("DELETE FROM tv_show_table WHERE tv_show_id IN (:id)")
     void deleteTvShowById(int id);
 
-    @Query("UPDATE tvshow_table SET tvShowName=:name, tvShowStatus=:status WHERE tvShowId IN(:tvShowId)")
+    @Query("UPDATE tv_show_table SET tv_show_name=:name, tv_show_status=:status WHERE tv_show_id IN(:tvShowId)")
     void updateTvShow(int tvShowId, String name, String status);
 
-    @Query("UPDATE tvshow_table SET tvShowWatchingFlag=:watchingId WHERE tvShowId IN(:id)")
+    @Query("UPDATE tv_show_table SET tv_show_flag=:watchingId WHERE tv_show_id IN(:id)")
     void updateTvShowWatchingFlag(int id, String watchingId);
 
-    @Query("SELECT * FROM tvshow_table WHERE tvShowId=:Id")
+    @Query("SELECT * FROM tv_show_table WHERE tv_show_id=:Id")
     TvShow getTvShowById(int Id);
 
-    @Query("SELECT * FROM tvshow_table")
+    @Query("SELECT * FROM tv_show_table")
     LiveData<List<TvShow>> getAllTvShows();
 
-    @Query("SELECT * FROM tvshow_table WHERE tvShowWatchingFlag=:flag")
+    @Query("SELECT * FROM tv_show_table WHERE tv_show_flag=:flag")
     LiveData<List<TvShow>> getWatchlistTvShows(String flag);
 }

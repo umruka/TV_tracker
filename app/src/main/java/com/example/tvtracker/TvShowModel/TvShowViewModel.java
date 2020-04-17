@@ -45,10 +45,10 @@ public class TvShowViewModel extends AndroidViewModel {
 
     public TvShow getTvShow(int id) { return repository.getTvShowById(id); }
 
-    private JSON_RootElement downloadDataFromURL(){
+    private JSON_RootElement downloadDataFromURL(int page){
         Context context = getApplication().getApplicationContext();
 
-        String webPage = "https://www.episodate.com/api/most-popular?page=1";
+        String webPage = "https://www.episodate.com/api/most-popular?page="+page;
         JSON_RootElement jsonRootElement = new JSON_RootElement();
         try(InputStream is = new URL(webPage).openStream(); Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
         Gson gson = new Gson();
@@ -71,12 +71,7 @@ public class TvShowViewModel extends AndroidViewModel {
         }
         return isExist;
     }
-    private Boolean isFlagYes(String flag){
-        if(flag.equals("yes")){
-            return true;
-        }
-        return  false;
-    }
+
     private void insertTvShows(JSON_RootElement data){
         for(int i=0; i < data.getTVShows().size();i++){
             TV_Show urlTvShow = data.getTVShows().get(i);
@@ -84,8 +79,14 @@ public class TvShowViewModel extends AndroidViewModel {
             int tvShowId = urlTvShow.getId();
             String tvShowName = urlTvShow.getName();
             String tvShowStatus = urlTvShow.getStatus();
+            String tvShowStartDate = urlTvShow.getStartDate();
+            String tvShowEndDate = urlTvShow.getEndDate();
+            String tvShowCountry = urlTvShow.getCountry();
+            String tvShowNetwork = urlTvShow.getNetwork();
+            String tvShowImage = urlTvShow.getImageThumbnailPath();
 
-            TvShow tvShow = new TvShow(tvShowName, tvShowStatus, tvShowId);
+
+            TvShow tvShow = new TvShow(tvShowId, tvShowName,tvShowStartDate, tvShowEndDate, tvShowCountry, tvShowNetwork , tvShowStatus, tvShowImage);
         if(isTvShowExist(tvShowId)){
             repository.updateTvShow(tvShow);
         }else {
@@ -114,9 +115,12 @@ public class TvShowViewModel extends AndroidViewModel {
     }
 
     private void InsertTvShows(){
-        JSON_RootElement data = downloadDataFromURL();
-        deleteNotInServer(data);
-        insertTvShows(data);
+        for (int i = 1; i <= 5; i++) {
+            JSON_RootElement data = downloadDataFromURL(i);
+            insertTvShows(data);
+
+        }
+        //deleteNotInServer(data);
     }
 
     public void syncTvShows(){

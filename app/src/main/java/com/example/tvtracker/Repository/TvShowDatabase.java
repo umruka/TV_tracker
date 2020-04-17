@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.tvtracker.TvShowModel.TvShow;
 
-@Database(entities = {TvShow.class},version = 3)
+@Database(entities = {TvShow.class},version = 1)
 public abstract class TvShowDatabase extends RoomDatabase {
 
     private static TvShowDatabase instance;
@@ -18,7 +18,7 @@ public abstract class TvShowDatabase extends RoomDatabase {
     public static synchronized TvShowDatabase getInstance(Context context){
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    TvShowDatabase.class, "tvshow_database")
+                    TvShowDatabase.class, "tv_show_database")
                     .fallbackToDestructiveMigration()
                     .build();
 
