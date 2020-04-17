@@ -41,7 +41,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowView
         holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
     }
 
-    public void setTvShows(List<TvShow> tvShows){
+    public void setTvShows(List<TvShow> tvShows) {
         this.tvShows = tvShows;
         notifyDataSetChanged();
     }
@@ -61,7 +61,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowView
         private TextView textViewTvShowStatus;
         private TextView textViewTvShowId;
 
-        private TvShowViewHolder(View itemView){
+        private TvShowViewHolder(View itemView) {
             super(itemView);
             textViewTvShowName = itemView.findViewById(R.id.text_view_tvshow_name);
             textViewTvShowStatus = itemView.findViewById(R.id.text_view_tvshow_status);
@@ -78,8 +78,6 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowView
         }
 
     }
-
-
 
 
 }

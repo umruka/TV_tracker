@@ -3,44 +3,33 @@ package com.example.tvtracker.TvShowModel;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-/*
-,
-        foreignKeys = @ForeignKey(entity = TvShow.class,
-        parentColumns = "tvShowId",
-        childColumns = "watchlistTvShowId",
-        onDelete = ForeignKey.CASCADE)
-*/
 @Entity(tableName = "tv_show_table")
 public class TvShow {
-@PrimaryKey(autoGenerate = true)
-@ColumnInfo(name = "id")
-private int id;
-@ColumnInfo(name = "tv_show_id")
-private int tvShowId;
-@ColumnInfo(name = "tv_show_name")
-private String tvShowName;
-@ColumnInfo(name = "tv_show_start_date")
-private String tvShowStartDate;
-@ColumnInfo(name = "tv_show_end_date")
-private String tvShowEndDate;
-@ColumnInfo(name = "tv_show_country")
-private String tvShowCountry;
-@ColumnInfo(name = "tv_show_network")
-private String tvShowNetwork;
-@ColumnInfo(name = "tv_show_status")
-private String tvShowStatus;
-@ColumnInfo(name = "tv_show_image_path")
-private String tvShowImagePath;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    @ColumnInfo(name = "tv_show_id")
+    private int tvShowId;
+    @ColumnInfo(name = "tv_show_name")
+    private String tvShowName;
+    @ColumnInfo(name = "tv_show_start_date")
+    private String tvShowStartDate;
+    @ColumnInfo(name = "tv_show_end_date")
+    private String tvShowEndDate;
+    @ColumnInfo(name = "tv_show_country")
+    private String tvShowCountry;
+    @ColumnInfo(name = "tv_show_network")
+    private String tvShowNetwork;
+    @ColumnInfo(name = "tv_show_status")
+    private String tvShowStatus;
+    @ColumnInfo(name = "tv_show_image_path")
+    private String tvShowImagePath;
 
+    @ColumnInfo(name = "tv_show_flag")
+    private String tvShowWatchingFlag;
 
-@ColumnInfo(name = "tv_show_flag")
-private String tvShowWatchingFlag;
-
-    public TvShow(int tvShowId, String tvShowName, String tvShowStartDate, String tvShowEndDate, String tvShowCountry, String tvShowNetwork,String tvShowStatus, String tvShowImagePath) {
+    public TvShow(int tvShowId, String tvShowName, String tvShowStartDate, String tvShowEndDate, String tvShowCountry, String tvShowNetwork, String tvShowStatus, String tvShowImagePath) {
         this.tvShowId = tvShowId;
         this.tvShowName = tvShowName;
         this.tvShowStartDate = tvShowStartDate;
@@ -58,7 +47,6 @@ private String tvShowWatchingFlag;
     public void setId(int id) {
         this.id = id;
     }
-
 
     public int getTvShowId() {
         return tvShowId;
@@ -107,7 +95,6 @@ private String tvShowWatchingFlag;
     public void setTvShowNetwork(String tvShowNetwork) {
         this.tvShowNetwork = tvShowNetwork;
     }
-
 
 
     public String getTvShowStatus() {

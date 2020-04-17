@@ -12,10 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tvtracker.R;
+import com.example.tvtracker.TvShowFullModel.TvShowFull;
+import com.example.tvtracker.TvShowFullModel.TvShowFullViewModel;
 import com.example.tvtracker.TvShowModel.TvShow;
 import com.example.tvtracker.TvShowModel.TvShowAdapter;
 import com.example.tvtracker.TvShowModel.TvShowViewModel;
@@ -27,6 +30,7 @@ public class DiscoverFragment extends Fragment {
 
     private Activity activity;
     private TvShowViewModel tvShowViewModel;
+    private TvShowFullViewModel tvShowFullViewModel;
 
     public static DiscoverFragment newInstance() {
         return new DiscoverFragment();
@@ -55,14 +59,24 @@ public class DiscoverFragment extends Fragment {
             }
         });
 
+        tvShowFullViewModel = ViewModelProviders.of(this).get(TvShowFullViewModel.class);
+        tvShowFullViewModel.getAllTvShowsFull().observe(getViewLifecycleOwner(), new Observer<List<TvShowFull>>() {
+            @Override
+            public void onChanged(List<TvShowFull> tvShowFulls) {
+
+            }
+        });
+
         adapter.setOnItemClickListener(new TvShowAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(TvShow tvShow) {
 
-                int id =   tvShow.getTvShowId();
-                 String flag = "yes";
+                int id = tvShow.getTvShowId();
+                String flag = "yes";
                 UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, flag);
                 tvShowViewModel.updateTvShowWatchingFlag(params);
+                new InsertTvShowFull().execute(id);
+
                 Toast.makeText(activity, "Done", Toast.LENGTH_SHORT).show();
             }
         });
@@ -76,6 +90,14 @@ public class DiscoverFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... voids) {
             tvShowViewModel.syncTvShows();
+            return null;
+        }
+    }
+
+    class InsertTvShowFull extends AsyncTask<Integer, Void, Void> {
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            tvShowFullViewModel.insertItem(integers[0]);
             return null;
         }
     }

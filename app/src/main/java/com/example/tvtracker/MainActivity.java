@@ -12,18 +12,13 @@ import androidx.navigation.ui.NavigationUI;
 public class MainActivity extends AppCompatActivity {
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
-        NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment_container);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
         NavigationUI.setupWithNavController(navView, navController);
-
-
-
-
 
 
     }
