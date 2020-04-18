@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tvtracker.R;
-import com.example.tvtracker.profile.ProfileViewModel;
+import com.example.tvtracker.ViewModels.ProfileViewModel;
 
 public class ProfileFragment extends Fragment {
 

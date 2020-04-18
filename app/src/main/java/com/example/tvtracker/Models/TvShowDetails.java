@@ -1,41 +1,39 @@
-package com.example.tvtracker.TvShowFullModel;
+package com.example.tvtracker.Models;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.tvtracker.TvShowModel.TvShow;
-
-@Entity(tableName = "tv_show_full")
-public class TvShowFull {
+@Entity(tableName = "tv_show_details_table")
+public class TvShowDetails {
 
     @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "tv_show_full_id")
+    @ColumnInfo(name = "tv_show_id")
     private int tvShowdId;
 
-    @ColumnInfo(name = "tv_show_full_description")
+    @ColumnInfo(name = "tv_show_description")
     private String tvShowDesc;
 
-    @ColumnInfo(name = "tv_show_full_youtube_link")
+    @ColumnInfo(name = "tv_show_youtube_link")
     private String tvShowYoutubeLink;
 
-    @ColumnInfo(name = "tv_show_full_rating")
+    @ColumnInfo(name = "tv_show_rating")
     private String tvShowRating;
 
-    @ColumnInfo(name = "tv_show_full_image_path")
+    @ColumnInfo(name = "tv_show_image_path")
     private String tvShowImagePath;
 
-//    @ColumnInfo(name = "tv_show_full_genre_id")
+//    @ColumnInfo(name = "tv_show_genre_id")
 //    private int genreId;
 
-//    @ColumnInfo(name = "tv_show_full_picture_id")
+//    @ColumnInfo(name = "tv_show_picture_id")
 //    private int pictureId;
 
-//    @ColumnInfo(name = "tv_show_full_episode_id")
+//    @ColumnInfo(name = "tv_show_episode_id")
 //    private int episodeId;
 
 
-    public TvShowFull(int tvShowdId, String tvShowDesc, String tvShowYoutubeLink, String tvShowRating, String tvShowImagePath) {
+    public TvShowDetails(int tvShowdId, String tvShowDesc, String tvShowYoutubeLink, String tvShowRating, String tvShowImagePath) {
         this.tvShowdId = tvShowdId;
         this.tvShowDesc = tvShowDesc;
         this.tvShowYoutubeLink = tvShowYoutubeLink;

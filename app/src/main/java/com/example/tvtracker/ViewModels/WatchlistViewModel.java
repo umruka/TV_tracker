@@ -1,4 +1,4 @@
-package com.example.tvtracker.WatchlistModel;
+package com.example.tvtracker.ViewModels;
 
 import android.app.Application;
 

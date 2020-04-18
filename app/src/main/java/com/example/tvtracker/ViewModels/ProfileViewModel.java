@@ -1,7 +1,9 @@
-package com.example.tvtracker.profile;
+package com.example.tvtracker.ViewModels;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.example.tvtracker.Models.Profile;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package com.example.tvtracker.Models.TvShowFull;
+package com.example.tvtracker.JsonModels.TvShowDetails;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Episode {
+public class JsonTvShowDetailsEpisode {
 
     @SerializedName("season")
     @Expose

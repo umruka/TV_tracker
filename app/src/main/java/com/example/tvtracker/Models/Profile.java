@@ -1,4 +1,4 @@
-package com.example.tvtracker.profile;
+package com.example.tvtracker.Models;
 
 public class Profile {
     private String name;

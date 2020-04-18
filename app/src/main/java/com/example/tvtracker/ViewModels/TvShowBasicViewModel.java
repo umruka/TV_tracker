@@ -1,4 +1,4 @@
-package com.example.tvtracker.TvShowModel;
+package com.example.tvtracker.ViewModels;
 
 import android.app.Application;
 import android.content.Context;
@@ -7,8 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.tvtracker.Models.TvShowSummary.JSON_RootElement;
-import com.example.tvtracker.Models.TvShowSummary.TV_Show;
+import com.example.tvtracker.JsonModels.TvShowBasic.JsonTvShowBasicRoot;
+import com.example.tvtracker.JsonModels.TvShowBasic.JsonTvShowBasic;
+import com.example.tvtracker.Models.TvShowBasic;
 import com.example.tvtracker.Repository.AppRepository;
 import com.example.tvtracker.Models.UpdateTvShowWatchingFlagParams;
 import com.google.gson.Gson;
@@ -21,30 +22,30 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public class TvShowViewModel extends AndroidViewModel {
+public class TvShowBasicViewModel extends AndroidViewModel {
     private AppRepository repository;
-    private LiveData<List<TvShow>> allTvShows;
+    private LiveData<List<TvShowBasic>> allTvShows;
 
-    public TvShowViewModel(@NonNull Application application) {
+    public TvShowBasicViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
         allTvShows = repository.getAllTvShows();
     }
 
-    public LiveData<List<TvShow>> getAllTvShows() {
+    public LiveData<List<TvShowBasic>> getAllTvShows() {
         return allTvShows;
     }
 
-    public void insert(TvShow tvShow) {
-        repository.insertTvShow(tvShow);
+    public void insert(TvShowBasic tvShowBasic) {
+        repository.insertTvShow(tvShowBasic);
     }
 
     public void deleteAllTvShows() {
         repository.deleteAllTvShows();
     }
 
-    public void updateTvShow(TvShow tvShow) {
-        repository.updateTvShow(tvShow);
+    public void updateTvShow(TvShowBasic tvShowBasic) {
+        repository.updateTvShow(tvShowBasic);
     }
 
     public void updateTvShowWatchingFlag(UpdateTvShowWatchingFlagParams params) {
@@ -55,18 +56,18 @@ public class TvShowViewModel extends AndroidViewModel {
         repository.deleteTvShow(id);
     }
 
-    public TvShow getTvShow(int id) {
+    public TvShowBasic getTvShow(int id) {
         return repository.getTvShowById(id);
     }
 
-    private JSON_RootElement downloadDataFromURL(int page) {
+    private JsonTvShowBasicRoot downloadDataFromURL(int page) {
         Context context = getApplication().getApplicationContext();
 
         String webPage = "https://www.episodate.com/api/most-popular?page=" + page;
-        JSON_RootElement jsonRootElement = new JSON_RootElement();
+        JsonTvShowBasicRoot jsonRootElement = new JsonTvShowBasicRoot();
         try (InputStream is = new URL(webPage).openStream(); Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
             Gson gson = new Gson();
-            jsonRootElement = gson.fromJson(reader, JSON_RootElement.class);
+            jsonRootElement = gson.fromJson(reader, JsonTvShowBasicRoot.class);
             return jsonRootElement;
         } catch (IOException e) {
             e.getMessage();
@@ -77,8 +78,8 @@ public class TvShowViewModel extends AndroidViewModel {
     private Boolean isTvShowExist(int tvShowId) {
         boolean isExist = false;
         for (int i = 0; i < allTvShows.getValue().size(); i++) {
-            TvShow tvShow = allTvShows.getValue().get(i);
-            if (tvShowId == tvShow.getTvShowId()) {
+            TvShowBasic tvShowBasic = allTvShows.getValue().get(i);
+            if (tvShowId == tvShowBasic.getTvShowId()) {
                 isExist = true;
                 return isExist;
             }
@@ -86,9 +87,9 @@ public class TvShowViewModel extends AndroidViewModel {
         return isExist;
     }
 
-    private void insertTvShows(JSON_RootElement data) {
+    private void insertTvShows(JsonTvShowBasicRoot data) {
         for (int i = 0; i < data.getTVShows().size(); i++) {
-            TV_Show urlTvShow = data.getTVShows().get(i);
+            JsonTvShowBasic urlTvShow = data.getTVShows().get(i);
 
             int tvShowId = urlTvShow.getId();
             String tvShowName = urlTvShow.getName();
@@ -100,16 +101,16 @@ public class TvShowViewModel extends AndroidViewModel {
             String tvShowImage = urlTvShow.getImageThumbnailPath();
 
 
-            TvShow tvShow = new TvShow(tvShowId, tvShowName, tvShowStartDate, tvShowEndDate, tvShowCountry, tvShowNetwork, tvShowStatus, tvShowImage);
+            TvShowBasic tvShowBasic = new TvShowBasic(tvShowId, tvShowName, tvShowStartDate, tvShowEndDate, tvShowCountry, tvShowNetwork, tvShowStatus, tvShowImage);
             if (isTvShowExist(tvShowId)) {
-                repository.updateTvShow(tvShow);
+                repository.updateTvShow(tvShowBasic);
             } else {
-                repository.insertTvShow(tvShow);
+                repository.insertTvShow(tvShowBasic);
             }
         }
     }
 
-    private void deleteNotInServer(JSON_RootElement data) {
+    private void deleteNotInServer(JsonTvShowBasicRoot data) {
         boolean isForDeleting;
         for (int i = 0; i < allTvShows.getValue().size(); i++) {
             isForDeleting = true;
@@ -130,7 +131,7 @@ public class TvShowViewModel extends AndroidViewModel {
 
     private void InsertTvShows() {
         for (int i = 1; i <= 5; i++) {
-            JSON_RootElement data = downloadDataFromURL(i);
+            JsonTvShowBasicRoot data = downloadDataFromURL(i);
             insertTvShows(data);
 
         }
@@ -138,7 +139,8 @@ public class TvShowViewModel extends AndroidViewModel {
     }
 
     public void syncTvShows() {
-        InsertTvShows();
+        //InsertTvShows();
+        repository.getMostPopularTvShowsBasicInfo();
     }
 
 

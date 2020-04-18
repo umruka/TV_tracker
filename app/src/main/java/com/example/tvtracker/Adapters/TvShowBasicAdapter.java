@@ -1,4 +1,4 @@
-package com.example.tvtracker.TvShowModel;
+package com.example.tvtracker.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,19 +8,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tvtracker.Models.TvShowBasic;
 import com.example.tvtracker.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowViewHolder> {
+public class TvShowBasicAdapter extends RecyclerView.Adapter<TvShowBasicAdapter.TvShowViewHolder> {
 
     public interface OnItemClickListener {
-        void onItemClick(TvShow tvShow);
+        void onItemClick(TvShowBasic tvShowBasic);
     }
 
 
-    private List<TvShow> tvShows = new ArrayList<>();
+    private List<TvShowBasic> tvShowBasics = new ArrayList<>();
     private OnItemClickListener listener;
 
 
@@ -35,20 +36,20 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowView
 
     @Override
     public void onBindViewHolder(@NonNull TvShowViewHolder holder, int position) {
-        TvShow currentTvShow = tvShows.get(position);
-        holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
-        holder.textViewTvShowStatus.setText(currentTvShow.getTvShowStatus());
-        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
+        TvShowBasic currentTvShowBasic = tvShowBasics.get(position);
+        holder.textViewTvShowName.setText(currentTvShowBasic.getTvShowName());
+        holder.textViewTvShowStatus.setText(currentTvShowBasic.getTvShowStatus());
+        holder.textViewTvShowId.setText(Integer.toString(currentTvShowBasic.getTvShowId()));
     }
 
-    public void setTvShows(List<TvShow> tvShows) {
-        this.tvShows = tvShows;
+    public void setTvShowBasics(List<TvShowBasic> tvShowBasics) {
+        this.tvShowBasics = tvShowBasics;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return tvShows.size();
+        return tvShowBasics.size();
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -71,7 +72,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowView
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(tvShows.get(position));
+                        listener.onItemClick(tvShowBasics.get(position));
                     }
                 }
             });

@@ -1,12 +1,12 @@
-package com.example.tvtracker.TvShowModel;
+package com.example.tvtracker.Models;
 
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tv_show_table")
-public class TvShow {
+@Entity(tableName = "tv_show_basic_table")
+public class TvShowBasic {
     @PrimaryKey(autoGenerate = true)
     private int id;
     @ColumnInfo(name = "tv_show_id")
@@ -29,7 +29,7 @@ public class TvShow {
     @ColumnInfo(name = "tv_show_flag")
     private String tvShowWatchingFlag;
 
-    public TvShow(int tvShowId, String tvShowName, String tvShowStartDate, String tvShowEndDate, String tvShowCountry, String tvShowNetwork, String tvShowStatus, String tvShowImagePath) {
+    public TvShowBasic(int tvShowId, String tvShowName, String tvShowStartDate, String tvShowEndDate, String tvShowCountry, String tvShowNetwork, String tvShowStatus, String tvShowImagePath) {
         this.tvShowId = tvShowId;
         this.tvShowName = tvShowName;
         this.tvShowStartDate = tvShowStartDate;

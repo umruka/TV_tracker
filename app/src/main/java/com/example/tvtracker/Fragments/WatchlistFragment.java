@@ -16,8 +16,8 @@ import android.view.ViewGroup;
 
 import com.example.tvtracker.R;
 import com.example.tvtracker.Models.TvShowCombined;
-import com.example.tvtracker.TvShowModel.TvShowCombinedAdapter;
-import com.example.tvtracker.WatchlistModel.WatchlistViewModel;
+import com.example.tvtracker.Adapters.TvShowCombinedAdapter;
+import com.example.tvtracker.ViewModels.WatchlistViewModel;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.tvtracker.TvShowModel;
+package com.example.tvtracker.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +33,16 @@ public class TvShowCombinedAdapter extends RecyclerView.Adapter<TvShowCombinedAd
     @Override
     public void onBindViewHolder(@NonNull TvShowCombinedViewHolder holder, int position) {
         TvShowCombined currentTvShow = tvShowsCombined.get(position);
-        holder.textViewTvShowName.setText(currentTvShow.getTvShow().getTvShowNetwork());
-        holder.textViewTvShowStatus.setText(currentTvShow.getTvShow().getTvShowStatus());
-        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShow().getTvShowId()));
-        holder.textViewTvShowDesc.setText(currentTvShow.getTvShowFull().get(0).getTvShowDesc());
-        holder.textViewTvShowCountry.setText(currentTvShow.getTvShow().getTvShowCountry());
-        holder.textViewTvShowNetwork.setText(currentTvShow.getTvShow().getTvShowNetwork());
+
+        holder.textViewTvShowName.setText(currentTvShow.getTvShowBasic().getTvShowNetwork());
+        holder.textViewTvShowStatus.setText(currentTvShow.getTvShowBasic().getTvShowStatus());
+        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowBasic().getTvShowId()));
+        if(!currentTvShow.getTvShowDetails().isEmpty()) {
+            holder.textViewTvShowDesc.setText(currentTvShow.getTvShowDetails().get(0).getTvShowDesc());
+
+        };
+        holder.textViewTvShowCountry.setText(currentTvShow.getTvShowBasic().getTvShowCountry());
+        holder.textViewTvShowNetwork.setText(currentTvShow.getTvShowBasic().getTvShowNetwork());
     }
 
     public void setTvShows(List<TvShowCombined> tvShows) {

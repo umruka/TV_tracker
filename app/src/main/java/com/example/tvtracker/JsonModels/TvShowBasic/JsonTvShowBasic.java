@@ -1,10 +1,10 @@
-package com.example.tvtracker.Models.TvShowSummary;
+package com.example.tvtracker.JsonModels.TvShowBasic;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class TV_Show {
+public class JsonTvShowBasic {
     @SerializedName("id")
     @Expose
     private Integer id;

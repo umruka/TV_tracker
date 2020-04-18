@@ -3,37 +3,34 @@ package com.example.tvtracker.Models;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
-import com.example.tvtracker.TvShowFullModel.TvShowFull;
-import com.example.tvtracker.TvShowModel.TvShow;
-
 import java.util.List;
 
 public class TvShowCombined {
-    @Embedded private TvShow tvShow;
+    @Embedded private TvShowBasic tvShowBasic;
     @Relation(
             parentColumn = "tv_show_id",
-            entityColumn = "tv_show_full_id"
+            entityColumn = "tv_show_id"
     )
-    private List<TvShowFull> tvShowFull;
+    private List<TvShowDetails> tvShowDetails;
 
-    public TvShowCombined(TvShow tvShow, List<TvShowFull> tvShowFull) {
-        this.tvShow = tvShow;
-        this.tvShowFull = tvShowFull;
+    public TvShowCombined(TvShowBasic tvShowBasic, List<TvShowDetails> tvShowDetails) {
+        this.tvShowBasic = tvShowBasic;
+        this.tvShowDetails = tvShowDetails;
     }
 
-    public TvShow getTvShow() {
-        return tvShow;
+    public TvShowBasic getTvShowBasic() {
+        return tvShowBasic;
     }
 
-    public void setTvShow(TvShow tvShow) {
-        this.tvShow = tvShow;
+    public void setTvShowBasic(TvShowBasic tvShowBasic) {
+        this.tvShowBasic = tvShowBasic;
     }
 
-    public List<TvShowFull> getTvShowFull() {
-        return tvShowFull;
+    public List<TvShowDetails> getTvShowDetails() {
+        return tvShowDetails;
     }
 
-    public void setTvShowFull(List<TvShowFull> tvShowFull) {
-        this.tvShowFull = tvShowFull;
+    public void setTvShowDetails(List<TvShowDetails> tvShowDetails) {
+        this.tvShowDetails = tvShowDetails;
     }
 }
