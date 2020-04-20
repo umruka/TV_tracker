@@ -1,7 +1,6 @@
 package com.example.tvtracker.Fragments;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,7 @@ import com.example.tvtracker.ViewModels.TvShowDetailsViewModel;
 import com.example.tvtracker.Models.TvShowBasic;
 import com.example.tvtracker.Adapters.TvShowBasicAdapter;
 import com.example.tvtracker.ViewModels.TvShowBasicViewModel;
-import com.example.tvtracker.Models.UpdateTvShowWatchingFlagParams;
+import com.example.tvtracker.Models.UpdateTvShowBasicWatchingFlagParams;
 
 import java.util.List;
 
@@ -72,7 +71,7 @@ public class DiscoverFragment extends Fragment {
 
                 int id = tvShowBasic.getTvShowId();
                 String flag = "yes";
-                UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, flag);
+                UpdateTvShowBasicWatchingFlagParams params = new UpdateTvShowBasicWatchingFlagParams(id, flag);
                 tvShowBasicViewModel.updateTvShowWatchingFlag(params);
                 tvShowDetailsViewModel.insertTvShowDetails(id);
 

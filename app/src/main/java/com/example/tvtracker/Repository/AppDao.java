@@ -18,50 +18,51 @@ public interface AppDao {
 
 
     //TvShowBasic
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertTvShowFull(TvShowDetails tvShowDetails);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertTVShow(TvShowBasic tvShowBasic);
+    void insertTvShowBasic(TvShowBasic tvShowBasic);
 
     @Query("DELETE FROM tv_show_basic_table")
-    void deleteAllTvShows();
+    void deleteAllTvShowsBasic();
 
     @Query("DELETE FROM tv_show_basic_table WHERE tv_show_id IN (:id)")
-    void deleteTvShowById(int id);
+    void deleteTvShowBasicById(int id);
 
     @Query("UPDATE tv_show_basic_table SET tv_show_name=:name, tv_show_status=:status WHERE tv_show_id IN(:tvShowId)")
-    void updateTvShow(int tvShowId, String name, String status);
+    void updateTvShowBasic(int tvShowId, String name, String status);
 
     @Query("UPDATE tv_show_basic_table SET tv_show_flag=:watchingId WHERE tv_show_id IN(:id)")
-    void updateTvShowWatchingFlag(int id, String watchingId);
+    void updateTvShowBasicWatchingFlag(int id, String watchingId);
 
     @Query("SELECT * FROM tv_show_basic_table WHERE tv_show_id=:Id")
-    TvShowBasic getTvShowById(int Id);
+    TvShowBasic getTvShowBasicById(int Id);
 
     @Query("SELECT * FROM tv_show_basic_table")
-    LiveData<List<TvShowBasic>> getAllTvShows();
+    LiveData<List<TvShowBasic>> getAllTvShowsBasic();
 
-
+    //Watchlist
     @Query("SELECT * FROM tv_show_basic_table WHERE tv_show_flag=:flag")
-    LiveData<List<TvShowBasic>> getWatchlistTvShows(String flag);
+    LiveData<List<TvShowBasic>> getWatchlistTvShowsBasic(String flag);
 
     //TvShowDetails
-    @Query("SELECT * FROM tv_show_details_table")
-    LiveData<List<TvShowDetails>> getAllTvShowsFull();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertTVShowDetailed(TvShowDetails tvShowShort);
+    void insertTvShowDetails(TvShowDetails tvShowDetails);
+
+    @Query("SELECT * FROM tv_show_details_table")
+    LiveData<List<TvShowDetails>> getAllTvShowsDetails();
 
     @Query("DELETE FROM tv_show_details_table")
-    void deleteAllTvShowsDetailed();
+    void deleteAllTvShowsDetails();
 
     @Query("DELETE FROM tv_show_details_table WHERE tv_show_id IN (:id)")
-    void deleteTvShowDetailedById(int id);
+    void deleteTvShowDetailsById(int id);
 
+    @Query("UPDATE tv_show_details_table SET tv_show_description=:description, tv_show_youtube_link=:youtubeLink, tv_show_rating=:rating, tv_show_image_path=:imagePath")
+    void updateTvShowDetails(String description, String youtubeLink, String rating, String imagePath);
 
     @Query("SELECT * FROM tv_show_details_table WHERE tv_show_id=:Id")
-    TvShowDetails getTvShowDetailedById(int Id);
+    TvShowDetails getTvShowDetailsById(int Id);
 
     //TvShowCombined
     @Transaction

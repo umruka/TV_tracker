@@ -1,10 +1,10 @@
 package com.example.tvtracker.Models;
 
-public class UpdateTvShowWatchingFlagParams {
+public class UpdateTvShowBasicWatchingFlagParams {
     int id;
     String flag;
 
-    public UpdateTvShowWatchingFlagParams(int id, String flag) {
+    public UpdateTvShowBasicWatchingFlagParams(int id, String flag) {
         this.id = id;
         this.flag = flag;
     }
