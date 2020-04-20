@@ -21,7 +21,7 @@ public class TvShowDetailsViewModel extends AndroidViewModel {
         allTvShowsFull = repository.getAllTvShowsDetails();
     }
 
-    public LiveData<List<TvShowDetails>> getAllTvShowsFull() {
+    public LiveData<List<TvShowDetails>> getAllTvShowsDetails() {
         return allTvShowsFull;
     }
 

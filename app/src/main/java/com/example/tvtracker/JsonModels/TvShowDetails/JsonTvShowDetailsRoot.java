@@ -12,8 +12,8 @@ public class JsonTvShowDetailsRoot {
         return jsonTvShowDetails;
     }
 
-    public void setTvShow(JsonTvShowDetails jsonTv_show_detailss) {
-        this.jsonTvShowDetails = jsonTv_show_detailss;
+    public void setTvShow(JsonTvShowDetails jsonTvShowDetails) {
+        this.jsonTvShowDetails = jsonTvShowDetails;
     }
 
 }

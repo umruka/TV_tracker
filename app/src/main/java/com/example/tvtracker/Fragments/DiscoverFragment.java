@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,21 +50,14 @@ public class DiscoverFragment extends Fragment {
 
         final TvShowBasicAdapter adapter = new TvShowBasicAdapter();
         recyclerView.setAdapter(adapter);
-        tvShowBasicViewModel = ViewModelProviders.of(this).get(TvShowBasicViewModel.class);
+        tvShowBasicViewModel = new ViewModelProvider(this).get(TvShowBasicViewModel.class);
         tvShowBasicViewModel.getAllTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShowBasic>>() {
             @Override
             public void onChanged(List<TvShowBasic> tvShowBasics) {
                 adapter.setTvShowBasics(tvShowBasics);
             }
         });
-
-        tvShowDetailsViewModel = ViewModelProviders.of(this).get(TvShowDetailsViewModel.class);
-        tvShowDetailsViewModel.getAllTvShowsFull().observe(getViewLifecycleOwner(), new Observer<List<TvShowDetails>>() {
-            @Override
-            public void onChanged(List<TvShowDetails> tvShowDetails) {
-
-            }
-        });
+        tvShowDetailsViewModel = new ViewModelProvider(this).get(TvShowDetailsViewModel.class);
 
         adapter.setOnItemClickListener(new TvShowBasicAdapter.OnItemClickListener() {
             @Override

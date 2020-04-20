@@ -1,6 +1,7 @@
 package com.example.tvtracker.Fragments;
 
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -45,7 +46,7 @@ public class WatchlistFragment extends Fragment {
         final TvShowCombinedAdapter adapter = new TvShowCombinedAdapter();
         recyclerView.setAdapter(adapter);
 
-        watchlistViewModel = ViewModelProviders.of(this).get(WatchlistViewModel.class);
+        watchlistViewModel = new ViewModelProvider(this).get(WatchlistViewModel.class);
         watchlistViewModel.getAllTVShowsWatchingCombined().observe(getViewLifecycleOwner(), new Observer<List<TvShowCombined>>() {
             @Override
             public void onChanged(List<TvShowCombined> tvShowCombined) {

@@ -87,13 +87,13 @@ public class AppRepository {
     }
 
     private void insertTvShowDetailsCallback(JsonTvShowDetailsRoot data){
-        JsonTvShowDetails tvShowFull = data.getTvShow();
+        JsonTvShowDetails tvShowDetails = data.getTvShow();
 
-        int showId = tvShowFull.getId();
-        String description = tvShowFull.getDescription();
-        String youtubeLink = tvShowFull.getYoutubeLink();
-        String rating = tvShowFull.getRating();
-        String imagePath = tvShowFull.getImagePath();
+        int showId = tvShowDetails.getId();
+        String description = tvShowDetails.getDescription();
+        String youtubeLink = tvShowDetails.getYoutubeLink();
+        String rating = tvShowDetails.getRating();
+        String imagePath = tvShowDetails.getImagePath();
 
         TvShowDetails newTvShowDetails = new TvShowDetails(showId, description, youtubeLink, rating, imagePath);
         insertTvShowDetails(newTvShowDetails);
