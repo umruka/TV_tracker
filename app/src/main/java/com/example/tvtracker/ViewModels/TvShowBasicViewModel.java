@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.tvtracker.JsonModels.TvShowBasic.JsonTvShowBasicRoot;
 import com.example.tvtracker.Models.TvShowBasic;
 import com.example.tvtracker.Repository.AppRepository;
 import com.example.tvtracker.Models.UpdateTvShowBasicWatchingFlagParams;
@@ -27,50 +26,31 @@ public class TvShowBasicViewModel extends AndroidViewModel {
         return allTvShows;
     }
 
-    public void insert(TvShowBasic tvShowBasic) {
+    public void insertTvShowBasic(TvShowBasic tvShowBasic) {
         repository.insertTvShowBasic(tvShowBasic);
     }
 
-    public void deleteAllTvShows() {
-        repository.deleteAllTvShowsBasic();
+    public void updateTvShowBasic(TvShowBasic tvShowBasic) {
+        repository.updateTvShowBasic(tvShowBasic);
     }
 
-    public void updateTvShow(TvShowBasic tvShowBasic) {
-        repository.updateTvShow(tvShowBasic);
-    }
-
-    public void updateTvShowWatchingFlag(UpdateTvShowBasicWatchingFlagParams params) {
+    public void updateTvShowBasicWatchingFlag(UpdateTvShowBasicWatchingFlagParams params) {
         repository.updateTvShowBasicWatchingFlag(params);
     }
 
-    public void deleteTvShow(int id) {
+    public void deleteTvShowBasic(int id) {
         repository.deleteTvShowBasic(id);
     }
 
-    public TvShowBasic getTvShow(int id) {
+    public void deleteAllTvShowsBasic() {
+        repository.deleteAllTvShowsBasic();
+    }
+
+    public TvShowBasic getTvShowBasic(int id) {
         return repository.getTvShowBasicById(id);
     }
 
-    private void deleteNotInServer(JsonTvShowBasicRoot data) {
-        boolean isForDeleting;
-        for (int i = 0; i < allTvShows.getValue().size(); i++) {
-            isForDeleting = true;
-            for (int j = 0; j < data.getTVShows().size(); j++) {
-                String tvShowDB = String.valueOf(allTvShows.getValue().get(i).getTvShowId());
-                String tvShowServer = String.valueOf(data.getTVShows().get(j).getId());
-
-                if (tvShowDB.compareTo(tvShowServer) == 0) {
-                    isForDeleting = false;
-                    break;
-                }
-            }
-            if (isForDeleting) {
-                repository.deleteTvShowBasic(allTvShows.getValue().get(i).getTvShowId());
-            }
-        }
-    }
-
-    public void syncTvShows() {
+    public void syncTvShowBasicFromApi() {
         repository.insertMostPopularTvShowsBasicInfo();
     }
 

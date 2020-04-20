@@ -115,7 +115,7 @@ public class AppRepository {
 
             TvShowBasic tvShowBasic = new TvShowBasic(tvShowId, tvShowName, tvShowStartDate, tvShowEndDate, tvShowCountry, tvShowNetwork, tvShowStatus, tvShowImage);
             if (isTvShowExistInDb(tvShowId)) {
-                updateTvShow(tvShowBasic);
+                updateTvShowBasic(tvShowBasic);
             } else {
                 insertTvShowBasic(tvShowBasic);
             }
@@ -153,7 +153,7 @@ public class AppRepository {
         new InsertTvShowBasicAsyncTask(appDao).execute(tvShowBasic);
     }
 
-    public void updateTvShow(TvShowBasic tvShowBasic) {
+    public void updateTvShowBasic(TvShowBasic tvShowBasic) {
         new UpdateTvShowBasicAsyncTask(appDao).execute(tvShowBasic);
     }
 
@@ -180,7 +180,7 @@ public class AppRepository {
         return null;
     }
 
-    private void insertTvShowDetails(TvShowDetails tvShowDetails) {
+    public void insertTvShowDetails(TvShowDetails tvShowDetails) {
         new InsertTvShowDetailsAsyncTask(appDao).execute(tvShowDetails);
     }
 
@@ -188,17 +188,14 @@ public class AppRepository {
         new UpdateTvShowDetailsAsyncTask(appDao).execute(tvShowDetails);
     }
 
-    public void deleteAllTvShowsDetails() {
-        new DeleteTvShowDetailsAsyncTask(appDao).execute();
-    }
-
     public void deleteTvShowDetails(int id) {
         new DeleteTvShowDetailsAsyncTask(appDao).execute(id);
     }
 
     public void deleteAllTvShowsDetail() {
-        new DeleteAllTvShowsDetails(appDao).execute();
+        new DeleteTvShowDetailsAsyncTask(appDao).execute();
     }
+
     //TvShowBasic AsyncTasks
     private static class GetTvShowBasicAsyncTask extends AsyncTask<Integer, Void, TvShowBasic> {
         private AppDao appDao;

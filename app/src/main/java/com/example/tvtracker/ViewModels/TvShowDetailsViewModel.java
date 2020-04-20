@@ -25,8 +25,16 @@ public class TvShowDetailsViewModel extends AndroidViewModel {
         return allTvShowsFull;
     }
 
-    public void insertTvShowDetails(int id){
-        repository.insertTvShowDetailsInfo(id);
+    public void insertTvShowDetails(TvShowDetails tvShowDetails){
+        repository.insertTvShowDetails(tvShowDetails);
     }
+
+    public void updateTvShowDetails(TvShowDetails tvShowDetails) { repository.updateTvShowDetails(tvShowDetails);}
+
+    public void deleteTvShowDetails(int id) { repository.deleteTvShowDetails(id);}
+
+    public void deleteAllTvShowsDetails() { repository.deleteAllTvShowsDetail();}
+
+    public void syncTvShowDetailsFromApi(int id) { repository.insertTvShowDetailsInfo(id);}
 
 }

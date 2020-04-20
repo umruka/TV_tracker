@@ -48,8 +48,8 @@ public class WatchlistFragment extends Fragment {
         watchlistViewModel = ViewModelProviders.of(this).get(WatchlistViewModel.class);
         watchlistViewModel.getAllTVShowsWatchingCombined().observe(getViewLifecycleOwner(), new Observer<List<TvShowCombined>>() {
             @Override
-            public void onChanged(List<TvShowCombined> tvShowCombineds) {
-                adapter.setTvShows(tvShowCombineds);
+            public void onChanged(List<TvShowCombined> tvShowCombined) {
+                adapter.setTvShows(tvShowCombined);
             }
         });
 

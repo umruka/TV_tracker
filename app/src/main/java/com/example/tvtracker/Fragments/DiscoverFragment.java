@@ -72,13 +72,13 @@ public class DiscoverFragment extends Fragment {
                 int id = tvShowBasic.getTvShowId();
                 String flag = "yes";
                 UpdateTvShowBasicWatchingFlagParams params = new UpdateTvShowBasicWatchingFlagParams(id, flag);
-                tvShowBasicViewModel.updateTvShowWatchingFlag(params);
-                tvShowDetailsViewModel.insertTvShowDetails(id);
+                tvShowBasicViewModel.updateTvShowBasicWatchingFlag(params);
+                tvShowDetailsViewModel.syncTvShowDetailsFromApi(id);
 
                 Toast.makeText(activity, "Done", Toast.LENGTH_SHORT).show();
             }
         });
-        tvShowBasicViewModel.syncTvShows();
+        tvShowBasicViewModel.syncTvShowBasicFromApi();
         // TODO: Use the ViewModel
     }
 
