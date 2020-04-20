@@ -1,5 +1,6 @@
 package com.example.tvtracker.Api;
 
+import com.example.tvtracker.JsonModels.JsonTvShowSearchRoot;
 import com.example.tvtracker.JsonModels.TvShowBasic.JsonTvShowBasicRoot;
 import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetails;
 import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsRoot;
@@ -18,5 +19,6 @@ public interface ApiService {
     @GET("show-details")
     Call<JsonTvShowDetailsRoot> getTvShowDetailed(@Query("q") int tvShowId);
 
-
+    @GET("search")
+    Call<JsonTvShowSearchRoot> getTvShowSearch(@Query("q") String searchShow, @Query("page") int pageNum);
 }

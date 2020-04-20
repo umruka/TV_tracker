@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.tvtracker.Api.ApiBuilder;
 import com.example.tvtracker.Api.ApiService;
+import com.example.tvtracker.JsonModels.JsonTvShowSearchRoot;
 import com.example.tvtracker.JsonModels.TvShowBasic.JsonTvShowBasic;
 import com.example.tvtracker.JsonModels.TvShowBasic.JsonTvShowBasicRoot;
 import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetails;
@@ -121,6 +122,23 @@ public class AppRepository {
             }
         }
     }
+
+    public void searchTvShow(String searchWord, int pageNum){
+        ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
+        Call<JsonTvShowSearchRoot> jsonTvShowSearchRootCall = apiService.getTvShowSearch(searchWord, pageNum);
+        jsonTvShowSearchRootCall.enqueue(new Callback<JsonTvShowSearchRoot>() {
+            @Override
+            public void onResponse(Call<JsonTvShowSearchRoot> call, Response<JsonTvShowSearchRoot> response) {
+                Log.e("BIGFAIL",  String.valueOf(response));
+            }
+
+            @Override
+            public void onFailure(Call<JsonTvShowSearchRoot> call, Throwable t) {
+                Log.e("BIGFAIL",  t.getMessage());
+            }
+        });
+    }
+
 
     //Help functions
     private Boolean isTvShowExistInDb(int tvShowId) {

@@ -8,9 +8,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tvtracker.Models.TvShowDetails;
 import com.example.tvtracker.R;
 import com.example.tvtracker.Models.TvShowCombined;
 
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +37,14 @@ public class TvShowCombinedAdapter extends RecyclerView.Adapter<TvShowCombinedAd
     public void onBindViewHolder(@NonNull TvShowCombinedViewHolder holder, int position) {
         TvShowCombined currentTvShow = tvShowsCombined.get(position);
 
-        holder.textViewTvShowName.setText(currentTvShow.getTvShowBasic().getTvShowNetwork());
-        holder.textViewTvShowStatus.setText(currentTvShow.getTvShowBasic().getTvShowStatus());
         holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowBasic().getTvShowId()));
+        holder.textViewTvShowName.setText(currentTvShow.getTvShowBasic().getTvShowName());
+        holder.textViewTvShowStatus.setText(currentTvShow.getTvShowBasic().getTvShowStatus());
         if(!currentTvShow.getTvShowDetails().isEmpty()) {
-            holder.textViewTvShowDesc.setText(currentTvShow.getTvShowDetails().get(0).getTvShowDesc());
-
+            TvShowDetails model = currentTvShow.getTvShowDetails().get(0);
+            holder.textViewTvShowDesc.setText(model.getTvShowDesc());
+            holder.textViewTvShowYoutubeLink.setText(model.getTvShowYoutubeLink());holder.textViewTvShowRating.setText(model.getTvShowRating());
+            holder.textViewTvShowImagePath.setText(model.getTvShowImagePath());
         };
         holder.textViewTvShowCountry.setText(currentTvShow.getTvShowBasic().getTvShowCountry());
         holder.textViewTvShowNetwork.setText(currentTvShow.getTvShowBasic().getTvShowNetwork());
@@ -60,6 +65,9 @@ public class TvShowCombinedAdapter extends RecyclerView.Adapter<TvShowCombinedAd
         private TextView textViewTvShowCountry;
         private TextView textViewTvShowNetwork;
         private TextView textViewTvShowStatus;
+        private TextView textViewTvShowYoutubeLink;
+        private TextView textViewTvShowRating;
+        private TextView textViewTvShowImagePath;
         private TextView textViewTvShowId;
 
         private TvShowCombinedViewHolder(View itemView) {
@@ -70,6 +78,10 @@ public class TvShowCombinedAdapter extends RecyclerView.Adapter<TvShowCombinedAd
             textViewTvShowDesc = itemView.findViewById(R.id.text_view_tv_show_description);
             textViewTvShowCountry = itemView.findViewById(R.id.text_view_tv_show_country);
             textViewTvShowNetwork = itemView.findViewById(R.id.text_view_tv_show_network);
+            textViewTvShowYoutubeLink = itemView.findViewById(R.id.text_view_tv_show_youtube_link);
+            textViewTvShowImagePath = itemView.findViewById(R.id.text_view_tv_show_image_path);
+            textViewTvShowRating = itemView.findViewById(R.id.text_view_tv_show_rating);
+
 
         }
     }

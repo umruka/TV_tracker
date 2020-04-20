@@ -54,5 +54,8 @@ public class TvShowBasicViewModel extends AndroidViewModel {
         repository.insertMostPopularTvShowsBasicInfo();
     }
 
+    public void searchWord(String searchWord, int pageNum) {
+        repository.searchTvShow(searchWord, pageNum);
+    }
 
 }

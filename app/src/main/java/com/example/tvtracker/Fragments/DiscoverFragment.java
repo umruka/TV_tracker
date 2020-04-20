@@ -73,6 +73,7 @@ public class DiscoverFragment extends Fragment {
             }
         });
         tvShowBasicViewModel.syncTvShowBasicFromApi();
+        //tvShowBasicViewModel.searchWord("riverdale", 1);
         // TODO: Use the ViewModel
     }
 
