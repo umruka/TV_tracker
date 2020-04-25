@@ -6,11 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.tvtracker.Models.TvShowDetails;
-import com.example.tvtracker.Models.TvShowBasic;
+import com.example.tvtracker.Models.TvShow;
 
 
-@Database(entities = {TvShowBasic.class, TvShowDetails.class}, version = 7)
+@Database(entities = {TvShow.class}, version = 8)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;

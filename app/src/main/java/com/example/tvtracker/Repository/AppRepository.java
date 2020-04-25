@@ -9,14 +9,13 @@ import androidx.lifecycle.LiveData;
 import com.example.tvtracker.Api.ApiBuilder;
 import com.example.tvtracker.Api.ApiService;
 import com.example.tvtracker.JsonModels.JsonTvShowSearchRoot;
-import com.example.tvtracker.JsonModels.TvShowBasic.JsonTvShowBasic;
-import com.example.tvtracker.JsonModels.TvShowBasic.JsonTvShowBasicRoot;
-import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetails;
-import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsRoot;
-import com.example.tvtracker.Models.TvShowCombined;
-import com.example.tvtracker.Models.TvShowDetails;
-import com.example.tvtracker.Models.TvShowBasic;
-import com.example.tvtracker.Models.UpdateTvShowBasicWatchingFlagParams;
+import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShowBasicInfo;
+import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShowBasicInfoRoot;
+import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsInfo;
+import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsInfoRoot;
+import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.UpdateTvShowDetailsParams;
+import com.example.tvtracker.Models.UpdateTvShowWatchingFlagParams;
 
 import java.util.List;
 
@@ -27,43 +26,40 @@ import retrofit2.Response;
 
 public class AppRepository {
     private AppDao appDao;
-    private LiveData<List<TvShowBasic>> allTvShows;
-    private LiveData<List<TvShowCombined>> allTvShowsCombined;
-    private LiveData<List<TvShowDetails>> allTvShowsDetails;
+    private LiveData<List<TvShow>> allTvShows;
+    private LiveData<List<TvShow>> allWatchingTvShows;
 
     public AppRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         appDao = database.appDao();
-        allTvShows = appDao.getAllTvShowsBasic();
-        allTvShowsDetails = appDao.getAllTvShowsDetails();
-        allTvShowsCombined = appDao.getAllTvShowsCombined("yes");
+        allTvShows = appDao.getAllTvShows();
+        allWatchingTvShows = appDao.getWatchlistTvShows("yes");
     }
 
-    public LiveData<List<TvShowBasic>> getAllTvShows() {
+    public LiveData<List<TvShow>> getAllTvShows() {
         return allTvShows;
     }
 
-    public LiveData<List<TvShowDetails>> getAllTvShowsDetails() {
-        return allTvShowsDetails;
+    public LiveData<List<TvShow>> getAllWatchingTvShows() {
+        return allWatchingTvShows;
     }
 
-    public LiveData<List<TvShowCombined>> getAllTvShowsCombined() { return allTvShowsCombined;}
 
     //Api calls
     public void insertMostPopularTvShowsBasicInfo(){
 
         ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
-        Call<JsonTvShowBasicRoot> jsonTvShowBasicRootCall = apiService.getTvShowsBasic();
-        jsonTvShowBasicRootCall.enqueue(new Callback<JsonTvShowBasicRoot>() {
+        Call<JsonTvShowBasicInfoRoot> jsonTvShowBasicRootCall = apiService.getTvShowsBasic();
+        jsonTvShowBasicRootCall.enqueue(new Callback<JsonTvShowBasicInfoRoot>() {
             @Override
-            public void onResponse(Call<JsonTvShowBasicRoot> call, Response<JsonTvShowBasicRoot> response) {
+            public void onResponse(Call<JsonTvShowBasicInfoRoot> call, Response<JsonTvShowBasicInfoRoot> response) {
 
-                    JsonTvShowBasicRoot jsonTvShowBasicElement = response.body();
+                    JsonTvShowBasicInfoRoot jsonTvShowBasicElement = response.body();
                     generateTvShowsCallback(jsonTvShowBasicElement);
 
             }
             @Override
-            public void onFailure(Call<JsonTvShowBasicRoot> call, Throwable t) {
+            public void onFailure(Call<JsonTvShowBasicInfoRoot> call, Throwable t) {
               Log.e("BIGFAIL", t.getMessage());
             }
         });
@@ -72,37 +68,36 @@ public class AppRepository {
 
     public void insertTvShowDetailsInfo(int tvShowId){
         ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
-        Call<JsonTvShowDetailsRoot> jsonTvShowDetailsRootCall = apiService.getTvShowDetailed(tvShowId);
-        jsonTvShowDetailsRootCall.enqueue(new Callback<JsonTvShowDetailsRoot>() {
+        Call<JsonTvShowDetailsInfoRoot> jsonTvShowDetailsRootCall = apiService.getTvShowDetailed(tvShowId);
+        jsonTvShowDetailsRootCall.enqueue(new Callback<JsonTvShowDetailsInfoRoot>() {
             @Override
-            public void onResponse(Call<JsonTvShowDetailsRoot> call, Response<JsonTvShowDetailsRoot> response) {
-                JsonTvShowDetailsRoot jsonTvShowDetailsRoot = response.body();
-                insertTvShowDetailsCallback(jsonTvShowDetailsRoot);
+            public void onResponse(Call<JsonTvShowDetailsInfoRoot> call, Response<JsonTvShowDetailsInfoRoot> response) {
+                JsonTvShowDetailsInfoRoot jsonTvShowDetailsInfoRoot = response.body();
+                insertTvShowDetailsCallback(jsonTvShowDetailsInfoRoot);
             }
 
             @Override
-            public void onFailure(Call<JsonTvShowDetailsRoot> call, Throwable t) {
+            public void onFailure(Call<JsonTvShowDetailsInfoRoot> call, Throwable t) {
                 Log.e("BIGFAIL", t.getMessage());
             }
         });
     }
 
-    private void insertTvShowDetailsCallback(JsonTvShowDetailsRoot data){
-        JsonTvShowDetails tvShowDetails = data.getTvShow();
+    private void insertTvShowDetailsCallback(JsonTvShowDetailsInfoRoot data){
+        JsonTvShowDetailsInfo tvShowDetails = data.getTvShow();
 
         int showId = tvShowDetails.getId();
         String description = tvShowDetails.getDescription();
         String youtubeLink = tvShowDetails.getYoutubeLink();
         String rating = tvShowDetails.getRating();
-        String imagePath = tvShowDetails.getImagePath();
 
-        TvShowDetails newTvShowDetails = new TvShowDetails(showId, description, youtubeLink, rating, imagePath);
-        insertTvShowDetails(newTvShowDetails);
+        UpdateTvShowDetailsParams newTvShowDetailsParams = new UpdateTvShowDetailsParams(showId, description, youtubeLink, rating);
+        updateTvShowDetails(newTvShowDetailsParams);
     }
 
-    private void generateTvShowsCallback(JsonTvShowBasicRoot data) {
+    private void generateTvShowsCallback(JsonTvShowBasicInfoRoot data) {
         for (int i = 0; i < data.getTVShows().size(); i++) {
-            JsonTvShowBasic urlTvShow = data.getTVShows().get(i);
+            JsonTvShowBasicInfo urlTvShow = data.getTVShows().get(i);
 
             int tvShowId = urlTvShow.getId();
             String tvShowName = urlTvShow.getName();
@@ -114,11 +109,11 @@ public class AppRepository {
             String tvShowImage = urlTvShow.getImageThumbnailPath();
 
 
-            TvShowBasic tvShowBasic = new TvShowBasic(tvShowId, tvShowName, tvShowStartDate, tvShowEndDate, tvShowCountry, tvShowNetwork, tvShowStatus, tvShowImage);
+            TvShow tvShow = new TvShow(tvShowId, tvShowName, tvShowStartDate, tvShowEndDate, tvShowCountry, tvShowNetwork, tvShowStatus, tvShowImage);
             if (isTvShowExistInDb(tvShowId)) {
-                updateTvShowBasic(tvShowBasic);
+                updateTvShow(tvShow);
             } else {
-                insertTvShowBasic(tvShowBasic);
+                insertTvShow(tvShow);
             }
         }
     }
@@ -144,8 +139,8 @@ public class AppRepository {
     private Boolean isTvShowExistInDb(int tvShowId) {
         boolean isExist = false;
         for (int i = 0; i < allTvShows.getValue().size(); i++) {
-            TvShowBasic tvShowBasic = allTvShows.getValue().get(i);
-            if (tvShowId == tvShowBasic.getTvShowId()) {
+            TvShow tvShow = allTvShows.getValue().get(i);
+            if (tvShowId == tvShow.getTvShowId()) {
                 isExist = true;
                 return isExist;
             }
@@ -153,234 +148,150 @@ public class AppRepository {
         return isExist;
     }
 
+    //TvShow
 
-
-    //TvShowBasic
-
-    public TvShowBasic getTvShowBasicById(int Id) {
+    public TvShow getTvShowById(int Id) {
         try {
-            return new GetTvShowBasicAsyncTask(appDao).execute(Id).get();
+            return new GetTvShowAsyncTask(appDao).execute(Id).get();
         } catch (Exception e) {
             Log.e("Error:", e.getMessage());
         }
         return null;
     }
 
-    public void insertTvShowBasic(TvShowBasic tvShowBasic) {
+    public void insertTvShow(TvShow tvShow) {
 
-        new InsertTvShowBasicAsyncTask(appDao).execute(tvShowBasic);
+        new InsertTvShowAsyncTask(appDao).execute(tvShow);
     }
 
-    public void updateTvShowBasic(TvShowBasic tvShowBasic) {
-        new UpdateTvShowBasicAsyncTask(appDao).execute(tvShowBasic);
+    public void updateTvShow(TvShow tvShow) {
+        new UpdateTvShowAsyncTask(appDao).execute(tvShow);
     }
 
-    public void updateTvShowBasicWatchingFlag(UpdateTvShowBasicWatchingFlagParams params) {
-        new UpdateTvShowBasicWatchingFlagAsyncTask(appDao).execute(params);
+    public void updateTvShowDetails(UpdateTvShowDetailsParams params) { new UpdateTvShowDetailsAsyncTasks(appDao).execute(params);}
+
+    public void updateTvShowWatchingFlag(UpdateTvShowWatchingFlagParams params) {
+        new UpdateTvShowWatchingFlagAsyncTask(appDao).execute(params);
     }
 
-    public void deleteTvShowBasic(int id) {
-        new DeleteTvShowBasicAsyncTask(appDao).execute(id);
+    public void deleteTvShow(int id) {
+        new DeleteTvShowAsyncTask(appDao).execute(id);
     }
 
 
-    public void deleteAllTvShowsBasic() {
-        new DeleteAllTvShowsBasic(appDao).execute();
+    public void deleteAllTvShows() {
+        new DeleteAllTvShows(appDao).execute();
     }
 
-    //TvShowDetails
-    public TvShowDetails getTvShowFullById(int Id) {
-        try {
-            return new GetTvShowDetailsAsyncTask(appDao).execute(Id).get();
-        } catch (Exception e) {
-            Log.e("Error:", e.getMessage());
-        }
-        return null;
-    }
 
-    public void insertTvShowDetails(TvShowDetails tvShowDetails) {
-        new InsertTvShowDetailsAsyncTask(appDao).execute(tvShowDetails);
-    }
-
-    public void updateTvShowDetails(TvShowDetails tvShowDetails) {
-        new UpdateTvShowDetailsAsyncTask(appDao).execute(tvShowDetails);
-    }
-
-    public void deleteTvShowDetails(int id) {
-        new DeleteTvShowDetailsAsyncTask(appDao).execute(id);
-    }
-
-    public void deleteAllTvShowsDetail() {
-        new DeleteTvShowDetailsAsyncTask(appDao).execute();
-    }
-
-    //TvShowBasic AsyncTasks
-    private static class GetTvShowBasicAsyncTask extends AsyncTask<Integer, Void, TvShowBasic> {
+    //TvShow AsyncTasks
+    private static class GetTvShowAsyncTask extends AsyncTask<Integer, Void, TvShow> {
         private AppDao appDao;
 
-        private GetTvShowBasicAsyncTask(AppDao appDao) {
+        private GetTvShowAsyncTask(AppDao appDao) {
             this.appDao = appDao;
         }
 
         @Override
-        protected TvShowBasic doInBackground(Integer... integers) {
-            return appDao.getTvShowBasicById(integers[0]);
+        protected TvShow doInBackground(Integer... integers) {
+            return appDao.getTvShowById(integers[0]);
         }
 
         @Override
-        protected void onPostExecute(TvShowBasic tvShowBasic) {
-            super.onPostExecute(tvShowBasic);
+        protected void onPostExecute(TvShow tvShow) {
+            super.onPostExecute(tvShow);
         }
     }
 
-    private static class InsertTvShowBasicAsyncTask extends AsyncTask<TvShowBasic, Void, Void> {
+    private static class InsertTvShowAsyncTask extends AsyncTask<TvShow, Void, Void> {
         private AppDao appDao;
 
-        private InsertTvShowBasicAsyncTask(AppDao appDao) {
+        private InsertTvShowAsyncTask(AppDao appDao) {
             this.appDao = appDao;
         }
 
         @Override
-        protected Void doInBackground(TvShowBasic... tvShowBasics) {
-            appDao.insertTvShowBasic(tvShowBasics[0]);
+        protected Void doInBackground(TvShow... tvShows) {
+            appDao.insertTvShow(tvShows[0]);
             return null;
         }
     }
 
 
-    private static class UpdateTvShowBasicAsyncTask extends AsyncTask<TvShowBasic, Void, Void> {
+    private static class UpdateTvShowAsyncTask extends AsyncTask<TvShow, Void, Void> {
         private AppDao appDao;
 
-        private UpdateTvShowBasicAsyncTask(AppDao appDao) {
+        private UpdateTvShowAsyncTask(AppDao appDao) {
             this.appDao = appDao;
         }
 
         @Override
-        protected Void doInBackground(TvShowBasic... tvShowBasics) {
-            TvShowBasic tvShowBasic = tvShowBasics[0];
-            appDao.updateTvShowBasic(tvShowBasic.getTvShowId(), tvShowBasic.getTvShowName(), tvShowBasic.getTvShowStatus());
+        protected Void doInBackground(TvShow... tvShows) {
+            TvShow tvShow = tvShows[0];
+            appDao.updateTvShow(tvShow.getTvShowId(), tvShow.getTvShowName(), tvShow.getTvShowStatus());
             return null;
         }
     }
 
-    private static class UpdateTvShowBasicWatchingFlagAsyncTask extends AsyncTask<UpdateTvShowBasicWatchingFlagParams, Void, Void> {
+    private static class UpdateTvShowDetailsAsyncTasks extends AsyncTask<UpdateTvShowDetailsParams, Void, Void> {
         private AppDao appDao;
 
-        private UpdateTvShowBasicWatchingFlagAsyncTask(AppDao appDao) {
+        private UpdateTvShowDetailsAsyncTasks(AppDao appDao) {
             this.appDao = appDao;
         }
 
         @Override
-        protected Void doInBackground(UpdateTvShowBasicWatchingFlagParams... params) {
+        protected Void doInBackground(UpdateTvShowDetailsParams... params) {
+            UpdateTvShowDetailsParams parameters = params[0];
+            appDao.updateTvShowDetails(parameters.getId(), parameters.getDesc(), parameters.getYoutubeLink(), parameters.getRating());
+            return null;
+        }
+    }
+
+    private static class UpdateTvShowWatchingFlagAsyncTask extends AsyncTask<UpdateTvShowWatchingFlagParams, Void, Void> {
+        private AppDao appDao;
+
+        private UpdateTvShowWatchingFlagAsyncTask(AppDao appDao) {
+            this.appDao = appDao;
+        }
+
+        @Override
+        protected Void doInBackground(UpdateTvShowWatchingFlagParams... params) {
             int id = params[0].getId();
             String flag = params[0].getFlag();
-            appDao.updateTvShowBasicWatchingFlag(id, flag);
+            appDao.updateTvShowWatchingFlag(id, flag);
             return null;
         }
     }
 
-    private static class DeleteTvShowBasicAsyncTask extends AsyncTask<Integer, Void, Void> {
+    private static class DeleteTvShowAsyncTask extends AsyncTask<Integer, Void, Void> {
         private AppDao appDao;
 
-        private DeleteTvShowBasicAsyncTask(AppDao appDao) {
+        private DeleteTvShowAsyncTask(AppDao appDao) {
             this.appDao = appDao;
         }
 
         @Override
         protected Void doInBackground(Integer... integers) {
-            appDao.deleteTvShowBasicById(integers[0]);
+            appDao.deleteTvShowById(integers[0]);
             return null;
         }
     }
 
-    private static class DeleteAllTvShowsBasic extends AsyncTask<Void, Void, Void> {
+    private static class DeleteAllTvShows extends AsyncTask<Void, Void, Void> {
         private AppDao appDao;
 
-        private DeleteAllTvShowsBasic(AppDao appDao) {
+        private DeleteAllTvShows(AppDao appDao) {
             this.appDao = appDao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            appDao.deleteAllTvShowsBasic();
+            appDao.deleteAllTvShows();
             return null;
         }
     }
 
-    //TvShowDetails AsyncTasks
-    private static class GetTvShowDetailsAsyncTask extends AsyncTask<Integer, Void, TvShowDetails> {
-        private AppDao appDao;
 
-        private GetTvShowDetailsAsyncTask(AppDao appDao) {
-            this.appDao = appDao;
-        }
-
-        @Override
-        protected TvShowDetails doInBackground(Integer... integers) {
-            return appDao.getTvShowDetailsById(integers[0]);
-        }
-
-        @Override
-        protected void onPostExecute(TvShowDetails tvShowDetails) {
-            super.onPostExecute(tvShowDetails);
-        }
-    }
-
-    private static class InsertTvShowDetailsAsyncTask extends AsyncTask<TvShowDetails, Void, Void> {
-        private AppDao appDao;
-
-        private InsertTvShowDetailsAsyncTask(AppDao appDao) {
-            this.appDao = appDao;
-        }
-
-        @Override
-        protected Void doInBackground(TvShowDetails... tvShowDetails) {
-            appDao.insertTvShowDetails(tvShowDetails[0]);
-            return null;
-        }
-    }
-
-    private static class UpdateTvShowDetailsAsyncTask extends AsyncTask<TvShowDetails, Void, Void> {
-        private AppDao appDao;
-
-        private UpdateTvShowDetailsAsyncTask(AppDao appDao) {
-            this.appDao = appDao;
-        }
-
-        @Override
-        protected Void doInBackground(TvShowDetails... tvShowDetails) {
-            TvShowDetails tvShowDetail = tvShowDetails[0];
-            appDao.updateTvShowDetails(tvShowDetail.getTvShowDesc(), tvShowDetail.getTvShowYoutubeLink(), tvShowDetail.getTvShowRating(), tvShowDetail.getTvShowImagePath());
-            return null;
-        }
-    }
-
-    private static class DeleteTvShowDetailsAsyncTask extends AsyncTask<Integer, Void, Void> {
-        private AppDao appDao;
-
-        private DeleteTvShowDetailsAsyncTask(AppDao appDao) {
-            this.appDao = appDao;
-        }
-
-        @Override
-        protected Void doInBackground(Integer... integers) {
-            appDao.deleteTvShowDetailsById(integers[0]);
-            return null;
-        }
-    }
-
-    private static class DeleteAllTvShowsDetails extends AsyncTask<Void, Void, Void> {
-        private AppDao appDao;
-
-        private DeleteAllTvShowsDetails(AppDao appDao) {
-            this.appDao = appDao;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            appDao.deleteAllTvShowsDetails();
-            return null;
-        }
-    }
 
 }

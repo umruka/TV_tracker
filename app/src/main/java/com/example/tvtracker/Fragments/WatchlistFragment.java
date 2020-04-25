@@ -2,7 +2,6 @@ package com.example.tvtracker.Fragments;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 
@@ -15,16 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
-import com.example.tvtracker.Models.TvShowCombined;
-import com.example.tvtracker.Adapters.TvShowCombinedAdapter;
-import com.example.tvtracker.ViewModels.WatchlistViewModel;
+import com.example.tvtracker.Adapters.WatchlistAdapter;
+import com.example.tvtracker.ViewModels.TvShowViewModel;
 
 import java.util.List;
 
 public class WatchlistFragment extends Fragment {
 
-    private WatchlistViewModel watchlistViewModel;
+    private TvShowViewModel tvShowViewModel;
 
     public static WatchlistFragment newInstance() {
         return new WatchlistFragment();
@@ -43,14 +42,14 @@ public class WatchlistFragment extends Fragment {
         final RecyclerView recyclerView = getView().findViewById(R.id.watchlist_recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        final TvShowCombinedAdapter adapter = new TvShowCombinedAdapter();
+        final WatchlistAdapter adapter = new WatchlistAdapter();
         recyclerView.setAdapter(adapter);
 
-        watchlistViewModel = new ViewModelProvider(this).get(WatchlistViewModel.class);
-        watchlistViewModel.getAllTVShowsWatchingCombined().observe(getViewLifecycleOwner(), new Observer<List<TvShowCombined>>() {
+        tvShowViewModel = new ViewModelProvider(this).get(TvShowViewModel.class);
+        tvShowViewModel.getAllWatchingTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
             @Override
-            public void onChanged(List<TvShowCombined> tvShowCombined) {
-                adapter.setTvShows(tvShowCombined);
+            public void onChanged(List<TvShow> tvShows) {
+                adapter.setTvShows(tvShows);
             }
         });
 

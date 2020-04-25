@@ -5,14 +5,16 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tv_show_basic_table")
-public class TvShowBasic {
+@Entity(tableName = "tv_show_table")
+public class TvShow {
     @PrimaryKey(autoGenerate = true)
     private int id;
     @ColumnInfo(name = "tv_show_id")
     private int tvShowId;
     @ColumnInfo(name = "tv_show_name")
     private String tvShowName;
+    @ColumnInfo(name = "tv_show_status")
+    private String tvShowStatus;
     @ColumnInfo(name = "tv_show_start_date")
     private String tvShowStartDate;
     @ColumnInfo(name = "tv_show_end_date")
@@ -21,15 +23,22 @@ public class TvShowBasic {
     private String tvShowCountry;
     @ColumnInfo(name = "tv_show_network")
     private String tvShowNetwork;
-    @ColumnInfo(name = "tv_show_status")
-    private String tvShowStatus;
     @ColumnInfo(name = "tv_show_image_path")
     private String tvShowImagePath;
+
+    @ColumnInfo(name = "tv_show_description")
+    private String tvShowDesc;
+
+    @ColumnInfo(name = "tv_show_youtube_link")
+    private String tvShowYoutubeLink;
+
+    @ColumnInfo(name = "tv_show_rating")
+    private String tvShowRating;
 
     @ColumnInfo(name = "tv_show_flag")
     private String tvShowWatchingFlag;
 
-    public TvShowBasic(int tvShowId, String tvShowName, String tvShowStartDate, String tvShowEndDate, String tvShowCountry, String tvShowNetwork, String tvShowStatus, String tvShowImagePath) {
+    public TvShow(int tvShowId, String tvShowName, String tvShowStartDate, String tvShowEndDate, String tvShowCountry, String tvShowNetwork, String tvShowStatus, String tvShowImagePath) {
         this.tvShowId = tvShowId;
         this.tvShowName = tvShowName;
         this.tvShowStartDate = tvShowStartDate;
@@ -38,6 +47,10 @@ public class TvShowBasic {
         this.tvShowNetwork = tvShowNetwork;
         this.tvShowStatus = tvShowStatus;
         this.tvShowImagePath = tvShowImagePath;
+        this.tvShowDesc = "";
+        this.tvShowYoutubeLink = "";
+        this.tvShowRating = "";
+        this.tvShowWatchingFlag = "";
     }
 
     public int getId() {
@@ -62,6 +75,14 @@ public class TvShowBasic {
 
     public void setTvShowName(String tvShowName) {
         this.tvShowName = tvShowName;
+    }
+
+    public String getTvShowStatus() {
+        return tvShowStatus;
+    }
+
+    public void setTvShowStatus(String tvShowStatus) {
+        this.tvShowStatus = tvShowStatus;
     }
 
     public String getTvShowStartDate() {
@@ -96,21 +117,36 @@ public class TvShowBasic {
         this.tvShowNetwork = tvShowNetwork;
     }
 
-
-    public String getTvShowStatus() {
-        return tvShowStatus;
-    }
-
-    public void setTvShowStatus(String tvShowStatus) {
-        this.tvShowStatus = tvShowStatus;
-    }
-
     public String getTvShowImagePath() {
         return tvShowImagePath;
     }
 
     public void setTvShowImagePath(String tvShowImagePath) {
         this.tvShowImagePath = tvShowImagePath;
+    }
+
+    public String getTvShowDesc() {
+        return tvShowDesc;
+    }
+
+    public void setTvShowDesc(String tvShowDesc) {
+        this.tvShowDesc = tvShowDesc;
+    }
+
+    public String getTvShowYoutubeLink() {
+        return tvShowYoutubeLink;
+    }
+
+    public void setTvShowYoutubeLink(String tvShowYoutubeLink) {
+        this.tvShowYoutubeLink = tvShowYoutubeLink;
+    }
+
+    public String getTvShowRating() {
+        return tvShowRating;
+    }
+
+    public void setTvShowRating(String tvShowRating) {
+        this.tvShowRating = tvShowRating;
     }
 
     public String getTvShowWatchingFlag() {
@@ -120,5 +156,4 @@ public class TvShowBasic {
     public void setTvShowWatchingFlag(String tvShowWatchingFlag) {
         this.tvShowWatchingFlag = tvShowWatchingFlag;
     }
-
 }

@@ -8,20 +8,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tvtracker.Models.TvShowDetails;
+import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
-import com.example.tvtracker.Models.TvShowCombined;
 
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TvShowCombinedAdapter extends RecyclerView.Adapter<TvShowCombinedAdapter.TvShowCombinedViewHolder> {
+public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvShowCombinedViewHolder> {
 
 
-    private List<TvShowCombined> tvShowsCombined = new ArrayList<>();
+    private List<TvShow> tvShows = new ArrayList<>();
 
 
     @NonNull
@@ -35,29 +32,26 @@ public class TvShowCombinedAdapter extends RecyclerView.Adapter<TvShowCombinedAd
 
     @Override
     public void onBindViewHolder(@NonNull TvShowCombinedViewHolder holder, int position) {
-        TvShowCombined currentTvShow = tvShowsCombined.get(position);
+        TvShow currentTvShow = tvShows.get(position);
 
-        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowBasic().getTvShowId()));
-        holder.textViewTvShowName.setText(currentTvShow.getTvShowBasic().getTvShowName());
-        holder.textViewTvShowStatus.setText(currentTvShow.getTvShowBasic().getTvShowStatus());
-        if(!currentTvShow.getTvShowDetails().isEmpty()) {
-            TvShowDetails model = currentTvShow.getTvShowDetails().get(0);
-            holder.textViewTvShowDesc.setText(model.getTvShowDesc());
-            holder.textViewTvShowYoutubeLink.setText(model.getTvShowYoutubeLink());holder.textViewTvShowRating.setText(model.getTvShowRating());
-            holder.textViewTvShowImagePath.setText(model.getTvShowImagePath());
-        };
-        holder.textViewTvShowCountry.setText(currentTvShow.getTvShowBasic().getTvShowCountry());
-        holder.textViewTvShowNetwork.setText(currentTvShow.getTvShowBasic().getTvShowNetwork());
+        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
+        holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
+        holder.textViewTvShowStatus.setText(currentTvShow.getTvShowStatus());
+        holder.textViewTvShowDesc.setText(currentTvShow.getTvShowDesc());
+        holder.textViewTvShowYoutubeLink.setText(currentTvShow.getTvShowYoutubeLink());holder.textViewTvShowRating.setText(currentTvShow.getTvShowRating());
+        holder.textViewTvShowImagePath.setText(currentTvShow.getTvShowImagePath());
+        holder.textViewTvShowCountry.setText(currentTvShow.getTvShowCountry());
+        holder.textViewTvShowNetwork.setText(currentTvShow.getTvShowNetwork());
     }
 
-    public void setTvShows(List<TvShowCombined> tvShows) {
-        this.tvShowsCombined = tvShows;
+    public void setTvShows(List<TvShow> tvShows) {
+        this.tvShows = tvShows;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return tvShowsCombined.size();
+        return tvShows.size();
     }
     class TvShowCombinedViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewTvShowName;
