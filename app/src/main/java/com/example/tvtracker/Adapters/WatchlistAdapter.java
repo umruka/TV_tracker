@@ -3,6 +3,7 @@ package com.example.tvtracker.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
     public void onBindViewHolder(@NonNull TvShowCombinedViewHolder holder, int position) {
         TvShow currentTvShow = tvShows.get(position);
 
+        Picasso.get().load(currentTvShow.getTvShowImagePath()).into(holder.textViewTvShowImageThumbnail);
         holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
         holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
         holder.textViewTvShowStatus.setText(currentTvShow.getTvShowStatus());
@@ -54,6 +57,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
         return tvShows.size();
     }
     class TvShowCombinedViewHolder extends RecyclerView.ViewHolder {
+        private ImageView textViewTvShowImageThumbnail;
         private TextView textViewTvShowName;
         private TextView textViewTvShowDesc;
         private TextView textViewTvShowCountry;
@@ -66,6 +70,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
         private TvShowCombinedViewHolder(View itemView) {
             super(itemView);
+            textViewTvShowImageThumbnail = itemView.findViewById(R.id.text_view_image_thumbnail);
             textViewTvShowName = itemView.findViewById(R.id.text_view_tv_show_name);
             textViewTvShowStatus = itemView.findViewById(R.id.text_view_tv_show_status);
             textViewTvShowId = itemView.findViewById(R.id.text_view_tv_show_id);

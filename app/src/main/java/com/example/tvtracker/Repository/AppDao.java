@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.TvShowPicture;
 
 import java.util.List;
 
@@ -43,6 +44,12 @@ public interface AppDao {
     @Query("SELECT * FROM tv_show_table WHERE tv_show_flag=:flag")
     LiveData<List<TvShow>> getWatchlistTvShows(String flag);
 
+    //TvShowPicture
 
+    @Insert(onConflict =  OnConflictStrategy.REPLACE)
+    void insertTvShowPicture(TvShowPicture tvShowPicture);
+
+    @Query("SELECT * FROM tv_show_picture WHERE tv_show_id IN (:tvShowId)")
+    List<TvShowPicture>  getTvShowPicturesByTvShowId(int tvShowId);
 
 }

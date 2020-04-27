@@ -28,12 +28,21 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/text_view_image_thumbnail"
+                android:layout_width="192sp"
+                android:layout_height="192sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_view_tv_show_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="4dp"
+                android:layout_below="@id/text_view_image_thumbnail"
                 android:alpha="0.5"
                 android:text="id"
                 android:textAppearance="?textAppearanceOverline"

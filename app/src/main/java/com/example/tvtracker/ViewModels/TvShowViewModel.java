@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.TvShowPicture;
 import com.example.tvtracker.Repository.AppRepository;
 import com.example.tvtracker.Models.UpdateTvShowWatchingFlagParams;
 
@@ -66,5 +67,5 @@ public class TvShowViewModel extends AndroidViewModel {
 
     public void syncTvShowDetailsFromApi(int id) { repository.insertTvShowDetailsInfo(id);}
 
-
+    public List<TvShowPicture> tvShowPicturesById(int showId) { return repository.getPicturesByShowId(showId);}
 }

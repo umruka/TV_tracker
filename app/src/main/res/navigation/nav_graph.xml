@@ -21,8 +21,8 @@
         android:label="discover_fragment"
         tools:layout="@layout/discover_fragment" />
     <fragment
-        android:id="@+id/moviesFragment"
-        android:name="com.example.tvtracker.movies.MoviesFragment"
-        android:label="movies_fragment"
-        tools:layout="@layout/movies_fragment" />
+        android:id="@+id/navigation_calendar"
+        android:name="com.example.tvtracker.Fragments.CalendarFragment"
+        android:label="calendar_fragment"
+        tools:layout="@layout/calendar_fragment" />
 </navigation>

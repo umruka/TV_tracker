@@ -7,9 +7,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.TvShowPicture;
 
 
-@Database(entities = {TvShow.class}, version = 8)
+@Database(entities = {TvShow.class, TvShowPicture.class}, version = 9)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;
