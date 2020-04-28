@@ -38,6 +38,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
     @Override
     public void onBindViewHolder(@NonNull TvShowPictureViewHolder holder, int position) {
         TvShowPicture currentTvShowPicture = tvShowPictures.get(position);
+        Picasso.get().setIndicatorsEnabled(true);
         Picasso.get().load(currentTvShowPicture.getTvShowPicturePath()).into(holder.imageView);
     }
 

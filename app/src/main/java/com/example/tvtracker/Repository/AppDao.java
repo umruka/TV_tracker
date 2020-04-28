@@ -5,9 +5,12 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowPicture;
+import com.example.tvtracker.Models.QueryModels.TvShowWithPicturesAndEpisodes;
 
 import java.util.List;
 
@@ -49,7 +52,22 @@ public interface AppDao {
     @Insert(onConflict =  OnConflictStrategy.REPLACE)
     void insertTvShowPicture(TvShowPicture tvShowPicture);
 
-    @Query("SELECT * FROM tv_show_picture WHERE tv_show_id IN (:tvShowId)")
+    @Query("SELECT * FROM tv_show_picture_table WHERE tv_show_id IN (:tvShowId)")
     List<TvShowPicture>  getTvShowPicturesByTvShowId(int tvShowId);
+
+
+    //TvShowEpisode
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertTvShowEpisode(TvShowEpisode tvShowEpisode);
+
+    @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id IN (:tvShowId)")
+    List<TvShowEpisode> getTvShowEpisodesById(int tvShowId);
+
+
+    //TvShowWithPicturesAndEpisodes
+    @Transaction
+    @Query("SELECT * FROM tv_show_table WHERE tv_show_id IN (:tvShowId)")
+    List<TvShowWithPicturesAndEpisodes> getTvShowWithPicturesAndEpisodesById(int tvShowId);
+
 
 }

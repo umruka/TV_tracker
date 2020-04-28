@@ -18,7 +18,7 @@ import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
 import com.example.tvtracker.Adapters.TvShowBasicAdapter;
 import com.example.tvtracker.ViewModels.TvShowViewModel;
-import com.example.tvtracker.Models.UpdateTvShowWatchingFlagParams;
+import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tv_show_picture")
+@Entity(tableName = "tv_show_picture_table")
 public class TvShowPicture {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tv_show_picture_id")

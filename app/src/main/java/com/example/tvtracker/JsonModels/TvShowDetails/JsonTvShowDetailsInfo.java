@@ -64,7 +64,7 @@ public class JsonTvShowDetailsInfo {
         @SerializedName("pictures")
         @Expose
         private List<String> pictures = null;
-        @SerializedName("JsonTvShowDetailsEpisodes")
+        @SerializedName("episodes")
         @Expose
         private List<JsonTvShowDetailsEpisode> JsonTvShowDetailsEpisodes = null;
 

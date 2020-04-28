@@ -4,7 +4,6 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.lifecycle.LiveData;
 
 import com.example.tvtracker.Api.ApiBuilder;
@@ -12,12 +11,15 @@ import com.example.tvtracker.Api.ApiService;
 import com.example.tvtracker.JsonModels.JsonTvShowSearchRoot;
 import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShowBasicInfo;
 import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShowBasicInfoRoot;
+import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsEpisode;
 import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsInfo;
 import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsInfoRoot;
 import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowPicture;
-import com.example.tvtracker.Models.UpdateTvShowDetailsParams;
-import com.example.tvtracker.Models.UpdateTvShowWatchingFlagParams;
+import com.example.tvtracker.Models.QueryModels.TvShowWithPicturesAndEpisodes;
+import com.example.tvtracker.Models.Params.UpdateTvShowDetailsParams;
+import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 
 import java.util.List;
 
@@ -48,7 +50,7 @@ public class AppRepository {
 
 
     //Api calls
-    public void insertMostPopularTvShowsBasicInfo(){
+    public void insertMostPopularTvShowsBasicInfo() {
 
         ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
         Call<JsonTvShowBasicInfoRoot> jsonTvShowBasicRootCall = apiService.getTvShowsBasic();
@@ -56,19 +58,20 @@ public class AppRepository {
             @Override
             public void onResponse(Call<JsonTvShowBasicInfoRoot> call, Response<JsonTvShowBasicInfoRoot> response) {
 
-                    JsonTvShowBasicInfoRoot jsonTvShowBasicElement = response.body();
-                    generateTvShowsCallback(jsonTvShowBasicElement);
+                JsonTvShowBasicInfoRoot jsonTvShowBasicElement = response.body();
+                generateTvShowsCallback(jsonTvShowBasicElement);
 
             }
+
             @Override
             public void onFailure(Call<JsonTvShowBasicInfoRoot> call, Throwable t) {
-              Log.e("BIGFAIL", t.getMessage());
+                Log.e("BIGFAIL", t.getMessage());
             }
         });
 
     }
 
-    public void insertTvShowDetailsInfo(int tvShowId){
+    public void insertTvShowDetailsInfo(int tvShowId) {
         ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
         Call<JsonTvShowDetailsInfoRoot> jsonTvShowDetailsRootCall = apiService.getTvShowDetailed(tvShowId);
         jsonTvShowDetailsRootCall.enqueue(new Callback<JsonTvShowDetailsInfoRoot>() {
@@ -85,7 +88,7 @@ public class AppRepository {
         });
     }
 
-    private void insertTvShowDetailsCallback(JsonTvShowDetailsInfoRoot data){
+    private void insertTvShowDetailsCallback(JsonTvShowDetailsInfoRoot data) {
         JsonTvShowDetailsInfo tvShowDetails = data.getTvShow();
 
         int showId = tvShowDetails.getId();
@@ -93,16 +96,32 @@ public class AppRepository {
         String youtubeLink = tvShowDetails.getYoutubeLink();
         String rating = tvShowDetails.getRating();
 
+
+        UpdateTvShowDetailsParams newTvShowDetailsParams = new UpdateTvShowDetailsParams(showId, description, youtubeLink, rating);
+        updateTvShowDetails(newTvShowDetailsParams);
+
         int pictureSize = tvShowDetails.getPictures().size();
         for (int i = 0; i < pictureSize; i++) {
             String pictureUrl = tvShowDetails.getPictures().get(i);
 
             TvShowPicture tvShowPicture = new TvShowPicture(showId, pictureUrl);
             insertTvShowPicture(tvShowPicture);
-        };
+        }
 
-        UpdateTvShowDetailsParams newTvShowDetailsParams = new UpdateTvShowDetailsParams(showId, description, youtubeLink, rating);
-        updateTvShowDetails(newTvShowDetailsParams);
+        int episodeSize = tvShowDetails.getJsonTvShowDetailsEpisodes().size();
+        for(int i=0; i< episodeSize; i++){
+            JsonTvShowDetailsEpisode currentEpisode = tvShowDetails.getJsonTvShowDetailsEpisodes().get(i);
+
+            int seasonNum  = currentEpisode.getSeason();
+            int episodeNum = currentEpisode.getEpisode();
+            String episodeName = currentEpisode.getName();
+            String episodeAirDate = currentEpisode.getAirDate();
+
+            TvShowEpisode newTvShowEpisode = new TvShowEpisode(showId, seasonNum, episodeNum, episodeName, episodeAirDate);
+            insertTvShowEpisode(newTvShowEpisode);
+        }
+
+
     }
 
     private void generateTvShowsCallback(JsonTvShowBasicInfoRoot data) {
@@ -128,18 +147,18 @@ public class AppRepository {
         }
     }
 
-    public void searchTvShow(String searchWord, int pageNum){
+    public void searchTvShow(String searchWord, int pageNum) {
         ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
         Call<JsonTvShowSearchRoot> jsonTvShowSearchRootCall = apiService.getTvShowSearch(searchWord, pageNum);
         jsonTvShowSearchRootCall.enqueue(new Callback<JsonTvShowSearchRoot>() {
             @Override
             public void onResponse(Call<JsonTvShowSearchRoot> call, Response<JsonTvShowSearchRoot> response) {
-                Log.e("BIGFAIL",  String.valueOf(response));
+                Log.e("BIGFAIL", String.valueOf(response));
             }
 
             @Override
             public void onFailure(Call<JsonTvShowSearchRoot> call, Throwable t) {
-                Log.e("BIGFAIL",  t.getMessage());
+                Log.e("BIGFAIL", t.getMessage());
             }
         });
     }
@@ -160,6 +179,7 @@ public class AppRepository {
 
     //TvShow
 
+
     public TvShow getTvShowById(int Id) {
         try {
             return new GetTvShowAsyncTask(appDao).execute(Id).get();
@@ -178,7 +198,9 @@ public class AppRepository {
         new UpdateTvShowAsyncTask(appDao).execute(tvShow);
     }
 
-    public void updateTvShowDetails(UpdateTvShowDetailsParams params) { new UpdateTvShowDetailsAsyncTasks(appDao).execute(params);}
+    private void updateTvShowDetails(UpdateTvShowDetailsParams params) {
+        new UpdateTvShowDetailsAsyncTasks(appDao).execute(params);
+    }
 
     public void updateTvShowWatchingFlag(UpdateTvShowWatchingFlagParams params) {
         new UpdateTvShowWatchingFlagAsyncTask(appDao).execute(params);
@@ -194,15 +216,44 @@ public class AppRepository {
     }
 
     //TvShowPicture
-    public void insertTvShowPicture(TvShowPicture tvShowPicture) { new InsertTvShowPictureAsyncTask(appDao).execute(tvShowPicture); }
+    private void insertTvShowPicture(TvShowPicture tvShowPicture) {
+        new InsertTvShowPictureAsyncTask(appDao).execute(tvShowPicture);
+    }
 
-    public List<TvShowPicture> getPicturesByShowId(int showId) {
+    public List<TvShowPicture> getTvShowPicturesByShowId(int showId) {
         try {
             return new GetTvShowPicturesAsyncTask(appDao).execute(showId).get();
         } catch (Exception e) {
             Log.e("Error:", e.getMessage());
         }
-        return null; };
+        return null;
+    }
+
+    //TvShowEpisode
+    private void insertTvShowEpisode(TvShowEpisode tvShowEpisode) {
+        new InsertTvShowEpisodeAsyncTask(appDao).execute(tvShowEpisode);
+    }
+
+    public List<TvShowEpisode> getTvShowEpisodesById(int showId) {
+        try {
+            return new GetTvShowEpisodesAsyncTask(appDao).execute(showId).get();
+        } catch (Exception e) {
+            Log.e("Error:", e.getMessage());
+        }
+        return null;
+    }
+
+
+
+    //TvShowWithPicturesAndEpisodes
+    public List<TvShowWithPicturesAndEpisodes> getTvShowWithPicturesAndEpisodesById(int tvShowId) {
+        try {
+            return new GetTvShowWithPicturesAndEpisodesByIdAsyncTask(appDao).execute(tvShowId).get();
+        } catch (Exception e) {
+            Log.e("Error:", e.getMessage());
+        }
+        return null;
+    }
 
     //TvShow AsyncTasks
     private static class GetTvShowAsyncTask extends AsyncTask<Integer, Void, TvShow> {
@@ -326,22 +377,73 @@ public class AppRepository {
             return null;
         }
     }
-        private static class GetTvShowPicturesAsyncTask extends AsyncTask<Integer, Void, List<TvShowPicture>> {
-            List<TvShowPicture> tvShowPictureList;
-            private AppDao appDao;
-            GetTvShowPicturesAsyncTask(AppDao appDao) { this.appDao = appDao;}
 
-            @Override
-            protected List<TvShowPicture> doInBackground(Integer... integers) {
-                this.tvShowPictureList = appDao.getTvShowPicturesByTvShowId(integers[0]);
-                return tvShowPictureList;
-            }
+    private static class GetTvShowPicturesAsyncTask extends AsyncTask<Integer, Void, List<TvShowPicture>> {
+        List<TvShowPicture> tvShowPictureList;
+        private AppDao appDao;
 
-            @Override
-            protected void onPostExecute(List<TvShowPicture> tvShowPictures) {
-                super.onPostExecute(tvShowPictures);
-            }
+        GetTvShowPicturesAsyncTask(AppDao appDao) {
+            this.appDao = appDao;
         }
+
+        @Override
+        protected List<TvShowPicture> doInBackground(Integer... integers) {
+            this.tvShowPictureList = appDao.getTvShowPicturesByTvShowId(integers[0]);
+            return tvShowPictureList;
+        }
+
+        @Override
+        protected void onPostExecute(List<TvShowPicture> tvShowPictures) {
+            super.onPostExecute(tvShowPictures);
+        }
+    }
+
+    //TvShowEpisode AsyncTasks
+    private static class InsertTvShowEpisodeAsyncTask extends AsyncTask<TvShowEpisode, Void, Void> {
+        private AppDao appDao;
+
+        InsertTvShowEpisodeAsyncTask(AppDao appDao) {
+            this.appDao = appDao;
+        }
+
+        @Override
+        protected Void doInBackground(TvShowEpisode... tvShowEpisodes) {
+            appDao.insertTvShowEpisode(tvShowEpisodes[0]);
+            return null;
+        }
+    }
+
+    private static class GetTvShowEpisodesAsyncTask extends AsyncTask<Integer, Void, List<TvShowEpisode>> {
+        private AppDao appDao;
+
+        GetTvShowEpisodesAsyncTask(AppDao appDao) {
+            this.appDao = appDao;
+        }
+
+        @Override
+        protected List<TvShowEpisode> doInBackground(Integer... integers) {
+            return appDao.getTvShowEpisodesById(integers[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<TvShowEpisode> tvShowEpisodes) {
+            super.onPostExecute(tvShowEpisodes);
+        }
+    }
+
+    //TvShowWithPicturesAndEpisodes AsyncTasks
+    private static class GetTvShowWithPicturesAndEpisodesByIdAsyncTask extends AsyncTask<Integer, Void, List<TvShowWithPicturesAndEpisodes>> {
+        private AppDao appDao;
+
+        GetTvShowWithPicturesAndEpisodesByIdAsyncTask(AppDao appDao) {
+            this.appDao = appDao;
+        }
+
+        @Override
+        protected List<TvShowWithPicturesAndEpisodes> doInBackground(Integer... integers) {
+            return appDao.getTvShowWithPicturesAndEpisodesById(integers[0]);
+        }
+    }
 
 
 }

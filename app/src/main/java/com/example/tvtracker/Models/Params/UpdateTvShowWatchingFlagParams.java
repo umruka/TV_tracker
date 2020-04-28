@@ -1,4 +1,4 @@
-package com.example.tvtracker.Models;
+package com.example.tvtracker.Models.Params;
 
 public class UpdateTvShowWatchingFlagParams {
     private int id;

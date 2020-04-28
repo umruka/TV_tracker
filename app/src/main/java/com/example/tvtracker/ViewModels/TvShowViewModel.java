@@ -7,9 +7,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowPicture;
+import com.example.tvtracker.Models.QueryModels.TvShowWithPicturesAndEpisodes;
 import com.example.tvtracker.Repository.AppRepository;
-import com.example.tvtracker.Models.UpdateTvShowWatchingFlagParams;
+import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 
 import java.util.List;
 
@@ -67,5 +69,10 @@ public class TvShowViewModel extends AndroidViewModel {
 
     public void syncTvShowDetailsFromApi(int id) { repository.insertTvShowDetailsInfo(id);}
 
-    public List<TvShowPicture> tvShowPicturesById(int showId) { return repository.getPicturesByShowId(showId);}
+    public List<TvShowPicture> tvShowPicturesById(int showId) { return repository.getTvShowPicturesByShowId(showId);}
+
+    public List<TvShowEpisode> tvShowEpisodesById(int showId) { return repository.getTvShowEpisodesById(showId);}
+
+
+    public List<TvShowWithPicturesAndEpisodes> getTvShowWithPicturesById(int showId) { return repository.getTvShowWithPicturesAndEpisodesById(showId);}
 }
