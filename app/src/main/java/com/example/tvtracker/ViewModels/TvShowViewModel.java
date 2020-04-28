@@ -6,10 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowPicture;
-import com.example.tvtracker.Models.QueryModels.TvShowWithPicturesAndEpisodes;
 import com.example.tvtracker.Repository.AppRepository;
 import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 
@@ -74,5 +74,5 @@ public class TvShowViewModel extends AndroidViewModel {
     public List<TvShowEpisode> tvShowEpisodesById(int showId) { return repository.getTvShowEpisodesById(showId);}
 
 
-    public List<TvShowWithPicturesAndEpisodes> getTvShowWithPicturesById(int showId) { return repository.getTvShowWithPicturesAndEpisodesById(showId);}
+    public List<TvShowFull> getTvShowWithPicturesById(int showId) { return repository.getTvShowWithPicturesAndEpisodesById(showId);}
 }

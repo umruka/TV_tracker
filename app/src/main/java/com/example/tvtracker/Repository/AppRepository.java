@@ -14,10 +14,11 @@ import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShowBasicInfoRoot;
 import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsEpisode;
 import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsInfo;
 import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsInfoRoot;
+import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
+import com.example.tvtracker.Models.TvShowGenre;
 import com.example.tvtracker.Models.TvShowPicture;
-import com.example.tvtracker.Models.QueryModels.TvShowWithPicturesAndEpisodes;
 import com.example.tvtracker.Models.Params.UpdateTvShowDetailsParams;
 import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 
@@ -26,6 +27,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 public class AppRepository {
@@ -99,28 +102,47 @@ public class AppRepository {
 
         UpdateTvShowDetailsParams newTvShowDetailsParams = new UpdateTvShowDetailsParams(showId, description, youtubeLink, rating);
         updateTvShowDetails(newTvShowDetailsParams);
+        
+        if(isTvShowPictureExist(showId)){
+            Log.i(TAG, "insertTvShowDetailsCallback: picture");
+        }else {
+            int pictureSize = tvShowDetails.getPictures().size();
+            for (int i = 0; i < pictureSize; i++) {
+                String pictureUrl = tvShowDetails.getPictures().get(i);
 
-        int pictureSize = tvShowDetails.getPictures().size();
-        for (int i = 0; i < pictureSize; i++) {
-            String pictureUrl = tvShowDetails.getPictures().get(i);
-
-            TvShowPicture tvShowPicture = new TvShowPicture(showId, pictureUrl);
-            insertTvShowPicture(tvShowPicture);
+                TvShowPicture tvShowPicture = new TvShowPicture(showId, pictureUrl);
+                insertTvShowPicture(tvShowPicture);
+            }
         }
+        
+        if(isTvShowEpisodeExist(showId)){
+            Log.i(TAG, "insertTvShowDetailsCallback: episode");
+        }else{
+            int episodeSize = tvShowDetails.getJsonTvShowDetailsEpisodes().size();
+            for (int i = 0; i < episodeSize; i++) {
+                JsonTvShowDetailsEpisode currentEpisode = tvShowDetails.getJsonTvShowDetailsEpisodes().get(i);
 
-        int episodeSize = tvShowDetails.getJsonTvShowDetailsEpisodes().size();
-        for(int i=0; i< episodeSize; i++){
-            JsonTvShowDetailsEpisode currentEpisode = tvShowDetails.getJsonTvShowDetailsEpisodes().get(i);
+                int seasonNum = currentEpisode.getSeason();
+                int episodeNum = currentEpisode.getEpisode();
+                String episodeName = currentEpisode.getName();
+                String episodeAirDate = currentEpisode.getAirDate();
 
-            int seasonNum  = currentEpisode.getSeason();
-            int episodeNum = currentEpisode.getEpisode();
-            String episodeName = currentEpisode.getName();
-            String episodeAirDate = currentEpisode.getAirDate();
-
-            TvShowEpisode newTvShowEpisode = new TvShowEpisode(showId, seasonNum, episodeNum, episodeName, episodeAirDate);
-            insertTvShowEpisode(newTvShowEpisode);
+                TvShowEpisode newTvShowEpisode = new TvShowEpisode(showId, seasonNum, episodeNum, episodeName, episodeAirDate);
+                insertTvShowEpisode(newTvShowEpisode);
+            }
         }
+        
+        if(isTvShowGenreExist(showId)){
+            Log.i(TAG, "insertTvShowDetailsCallback: genre");
+        }else{
+            int genresList = tvShowDetails.getGenres().size();
+            for (int i = 0; i < genresList; i++) {
 
+                String genreName = tvShowDetails.getGenres().get(i);
+                TvShowGenre tvShowGenre = new TvShowGenre(showId, genreName);
+                insertTvShowGenre(tvShowGenre);
+            }
+        }
 
     }
 
@@ -173,6 +195,33 @@ public class AppRepository {
                 isExist = true;
                 return isExist;
             }
+        }
+        return isExist;
+    }
+
+    private Boolean isTvShowPictureExist(int tvShowId) {
+        boolean isExist = false;
+        if (getTvShowPicturesByShowId(tvShowId).size() != 0) {
+            isExist = true;
+            return isExist;
+        }
+        return isExist;
+    }
+
+    private Boolean isTvShowEpisodeExist(int tvShowId) {
+        boolean isExist = false;
+        if (getTvShowEpisodesById(tvShowId).size() != 0) {
+            isExist = true;
+            return isExist;
+        }
+        return isExist;
+    }
+
+    private Boolean isTvShowGenreExist(int tvShowId) {
+        boolean isExist = false;
+        if (getTvShowGenresById(tvShowId).size() != 0) {
+            isExist = true;
+            return isExist;
         }
         return isExist;
     }
@@ -243,10 +292,23 @@ public class AppRepository {
         return null;
     }
 
+    //TvShowGenre
 
+    private void insertTvShowGenre(TvShowGenre tvShowGenre) {
+        new InsertTvShowGenreAsyncTask(appDao).execute(tvShowGenre);
+    }
 
-    //TvShowWithPicturesAndEpisodes
-    public List<TvShowWithPicturesAndEpisodes> getTvShowWithPicturesAndEpisodesById(int tvShowId) {
+    public List<TvShowGenre> getTvShowGenresById(int showId) {
+        try {
+            return new GetTvShowGenresAsyncTask(appDao).execute(showId).get();
+        } catch (Exception e) {
+            Log.e("Error:", e.getMessage());
+        }
+        return null;
+    }
+
+    //TvShowFull
+    public List<TvShowFull> getTvShowWithPicturesAndEpisodesById(int tvShowId) {
         try {
             return new GetTvShowWithPicturesAndEpisodesByIdAsyncTask(appDao).execute(tvShowId).get();
         } catch (Exception e) {
@@ -431,8 +493,42 @@ public class AppRepository {
         }
     }
 
-    //TvShowWithPicturesAndEpisodes AsyncTasks
-    private static class GetTvShowWithPicturesAndEpisodesByIdAsyncTask extends AsyncTask<Integer, Void, List<TvShowWithPicturesAndEpisodes>> {
+    //TvShowGenre AsyncTasks
+
+    private static class InsertTvShowGenreAsyncTask extends AsyncTask<TvShowGenre, Void, Void> {
+        private AppDao appDao;
+
+        InsertTvShowGenreAsyncTask(AppDao appDao) {
+            this.appDao = appDao;
+        }
+
+        @Override
+        protected Void doInBackground(TvShowGenre... tvShowGenres) {
+            appDao.insertTvShowGenre(tvShowGenres[0]);
+            return null;
+        }
+    }
+
+    private static class GetTvShowGenresAsyncTask extends AsyncTask<Integer, Void, List<TvShowGenre>> {
+        private AppDao appDao;
+
+        GetTvShowGenresAsyncTask(AppDao appDao) {
+            this.appDao = appDao;
+        }
+
+        @Override
+        protected List<TvShowGenre> doInBackground(Integer... integers) {
+            return appDao.getTvShowGenresById(integers[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<TvShowGenre> tvShowGenres) {
+            super.onPostExecute(tvShowGenres);
+        }
+    }
+
+    //TvShowFull AsyncTasks
+    private static class GetTvShowWithPicturesAndEpisodesByIdAsyncTask extends AsyncTask<Integer, Void, List<TvShowFull>> {
         private AppDao appDao;
 
         GetTvShowWithPicturesAndEpisodesByIdAsyncTask(AppDao appDao) {
@@ -440,7 +536,7 @@ public class AppRepository {
         }
 
         @Override
-        protected List<TvShowWithPicturesAndEpisodes> doInBackground(Integer... integers) {
+        protected List<TvShowFull> doInBackground(Integer... integers) {
             return appDao.getTvShowWithPicturesAndEpisodesById(integers[0]);
         }
     }

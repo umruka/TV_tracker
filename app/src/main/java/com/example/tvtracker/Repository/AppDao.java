@@ -9,8 +9,9 @@ import androidx.room.Transaction;
 
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
+import com.example.tvtracker.Models.TvShowGenre;
 import com.example.tvtracker.Models.TvShowPicture;
-import com.example.tvtracker.Models.QueryModels.TvShowWithPicturesAndEpisodes;
+import com.example.tvtracker.Models.QueryModels.TvShowFull;
 
 import java.util.List;
 
@@ -63,11 +64,19 @@ public interface AppDao {
     @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id IN (:tvShowId)")
     List<TvShowEpisode> getTvShowEpisodesById(int tvShowId);
 
+    //TvShowGenre
 
-    //TvShowWithPicturesAndEpisodes
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertTvShowGenre(TvShowGenre tvShowGenre);
+
+    @Query("SELECT * FROM tv_show_genre_table WHERE tv_show_id IN (:tvShowId)")
+    List<TvShowGenre> getTvShowGenresById(int tvShowId);
+
+
+    //TvShowFull
     @Transaction
     @Query("SELECT * FROM tv_show_table WHERE tv_show_id IN (:tvShowId)")
-    List<TvShowWithPicturesAndEpisodes> getTvShowWithPicturesAndEpisodesById(int tvShowId);
+    List<TvShowFull> getTvShowWithPicturesAndEpisodesById(int tvShowId);
 
 
 }
