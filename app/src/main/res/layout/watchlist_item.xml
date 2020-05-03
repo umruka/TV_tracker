@@ -29,7 +29,7 @@
             android:paddingEnd="16dp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/text_view_image_thumbnail"
+                android:id="@+id/text_view_watchlist_image_thumbnail"
                 android:layout_width="192sp"
                 android:layout_height="192sp"
                 android:layout_marginTop="8dp"
@@ -37,101 +37,28 @@
                 />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_tv_show_id"
+                android:id="@+id/text_view_watchlist_tv_show_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="4dp"
-                android:layout_below="@id/text_view_image_thumbnail"
+                android:layout_below="@id/text_view_watchlist_image_thumbnail"
                 android:alpha="0.5"
                 android:text="id"
                 android:textAppearance="?textAppearanceOverline"
                 app:layout_constraintStart_toStartOf="parent" />
-
+s
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_tv_show_name"
+                android:id="@+id/text_view_watchlist_tv_show_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/text_view_tv_show_id"
+                android:layout_below="@+id/text_view_watchlist_tv_show_id"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="name"
                 android:textAppearance="?textAppearanceHeadline5" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_tv_show_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_tv_show_name"
-                android:layout_marginTop="4dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="status"
-                android:textAppearance="?textAppearanceSubtitle1" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_tv_show_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_tv_show_status"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="description"
-                android:textAppearance="?textAppearanceBody2" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_tv_show_youtube_link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_view_tv_show_description"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="youtube link"
-                android:textAppearance="?textAppearanceBody2"
-                />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_tv_show_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_view_tv_show_youtube_link"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="youtube link"
-                android:textAppearance="?textAppearanceBody2"
-                />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_tv_show_image_path"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="country"
-                android:layout_below="@id/text_view_tv_show_rating"
-                android:textAppearance="?textAppearanceBody2" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_tv_show_country"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="country"
-                android:layout_below="@id/text_view_tv_show_image_path"
-                android:textAppearance="?textAppearanceBody2" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_tv_show_network"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="network"
-                android:layout_below="@id/text_view_tv_show_country"
-                android:textAppearance="?textAppearanceBody2" />
-
 
 
         </RelativeLayout>

@@ -3,6 +3,7 @@ package com.example.tvtracker.Fragments;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,14 +15,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
 import com.example.tvtracker.Adapters.WatchlistAdapter;
+import com.example.tvtracker.TvShowFullActivity;
 import com.example.tvtracker.ViewModels.TvShowViewModel;
 
 import java.util.List;
 
 public class WatchlistFragment extends Fragment {
+
 
     private TvShowViewModel tvShowViewModel;
 
@@ -50,6 +54,16 @@ public class WatchlistFragment extends Fragment {
             @Override
             public void onChanged(List<TvShow> tvShows) {
                 adapter.setTvShows(tvShows);
+            }
+        });
+
+        adapter.setOnItemClickListener(new WatchlistAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(TvShow tvShow) {
+                Intent intent = new Intent(getContext(), TvShowFullActivity.class);
+                Bundle bundle = MainActivity.toBundle(tvShow);
+                intent.putExtra(MainActivity.TVSHOW_BUNDLE, bundle);
+                startActivity(intent);
             }
         });
 

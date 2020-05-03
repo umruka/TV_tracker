@@ -19,8 +19,13 @@ import java.util.List;
 
 public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvShowCombinedViewHolder> {
 
+    public interface OnItemClickListener {
+    void onItemClick(TvShow tvShow);
+    }
+
 
     private List<TvShow> tvShows = new ArrayList<>();
+    private OnItemClickListener listener;
 
 
     @NonNull
@@ -39,12 +44,6 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
         Picasso.get().load(currentTvShow.getTvShowImagePath()).into(holder.textViewTvShowImageThumbnail);
         holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
         holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
-        holder.textViewTvShowStatus.setText(currentTvShow.getTvShowStatus());
-        holder.textViewTvShowDesc.setText(currentTvShow.getTvShowDesc());
-        holder.textViewTvShowYoutubeLink.setText(currentTvShow.getTvShowYoutubeLink());holder.textViewTvShowRating.setText(currentTvShow.getTvShowRating());
-        holder.textViewTvShowImagePath.setText(currentTvShow.getTvShowImagePath());
-        holder.textViewTvShowCountry.setText(currentTvShow.getTvShowCountry());
-        holder.textViewTvShowNetwork.setText(currentTvShow.getTvShowNetwork());
     }
 
     public void setTvShows(List<TvShow> tvShows) {
@@ -56,30 +55,31 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
     public int getItemCount() {
         return tvShows.size();
     }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+
+    }
+
     class TvShowCombinedViewHolder extends RecyclerView.ViewHolder {
         private ImageView textViewTvShowImageThumbnail;
         private TextView textViewTvShowName;
-        private TextView textViewTvShowDesc;
-        private TextView textViewTvShowCountry;
-        private TextView textViewTvShowNetwork;
-        private TextView textViewTvShowStatus;
-        private TextView textViewTvShowYoutubeLink;
-        private TextView textViewTvShowRating;
-        private TextView textViewTvShowImagePath;
         private TextView textViewTvShowId;
 
         private TvShowCombinedViewHolder(View itemView) {
             super(itemView);
-            textViewTvShowImageThumbnail = itemView.findViewById(R.id.text_view_image_thumbnail);
-            textViewTvShowName = itemView.findViewById(R.id.text_view_tv_show_name);
-            textViewTvShowStatus = itemView.findViewById(R.id.text_view_tv_show_status);
-            textViewTvShowId = itemView.findViewById(R.id.text_view_tv_show_id);
-            textViewTvShowDesc = itemView.findViewById(R.id.text_view_tv_show_description);
-            textViewTvShowCountry = itemView.findViewById(R.id.text_view_tv_show_country);
-            textViewTvShowNetwork = itemView.findViewById(R.id.text_view_tv_show_network);
-            textViewTvShowYoutubeLink = itemView.findViewById(R.id.text_view_tv_show_youtube_link);
-            textViewTvShowImagePath = itemView.findViewById(R.id.text_view_tv_show_image_path);
-            textViewTvShowRating = itemView.findViewById(R.id.text_view_tv_show_rating);
+            textViewTvShowImageThumbnail = itemView.findViewById(R.id.text_view_watchlist_image_thumbnail);
+            textViewTvShowName = itemView.findViewById(R.id.text_view_watchlist_tv_show_name);
+            textViewTvShowId = itemView.findViewById(R.id.text_view_watchlist_tv_show_id);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(tvShows.get(position));
+                    }
+                }
+            });
 
 
         }
