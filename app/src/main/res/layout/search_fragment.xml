@@ -4,27 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.DiscoverFragment">
+    android:id="@+id/search_fragment"
+    tools:context=".Fragments.SearchFragment">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linear_layout"
+    <LinearLayout
+        android:id="@+id/linear_layout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-    >
+        >
+
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/discover_search_bar"
+        android:id="@+id/search_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/dicover_recycler_view"
+        android:id="@+id/search_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-
         />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
+    </LinearLayout>
 </FrameLayout>

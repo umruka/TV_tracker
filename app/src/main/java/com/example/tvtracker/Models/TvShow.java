@@ -38,6 +38,7 @@ public class TvShow {
     @ColumnInfo(name = "tv_show_flag")
     private String tvShowWatchingFlag;
 
+
     public TvShow(int tvShowId, String tvShowName, String tvShowStartDate, String tvShowEndDate, String tvShowCountry, String tvShowNetwork, String tvShowStatus, String tvShowImagePath) {
         this.tvShowId = tvShowId;
         this.tvShowName = tvShowName;

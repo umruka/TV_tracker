@@ -27,7 +27,7 @@ public class JsonTvShowDetailsInfo {
         private String startDate;
         @SerializedName("end_date")
         @Expose
-        private Object endDate;
+        private String endDate;
         @SerializedName("country")
         @Expose
         private String country;
@@ -124,11 +124,11 @@ public class JsonTvShowDetailsInfo {
             this.startDate = startDate;
         }
 
-        public Object getEndDate() {
+        public String getEndDate() {
             return endDate;
         }
 
-        public void setEndDate(Object endDate) {
+        public void setEndDate(String endDate) {
             this.endDate = endDate;
         }
 

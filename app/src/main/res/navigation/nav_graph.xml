@@ -14,15 +14,51 @@
         android:id="@+id/navigation_watchlist"
         android:name="com.example.tvtracker.Fragments.WatchlistFragment"
         android:label="watchlist_fragment"
-        tools:layout="@layout/watchlist_fragment" />
+        tools:layout="@layout/watchlist_fragment" >
+        <action
+            android:id="@+id/action_navigation_watchlist_to_tvShowFullFragment"
+            app:destination="@id/tvShowFullFragment"
+            />
+    </fragment>
     <fragment
         android:id="@+id/navigation_discover"
         android:name="com.example.tvtracker.Fragments.DiscoverFragment"
         android:label="discover_fragment"
-        tools:layout="@layout/discover_fragment" />
+        tools:layout="@layout/discover_fragment" >
+        <action
+            android:id="@+id/action_navigation_discover_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/searchFragment" />
+        <action
+            android:id="@+id/action_navigation_discover_to_tvShowFullFragment"
+            app:destination="@id/tvShowFullFragment"
+            />
+    </fragment>
     <fragment
         android:id="@+id/navigation_calendar"
         android:name="com.example.tvtracker.Fragments.CalendarFragment"
         android:label="calendar_fragment"
         tools:layout="@layout/calendar_fragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.tvtracker.Fragments.SearchFragment"
+        android:label="search_fragment"
+        tools:layout="@layout/search_fragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_tvShowFullFragment"
+            app:destination="@id/tvShowFullFragment"
+            />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/tvShowFullFragment"
+        android:name="com.example.tvtracker.Fragments.TvShowFullFragment"
+        android:label="TvShowFullFragment" >
+        <argument
+            android:name="tvShowId"
+            app:argType="string"
+            android:defaultValue='""' />
+    </fragment>
 </navigation>

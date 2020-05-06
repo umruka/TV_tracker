@@ -13,18 +13,21 @@ import com.example.tvtracker.Models.TvShowPicture;
 import com.example.tvtracker.Repository.AppRepository;
 import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TvShowViewModel extends AndroidViewModel {
     private AppRepository repository;
     private LiveData<List<TvShow>> allTvShows;
     private LiveData<List<TvShow>> allWatchingTvShows;
+    private LiveData<List<TvShow>> allSearchWordTvShows;
 
     public TvShowViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
         allTvShows = repository.getAllTvShows();
         allWatchingTvShows = repository.getAllWatchingTvShows();
+        allSearchWordTvShows = repository.getAllSearchTvShows();
     }
 
     public LiveData<List<TvShow>> getAllTvShows() {
@@ -35,8 +38,16 @@ public class TvShowViewModel extends AndroidViewModel {
         return allWatchingTvShows;
     }
 
+    public LiveData<List<TvShow>> getAllSearchWordTvShows() {
+        return allSearchWordTvShows;
+    }
+
     public void insertTvShowBasic(TvShow tvShow) {
         repository.insertTvShow(tvShow);
+    }
+
+    public void insertOrUpdate(TvShow tvShow){
+        repository.insertOrUpdateTvShow(tvShow);
     }
 
     public void updateTvShowBasic(TvShow tvShow) {
@@ -75,4 +86,11 @@ public class TvShowViewModel extends AndroidViewModel {
 
 
     public List<TvShowFull> getTvShowWithPicturesById(int showId) { return repository.getTvShowWithPicturesAndEpisodesById(showId);}
+
+    public void clearSearchedTvShows() { repository.clearSearchedTvShows();}
+
+
+    public void showSearch(TvShow tvShow){
+        repository.insertFromSearch(tvShow);
+    }
 }

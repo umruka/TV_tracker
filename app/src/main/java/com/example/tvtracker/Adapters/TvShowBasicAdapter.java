@@ -3,6 +3,7 @@ package com.example.tvtracker.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ public class TvShowBasicAdapter extends RecyclerView.Adapter<TvShowBasicAdapter.
 
     public interface OnItemClickListener {
         void onItemClick(TvShow tvShow);
+        void onButtonClick(TvShow tvShow);
     }
 
 
@@ -61,18 +63,31 @@ public class TvShowBasicAdapter extends RecyclerView.Adapter<TvShowBasicAdapter.
         private TextView textViewTvShowName;
         private TextView textViewTvShowStatus;
         private TextView textViewTvShowId;
+        private Button buttonTvShowAdd;
 
         private TvShowViewHolder(View itemView) {
             super(itemView);
             textViewTvShowName = itemView.findViewById(R.id.text_view_tvshow_name);
             textViewTvShowStatus = itemView.findViewById(R.id.text_view_tvshow_status);
             textViewTvShowId = itemView.findViewById(R.id.text_view_tvshow_id);
+            buttonTvShowAdd = itemView.findViewById(R.id.button_tv_show_add);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION) {
                         listener.onItemClick(tvShows.get(position));
+                    }
+                }
+            });
+
+            buttonTvShowAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onButtonClick(tvShows.get(position));
                     }
                 }
             });

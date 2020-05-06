@@ -72,6 +72,14 @@
                 android:text="empty"
                 android:textAppearance="?textAppearanceBody2" />
 
+            <Button
+                android:id="@+id/button_tv_show_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button"
+                android:layout_below="@id/text_view_movie_imdb_rating"
+                />
+
         </RelativeLayout>
 
     </com.google.android.material.card.MaterialCardView>

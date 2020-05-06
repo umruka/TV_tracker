@@ -73,7 +73,7 @@ public interface AppDao {
     List<TvShowGenre> getTvShowGenresById(int tvShowId);
 
 
-    //TvShowFull
+    //TvShowFullFragment
     @Transaction
     @Query("SELECT * FROM tv_show_table WHERE tv_show_id IN (:tvShowId)")
     List<TvShowFull> getTvShowWithPicturesAndEpisodesById(int tvShowId);

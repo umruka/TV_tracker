@@ -3,14 +3,23 @@ package com.example.tvtracker;
 import android.os.Bundle;
 
 import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.ViewModels.TvShowViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+
+    private TvShowViewModel tvShowViewModel;
+
+    public static final String TVSHOW_WATCHING_FLAG_YES = "YES";
     public static final String TVSHOW_BUNDLE = "tv_show_bundle";
     public static final String TVSHOW_ID = "tv_show_id";
     public static final String TVSHOW_NAME = "tv_show_name";
@@ -26,6 +35,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tvShowViewModel = new ViewModelProvider(this).get(TvShowViewModel.class);
+
+        tvShowViewModel.getAllTvShows().observe(this, new Observer<List<TvShow>>() {
+            @Override
+            public void onChanged(List<TvShow> tvShows) {
+
+            }
+        });
+
+        tvShowViewModel.syncTvShowBasicFromApi();
+
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
         NavigationUI.setupWithNavController(navView, navController);
