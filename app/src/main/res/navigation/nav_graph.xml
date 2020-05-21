@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/tvShowFullFragment"
-        android:name="com.example.tvtracker.Fragments.TvShowFullFragment"
+        android:name="com.example.tvtracker.Fragments.DetailsFragment"
         android:label="TvShowFullFragment" >
         <argument
             android:name="tvShowId"

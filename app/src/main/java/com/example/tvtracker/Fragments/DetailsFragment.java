@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -14,17 +15,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tvtracker.MainActivity;
+import com.example.tvtracker.Models.Basic.Resource;
+import com.example.tvtracker.Models.QueryModels.TvShowTest;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
+import com.example.tvtracker.ViewModels.DetailsViewModel;
 import com.example.tvtracker.ViewModels.DiscoverViewModel;
 import com.squareup.picasso.Picasso;
 
 
-public class TvShowFullFragment extends Fragment {
+public class DetailsFragment extends Fragment {
 
 
     private Activity activity;
-    private DiscoverViewModel discoverViewModel;
+    private DetailsViewModel detailsViewModel;
 
     private TextView textViewId;
     private TextView textViewName;
@@ -38,11 +42,11 @@ public class TvShowFullFragment extends Fragment {
 
 
 
-    public TvShowFullFragment() {
+    public DetailsFragment() {
     }
 
-    public static TvShowFullFragment newInstance() {
-        return new TvShowFullFragment();
+    public static DetailsFragment newInstance() {
+        return new DetailsFragment();
     }
 
 
@@ -77,21 +81,36 @@ public class TvShowFullFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         this.activity = getActivity();
 
-        discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
+        detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
 
         int id = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
+        detailsViewModel.getTvShowTestObservable().observe(getViewLifecycleOwner(), new Observer<Resource<TvShowTest>>() {
+            @Override
+            public void onChanged(Resource<TvShowTest> tvShowTestResource) {
+                if(tvShowTestResource.data != null) {
+                    TvShowTest tvShowTest = tvShowTestResource.data;
+                    TvShow tvShow = tvShowTest.getTvShow();
+                    textViewId.setText(String.valueOf(tvShow.getTvShowId()));
+                    textViewName.setText(tvShow.getTvShowName());
+                    textViewStatus.setText(tvShow.getTvShowStatus());
+                    textViewDescription.setText(tvShow.getTvShowDesc());
+                    textViewYoutubeLink.setText(tvShow.getTvShowYoutubeLink());
+                    textViewRating.setText(tvShow.getTvShowRating());
+                    Picasso.get().load(tvShow.getTvShowImagePath()).into(imageViewImagePath);
+                    textViewCountry.setText(tvShow.getTvShowCountry());
+                    textViewNetwork.setText(tvShow.getTvShowNetwork());
+                }
+                }
+
+        });
+
+        detailsViewModel.getDetails(id);
+
+
+
 //        List<TvShowFull> tvShowFulls = discoverViewModel.getTvShowWithPicturesById(id);
 //        TvShow tvShow = tvShowFulls.get(0).tvShow;
-        TvShow tvShow = discoverViewModel.getTvShowBasic(id);
-        textViewId.setText(String.valueOf(tvShow.getTvShowId()));
-        textViewName.setText(tvShow.getTvShowName());
-        textViewStatus.setText(tvShow.getTvShowStatus());
-        textViewDescription.setText(tvShow.getTvShowDesc());
-        textViewYoutubeLink.setText(tvShow.getTvShowYoutubeLink());
-        textViewRating.setText(tvShow.getTvShowRating());
-        Picasso.get().load(tvShow.getTvShowImagePath()).into(imageViewImagePath);
-        textViewCountry.setText(tvShow.getTvShowCountry());
-        textViewNetwork.setText(tvShow.getTvShowNetwork());
+
 
 
     }

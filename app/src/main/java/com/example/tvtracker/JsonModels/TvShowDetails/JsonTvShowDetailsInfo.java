@@ -1,5 +1,7 @@
 package com.example.tvtracker.JsonModels.TvShowDetails;
 import java.util.List;
+
+import com.example.tvtracker.Models.TvShowGenre;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 public class JsonTvShowDetailsInfo {
@@ -235,5 +237,6 @@ public class JsonTvShowDetailsInfo {
         public void setJsonTvShowDetailsEpisodes(List<JsonTvShowDetailsEpisode> JsonTvShowDetailsEpisodes) {
             this.JsonTvShowDetailsEpisodes = JsonTvShowDetailsEpisodes;
         }
+
 
     }

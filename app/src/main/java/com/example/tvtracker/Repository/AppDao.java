@@ -64,6 +64,9 @@ public interface AppDao {
     @Insert(onConflict =  OnConflictStrategy.REPLACE)
     void insertTvShowPicture(TvShowPicture tvShowPicture);
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertAllTvShowPictures(List<TvShowPicture> pictures);
+
     @Query("SELECT * FROM tv_show_picture_table WHERE tv_show_id IN (:tvShowId)")
     List<TvShowPicture>  getTvShowPicturesByTvShowId(int tvShowId);
 
@@ -71,6 +74,10 @@ public interface AppDao {
     //TvShowEpisode
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTvShowEpisode(TvShowEpisode tvShowEpisode);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertAllTvShowEpisodes(List<TvShowEpisode> episodes);
+
 
     @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id IN (:tvShowId)")
     List<TvShowEpisode> getTvShowEpisodesById(int tvShowId);
@@ -80,11 +87,15 @@ public interface AppDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTvShowGenre(TvShowGenre tvShowGenre);
 
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertAllTvShowGenres(List<TvShowGenre> genres);
+
     @Query("SELECT * FROM tv_show_genre_table WHERE tv_show_id IN (:tvShowId)")
     List<TvShowGenre> getTvShowGenresById(int tvShowId);
 
 
-    //TvShowFullFragment
+    //DetailsFragment
     @Transaction
     @Query("SELECT * FROM tv_show_table WHERE tv_show_id IN (:tvShowId)")
     List<TvShowFull> getTvShowWithPicturesAndEpisodesById(int tvShowId);

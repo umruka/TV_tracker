@@ -41,6 +41,7 @@ public class AppRepository {
 
     private MutableLiveData<Resource<List<TvShow>>> discoverListObservable = new MutableLiveData<>();
     private MutableLiveData<Resource<List<TvShow>>> watchlistListObservable = new MutableLiveData<>();
+    private MutableLiveData<Resource<TvShowTest>> detailObservable = new MutableLiveData<>();
 
     private MutableLiveData<List<TvShow>> allSearchTvShows;
     private MutableLiveData<List<TvShowFull>> searchedTvShow;
@@ -76,12 +77,28 @@ public class AppRepository {
         loadAllWatchlistTvShowsFromDb();
     }
 
+    public void fetchTvShowDetails(int id) {
+        TvShowTest loadingTvShow = null;
+        if(detailObservable.getValue() != null){
+            loadingTvShow = detailObservable.getValue().data;
+        }
+        detailObservable.setValue(Resource.loading(loadingTvShow));
+        loadTvShowDetailFromDb(id);
+        getDetailsFromWeb(id);
+    }
+
     public MutableLiveData<Resource<List<TvShow>>> getWatchlistListObservable() {
         return watchlistListObservable;
     }
 
     public MutableLiveData<Resource<List<TvShow>>> getDiscoverListObservable() {
         return discoverListObservable;
+    }
+
+
+
+    public MutableLiveData<Resource<TvShowTest>> getDetailObservable() {
+        return detailObservable;
     }
 
     private void getTvShowsFromWeb(int pageNum) {
@@ -115,6 +132,55 @@ public class AppRepository {
                 setTvShowsListObservableStatus(Status.ERROR, t.getMessage());
             }
         });
+    }
+
+
+    private void getDetailsFromWeb(int id){
+        Log.d("", "getDetailsFromWeb");
+        ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
+        apiService.getTvShowDetailed(id).enqueue(new Callback<JsonTvShowDetailsInfoRoot>() {
+            @Override
+            public void onResponse(Call<JsonTvShowDetailsInfoRoot> call, Response<JsonTvShowDetailsInfoRoot> response) {
+                if(response.isSuccessful()){
+                    setDetailObservableStatus(Status.SUCCESS, null);
+                    addDetailsToDb(response.body().toDetail());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonTvShowDetailsInfoRoot> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void addDetailsToDb(TvShowTest tvShowTest){
+        Log.d("", "add details to db");
+        new AsyncTask<TvShowTest, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(TvShowTest... tvShowTests) {
+                TvShowTest tvShowTest = tvShowTests[0];
+                TvShow tvShow = tvShowTest.getTvShow();
+
+                List<TvShowEpisode> episodes = tvShowTest.getTvShowEpisodes();
+                List<TvShowGenre> genres = tvShowTest.getTvShowGenres();
+                List<TvShowPicture> pictures = tvShowTest.getTvShowPictures();
+
+                appDao.updateTvShowDetails(tvShow.getTvShowId(), tvShow.getTvShowDesc(), tvShow.getTvShowYoutubeLink(), tvShow.getTvShowRating());
+                appDao.insertAllTvShowEpisodes(episodes);
+                appDao.insertAllTvShowGenres(genres);
+                appDao.insertAllTvShowPictures(pictures);
+
+
+                return tvShow.getTvShowId();
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                loadTvShowDetailFromDb(integer);
+            }
+        }.execute(tvShowTest);
     }
 
     private void addTvShowsToDb(List<TvShow> tvShows)  {
@@ -164,6 +230,30 @@ public class AppRepository {
         }.execute();
     }
 
+
+    private void loadTvShowDetailFromDb(int id) {
+        Log.d("", "load tv show detail from db");
+        new AsyncTask<Void, Void, TvShowTest>() {
+            @Override
+            protected TvShowTest doInBackground(Void... voids) {
+                TvShow tvShow = appDao.getTvShowById(id);
+                List<TvShowEpisode> episodes = appDao.getTvShowEpisodesById(id);
+                List<TvShowGenre> genres = appDao.getTvShowGenresById(id);
+                List<TvShowPicture> pictures = appDao.getTvShowPicturesByTvShowId(id);
+                TvShowTest tvShowTest = new TvShowTest(tvShow, episodes, genres, pictures);
+                return tvShowTest;
+            }
+
+            @Override
+            protected void onPostExecute(TvShowTest tvShowTest) {
+                if(tvShowTest != null){
+                    setDetailObservableData(tvShowTest, null);
+                }
+            }
+        }.execute();
+    }
+
+
     private void loadAllWatchlistTvShowsFromDb() {
         Log.d("", "load all tv shows from db");
         new AsyncTask<Void, Void, List<TvShow>>() {
@@ -181,11 +271,6 @@ public class AppRepository {
         }.execute();
     }
 
-    /**
-     * This method changes the observable's LiveData data without changing the status
-     * @param mTvShowList the data that need to be updated
-     * @param message optional message for error
-     */
     private void setTvShowListObservableData(List<TvShow> mTvShowList, String message) {
         Log.d("setTvShowListObservable", "setRecipesListObservableData:");
         Status loadingStatus = Status.LOADING;
@@ -205,11 +290,6 @@ public class AppRepository {
         }
     }
 
-    /**
-     * This method changes the observable's LiveData status without changing the data
-     * @param status The new status of LiveData
-     * @param message optional message for error
-     */
     private void setTvShowsListObservableStatus(Status status, String message) {
         Log.d("setTvShowsListObservabl","setRecipesListObservableStatus");
         List<TvShow> loadingList = null;
@@ -251,11 +331,6 @@ public class AppRepository {
         }
     }
 
-    /**
-     * This method changes the observable's LiveData status without changing the data
-     * @param status The new status of LiveData
-     * @param message optional message for error
-     */
     private void setWatchlistListObservableStatus(Status status, String message) {
         Log.d("setTvShowsListObservabl","setRecipesListObservableStatus");
         List<TvShow> loadingList = null;
@@ -272,6 +347,49 @@ public class AppRepository {
             case SUCCESS:
                 if (loadingList!=null) {
                     watchlistListObservable.setValue(Resource.success(loadingList));
+                }
+                break;
+        }
+
+    }
+
+
+
+    private void setDetailObservableData(TvShowTest tvShowTest, String message) {
+        Log.d("setDetailObservableData", "setRecipesListObservableData:");
+        Status loadingStatus = Status.LOADING;
+        if (detailObservable.getValue()!=null){
+            loadingStatus=detailObservable.getValue().status;
+        }
+        switch (loadingStatus) {
+            case LOADING:
+                detailObservable.setValue(Resource.loading(tvShowTest));
+                break;
+            case ERROR:
+                detailObservable.setValue(Resource.error(message,tvShowTest));
+                break;
+            case SUCCESS:
+                detailObservable.setValue(Resource.success(tvShowTest));
+                break;
+        }
+    }
+
+    private void setDetailObservableStatus(Status status, String message) {
+        Log.d("setDetailObservableStat","setRecipesListObservableStatus");
+        TvShowTest loadingList = null;
+        if (detailObservable.getValue()!=null){
+            loadingList=detailObservable.getValue().data;
+        }
+        switch (status) {
+            case ERROR:
+                detailObservable.setValue(Resource.error(message, loadingList));
+                break;
+            case LOADING:
+                detailObservable.setValue(Resource.loading(loadingList));
+                break;
+            case SUCCESS:
+                if (loadingList!=null) {
+                    detailObservable.setValue(Resource.success(loadingList));
                 }
                 break;
         }
@@ -620,7 +738,7 @@ public class AppRepository {
         return null;
     }
 
-    //TvShowFullFragment
+    //DetailsFragment
     public List<TvShowFull> getTvShowWithPicturesAndEpisodesById(int tvShowId) {
         try {
             return new GetTvShowWithPicturesAndEpisodesByIdAsyncTask(appDao).execute(tvShowId).get();
@@ -857,7 +975,7 @@ public class AppRepository {
         }
     }
 
-    //TvShowFullFragment AsyncTasks
+    //DetailsFragment AsyncTasks
     private static class GetTvShowWithPicturesAndEpisodesByIdAsyncTask extends AsyncTask<Integer, Void, List<TvShowFull>> {
         private AppDao appDao;
 

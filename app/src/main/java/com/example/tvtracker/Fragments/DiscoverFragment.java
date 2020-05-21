@@ -79,6 +79,7 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
             }
         });
 
+        adapter.setOnItemClickListener(this);
         androidx.appcompat.widget.AppCompatEditText editText = getView().findViewById(R.id.discover_search_bar);
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
