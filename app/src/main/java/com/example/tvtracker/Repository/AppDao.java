@@ -20,8 +20,15 @@ public interface AppDao {
 
 
     //TvShow
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertTvShow(TvShow tvShow);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertTvShows(List<TvShow> tvShows);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    long insertTvShow(TvShow tvShow);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    long updateTvShow(TvShow tvShow);
 
     @Query("DELETE FROM tv_show_table")
     void deleteAllTvShows();
@@ -29,8 +36,6 @@ public interface AppDao {
     @Query("DELETE FROM tv_show_table WHERE tv_show_id IN (:id)")
     void deleteTvShowById(int id);
 
-    @Query("UPDATE tv_show_table SET tv_show_name=:name, tv_show_status=:status WHERE tv_show_id IN(:tvShowId)")
-    void updateTvShow(int tvShowId, String name, String status);
 
     @Query("UPDATE tv_show_table SET tv_show_description=:description, tv_show_youtube_link=:youtubeLink, tv_show_rating=:rating WHERE tv_show_id IN(:tvShowId)")
     void updateTvShowDetails(int tvShowId, String description, String youtubeLink, String rating);
@@ -42,11 +47,14 @@ public interface AppDao {
     TvShow getTvShowById(int Id);
 
     @Query("SELECT * FROM tv_show_table")
-    LiveData<List<TvShow>> getAllTvShows();
+    List<TvShow> getAllTvShows();
 
     //Watchlist
     @Query("SELECT * FROM tv_show_table WHERE tv_show_flag=:flag")
-    LiveData<List<TvShow>> getWatchlistTvShows(String flag);
+    List<TvShow> getWatchlistTvShows(String flag);
+
+    @Query("SELECT * FROM tv_show_table WHERE tv_show_flag=:flag")
+    List<TvShow> getWatchlistListTvShows(String flag);
 
     //TvShowPicture
 

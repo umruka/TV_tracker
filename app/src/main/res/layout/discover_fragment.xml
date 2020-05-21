@@ -6,6 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.DiscoverFragment">
 
+    
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linear_layout"
         android:layout_width="match_parent"
@@ -17,6 +19,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/sync_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dicover_recycler_view"
         android:layout_width="match_parent"
@@ -24,6 +32,9 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 
         />
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

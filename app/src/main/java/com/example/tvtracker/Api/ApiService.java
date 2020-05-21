@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     @GET("most-popular")
-    Call<JsonTvShowBasicInfoRoot> getTvShowsBasic();
+    Call<JsonTvShowBasicInfoRoot> getTvShowsBasic(@Query("page") int page);
 
     @GET("show-details")
     Call<JsonTvShowDetailsInfoRoot> getTvShowDetailed(@Query("q") int tvShowId);

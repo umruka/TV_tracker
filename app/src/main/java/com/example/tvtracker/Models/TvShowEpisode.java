@@ -20,12 +20,15 @@ public class TvShowEpisode {
     @ColumnInfo(name = "tv_show_air_date")
     private String episodeAirDate;
 
+    private boolean watched;
+
     public TvShowEpisode(int tvShowId, int seasonNum, int episodeNum, String episodeName, String episodeAirDate) {
         this.tvShowId = tvShowId;
         this.seasonNum = seasonNum;
         this.episodeNum = episodeNum;
         this.episodeName = episodeName;
         this.episodeAirDate = episodeAirDate;
+        this.watched = false;
     }
 
     public int getId() {
@@ -74,5 +77,13 @@ public class TvShowEpisode {
 
     public void setEpisodeAirDate(String episodeAirDate) {
         this.episodeAirDate = episodeAirDate;
+    }
+
+    public boolean isWatched() {
+        return watched;
+    }
+
+    public void setWatched(boolean watched) {
+        this.watched = watched;
     }
 }

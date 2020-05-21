@@ -17,17 +17,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tvtracker.MainActivity;
+import com.example.tvtracker.Models.Basic.Resource;
+import com.example.tvtracker.Models.QueryModels.TvShowTest;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
 import com.example.tvtracker.Adapters.WatchlistAdapter;
 import com.example.tvtracker.ViewModels.TvShowViewModel;
+import com.example.tvtracker.ViewModels.WatchlistViewModel;
 
 import java.util.List;
 
 public class WatchlistFragment extends Fragment {
 
 
-    private TvShowViewModel tvShowViewModel;
+    private WatchlistViewModel watchlistViewModel;
 
     public static WatchlistFragment newInstance() {
         return new WatchlistFragment();
@@ -49,31 +52,33 @@ public class WatchlistFragment extends Fragment {
         final WatchlistAdapter adapter = new WatchlistAdapter();
         recyclerView.setAdapter(adapter);
 
-        tvShowViewModel = new ViewModelProvider(this).get(TvShowViewModel.class);
-        tvShowViewModel.getAllWatchingTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
-            @Override
-            public void onChanged(List<TvShow> tvShows) {
-                adapter.setTvShows(tvShows);
-            }
-        });
+        watchlistViewModel = new ViewModelProvider(this).get(WatchlistViewModel.class);
+        watchlistViewModel.getWatchlistListObservable().observe(getViewLifecycleOwner(), new Observer<Resource<List<TvShow>>>() {
+                    @Override
+                    public void onChanged(Resource<List<TvShow>> listResource) {
+                        adapter.setTvShows(listResource.data);
+                    }
+                });
+//        tvShowViewModel.getAllWatchingTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShowTest>>() {
+//                    @Override
+//                    public void onChanged(List<TvShowTest> tvShowTests) {
+//                        adapter.setTvShows(tvShowTests);
+//                    }
+//                });
+    /*
+                adapter.setOnItemClickListener(new WatchlistAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(TvShow tvShow) {
 
-        adapter.setOnItemClickListener(new WatchlistAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(TvShow tvShow) {
-//                Intent intent = new Intent(getContext(), TvShowFullActivity.class);
-//                Bundle bundle = MainActivity.toBundle(tvShow);
-//                intent.putExtra(MainActivity.TVSHOW_BUNDLE, bundle);
-//                startActivity(intent);
-
-                NavController navHostController = Navigation.findNavController(getView());
-                if(navHostController.getCurrentDestination().getId() == R.id.navigation_watchlist){
-                    Bundle bundle = new Bundle();
-                    bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(tvShow.getTvShowId()));
-                    navHostController.navigate(R.id.action_navigation_watchlist_to_tvShowFullFragment, bundle);
-                }
-            }
-        });
-
+                        NavController navHostController = Navigation.findNavController(getView());
+                        if (navHostController.getCurrentDestination().getId() == R.id.navigation_watchlist) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(tvShow.getTvShowId()));
+                            navHostController.navigate(R.id.action_navigation_watchlist_to_tvShowFullFragment, bundle);
+                        }
+                    }
+                });
+*/
     }
 
 

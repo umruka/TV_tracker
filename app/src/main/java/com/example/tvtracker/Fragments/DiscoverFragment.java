@@ -1,6 +1,7 @@
 package com.example.tvtracker.Fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,14 +10,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.tvtracker.MainActivity;
+import com.example.tvtracker.Models.Basic.Resource;
+import com.example.tvtracker.Models.Basic.Status;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
 import com.example.tvtracker.Adapters.TvShowBasicAdapter;
@@ -47,37 +52,52 @@ public class DiscoverFragment extends Fragment {
         final RecyclerView recyclerView = getView().findViewById(R.id.dicover_recycler_view);
         recyclerView.setHasFixedSize(true);
 
+        SwipeRefreshLayout refreshLayout = getView().findViewById(R.id.sync_bar);
         final TvShowBasicAdapter adapter = new TvShowBasicAdapter();
         recyclerView.setAdapter(adapter);
         tvShowViewModel = new ViewModelProvider(this).get(TvShowViewModel.class);
-        tvShowViewModel.getAllTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
-            @Override
-            public void onChanged(List<TvShow> tvShows) {
-                adapter.setTvShows(tvShows);
-            }
-        });
+//        tvShowViewModel.allInOne();
+        tvShowViewModel.getTvShowListObservable().observe(getViewLifecycleOwner(), new Observer<Resource<List<TvShow>>>() {
+                    @Override
+                    public void onChanged(Resource<List<TvShow>> tvShows) {
+                        /*
+                        if(tvShows.status == Status.LOADING) {
+                            refreshLayout.setRefreshing(true);
+                        }
+                        if(tvShows.status == Status.SUCCESS) {
+                            refreshLayout.setRefreshing(false);
+                        }
+                        if(tvShows.status == Status.ERROR) {
+                            Toast.makeText(activity, "ERROR SYNC", Toast.LENGTH_SHORT).show();
+                        }
+                         */
+                        adapter.setTvShows(tvShows.data);
 
-        adapter.setOnItemClickListener(new TvShowBasicAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(TvShow tvShow) {
+                    }
+                });
+        tvShowViewModel.getData();
 
-                NavController navHostController = Navigation.findNavController(getView());
-                if(navHostController.getCurrentDestination().getId() == R.id.navigation_discover){
-                    Bundle bundle = new Bundle();
-                    bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(tvShow.getTvShowId()));
-                    navHostController.navigate(R.id.action_navigation_discover_to_tvShowFullFragment, bundle);
-                }
-            }
+                adapter.setOnItemClickListener(new TvShowBasicAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(TvShow tvShow) {
 
-            @Override
-            public void onButtonClick(TvShow tvShow) {
-                int id = tvShow.getTvShowId();
-                UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, MainActivity.TVSHOW_WATCHING_FLAG_YES);
-                tvShowViewModel.updateTvShowBasicWatchingFlag(params);
+                        NavController navHostController = Navigation.findNavController(getView());
+                        if (navHostController.getCurrentDestination().getId() == R.id.navigation_discover) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(tvShow.getTvShowId()));
+                            navHostController.navigate(R.id.action_navigation_discover_to_tvShowFullFragment, bundle);
+                        }
+                    }
 
-                Toast.makeText(activity, "Done", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onButtonClick(TvShow tvShow) {
+                        int id = tvShow.getTvShowId();
+                        UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, MainActivity.TVSHOW_WATCHING_FLAG_YES);
+                        tvShowViewModel.updateTvShowBasicWatchingFlag(params);
+
+                        Toast.makeText(activity, "Done", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         androidx.appcompat.widget.AppCompatEditText editText = getView().findViewById(R.id.discover_search_bar);
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {

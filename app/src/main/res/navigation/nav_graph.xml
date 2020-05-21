@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_profile">
+    app:startDestination="@id/navigation_discover">
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -47,10 +47,7 @@
         tools:layout="@layout/search_fragment" >
         <action
             android:id="@+id/action_searchFragment_to_tvShowFullFragment"
-            app:destination="@id/tvShowFullFragment"
-            />
-
-
+            app:destination="@id/tvShowFullFragment" />
     </fragment>
     <fragment
         android:id="@+id/tvShowFullFragment"
@@ -58,6 +55,29 @@
         android:label="TvShowFullFragment" >
         <argument
             android:name="tvShowId"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="tvShowName"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="tvShowStartDate"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="tvShowEndDate"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="tvShowCountry"
+            app:argType="string" />
+        <argument
+            android:name="tvShowStatus"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="tvShowImagePath"
             app:argType="string"
             android:defaultValue='""' />
     </fragment>

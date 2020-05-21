@@ -3,6 +3,9 @@ package com.example.tvtracker.Api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Headers;
@@ -18,10 +21,20 @@ public class ApiBuilder {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .client(providesOkHttpClientBuilder())
                     .build();
         }
         return retrofit;
 
     }
+
+    private static OkHttpClient providesOkHttpClientBuilder(){
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        return httpClient.readTimeout(1200, TimeUnit.SECONDS)
+                .connectTimeout(1200, TimeUnit.SECONDS).build();
+
+    }
+
 
 }

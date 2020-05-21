@@ -7,8 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tv_show_table")
 public class TvShow {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "tv_show_id")
     private int tvShowId;
     @ColumnInfo(name = "tv_show_name")
@@ -52,14 +51,6 @@ public class TvShow {
         this.tvShowYoutubeLink = "";
         this.tvShowRating = "";
         this.tvShowWatchingFlag = "";
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getTvShowId() {

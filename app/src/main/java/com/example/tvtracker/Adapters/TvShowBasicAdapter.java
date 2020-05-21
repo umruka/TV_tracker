@@ -51,7 +51,10 @@ public class TvShowBasicAdapter extends RecyclerView.Adapter<TvShowBasicAdapter.
 
     @Override
     public int getItemCount() {
-        return tvShows.size();
+        if(tvShows != null) {
+            return tvShows.size();
+        }
+        return 0;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

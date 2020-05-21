@@ -12,6 +12,7 @@
     android:paddingBottom="12dp"
     app:cardBackgroundColor="#E0E0E0">
 
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"

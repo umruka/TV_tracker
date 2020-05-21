@@ -3,6 +3,7 @@ package com.example.tvtracker.Fragments;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.tvtracker.Adapters.TvShowBasicAdapter;
@@ -69,14 +71,8 @@ public class SearchFragment extends Fragment {
             public void onItemClick(TvShow tvShow) {
 
                 tvShowViewModel.showSearch(tvShow);
-//                Intent intent = new Intent(getContext(), TvShowFullActivity.class);
-//                Bundle bundle = MainActivity.toBundle(tvShow);
-//                intent.putExtra(MainActivity.TVSHOW_ID, tvShow.getTvShowId());
-//                startActivity(intent);
-                //MainActivity.toBundle(tvShowViewModel.getTvShowBasic(tvShow.getTvShowId()));
                 NavController navHostController = Navigation.findNavController(getView());
                 if(navHostController.getCurrentDestination().getId() == R.id.searchFragment){
-
                     Bundle bundle = new Bundle();
                     bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(tvShow.getTvShowId()));
                     navHostController.navigate(R.id.action_searchFragment_to_tvShowFullFragment, bundle);
@@ -119,8 +115,14 @@ public class SearchFragment extends Fragment {
             }
         });
 
+
+
         // TODO: Use the ViewModel
     }
+
+
+
+
 
 
 }

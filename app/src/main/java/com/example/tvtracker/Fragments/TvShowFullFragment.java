@@ -16,10 +16,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tvtracker.MainActivity;
+import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
 import com.example.tvtracker.ViewModels.TvShowViewModel;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 
 public class TvShowFullFragment extends Fragment {
@@ -52,6 +55,7 @@ public class TvShowFullFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
     }
 
     @Override
@@ -80,8 +84,10 @@ public class TvShowFullFragment extends Fragment {
 
         tvShowViewModel = new ViewModelProvider(this).get(TvShowViewModel.class);
 
-    TvShow tvShow = tvShowViewModel.getTvShowBasic(Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID)));
-
+        int id = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
+//        List<TvShowFull> tvShowFulls = tvShowViewModel.getTvShowWithPicturesById(id);
+//        TvShow tvShow = tvShowFulls.get(0).tvShow;
+        TvShow tvShow = tvShowViewModel.getTvShowBasic(id);
         textViewId.setText(String.valueOf(tvShow.getTvShowId()));
         textViewName.setText(tvShow.getTvShowName());
         textViewStatus.setText(tvShow.getTvShowStatus());
