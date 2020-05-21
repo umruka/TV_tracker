@@ -65,9 +65,9 @@ public class AppRepository {
         }
         tvShowListObservable.setValue(Resource.loading(loadingList));
         loadAllTvShowsFromDb();
-        for (int i = 0; i < 5; i++) {
-            getTvShowsFromWeb(i);
-        }
+//        for (int i = 0; i < 5; i++) {
+            getTvShowsFromWeb(1);
+//        }
     }
 
     public void fetchWatchlist() {
@@ -129,7 +129,8 @@ public class AppRepository {
                 for(TvShow tvShow : params[0]) {
                     Long inserted = appDao.insertTvShow(tvShow);
                     if(inserted == -1) {
-                        long updated = appDao.updateTvShow(tvShow);
+//                        long updated = appDao.updateTvShow(tvShow);
+                        long updated = appDao.updateTvShow(tvShow.getTvShowId(), tvShow.getTvShowName(), tvShow.getTvShowStatus());
                         if(updated > 0){
                             needsUpdate = true;
                         }
@@ -278,6 +279,18 @@ public class AppRepository {
                 break;
         }
 
+    }
+
+    public void updateTvShowWatchingFlag(UpdateTvShowWatchingFlagParams params) {
+        new AsyncTask<Void,Void, Void>(){
+            @Override
+            protected Void doInBackground(Void... voids) {
+                int id = params.getId();
+                String flag = params.getFlag();
+                appDao.updateTvShowWatchingFlag(id, flag);
+                return null;
+            }
+        }.execute();
     }
 
 
@@ -556,9 +569,7 @@ public class AppRepository {
         new UpdateTvShowDetailsAsyncTasks(appDao).execute(params);
     }
 
-    public void updateTvShowWatchingFlag(UpdateTvShowWatchingFlagParams params) {
-        new UpdateTvShowWatchingFlagAsyncTask(appDao).execute(params);
-    }
+
 
     public void deleteTvShow(int id) {
         new DeleteTvShowAsyncTask(appDao).execute(id);
@@ -684,7 +695,7 @@ public class AppRepository {
         @Override
         protected Void doInBackground(TvShow... tvShows) {
             TvShow tvShow = tvShows[0];
-            appDao.updateTvShow(tvShow);
+            appDao.updateTvShow(tvShow.getTvShowId(), tvShow.getTvShowName(), tvShow.getTvShowStatus());
             return null;
         }
     }

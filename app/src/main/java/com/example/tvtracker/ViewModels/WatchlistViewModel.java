@@ -33,4 +33,9 @@ public class WatchlistViewModel extends AndroidViewModel {
     public LiveData<Resource<List<TvShow>>> getWatchlistListObservable() {
         return watchlistListObservable;
     }
+
+    public void fetchData() {
+        repository.fetchWatchlist();
+    }
+
 }

@@ -45,7 +45,7 @@ public class TvShowViewModel extends AndroidViewModel {
                 tvShowListObservable.setValue(tvShows);
             }
         });
-        allWatchingTvShows = repository.getAllWatchingTvShows();
+//        allWatchingTvShows = repository.getAllWatchingTvShows();
         allSearchWordTvShows = repository.getAllSearchTvShows();
     }
 
@@ -81,6 +81,7 @@ public class TvShowViewModel extends AndroidViewModel {
 
     public void updateTvShowBasicWatchingFlag(UpdateTvShowWatchingFlagParams params) {
         repository.updateTvShowWatchingFlag(params);
+        TvShow tvShow = repository.getTvShowById(params.getId());
     }
 
     public void deleteTvShowBasic(int id) {

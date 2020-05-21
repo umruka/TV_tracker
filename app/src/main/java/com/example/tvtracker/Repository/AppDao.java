@@ -27,8 +27,11 @@ public interface AppDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long insertTvShow(TvShow tvShow);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    long updateTvShow(TvShow tvShow);
+//    @Insert(onConflict = OnConflictStrategy.IGNORE)
+//    long updateTvShow(TvShow tvShow);
+
+    @Query("UPDATE tv_show_table SET tv_show_name=:name, tv_show_status=:status WHERE tv_show_id IN(:id)")
+    int updateTvShow(int id, String name, String status);
 
     @Query("DELETE FROM tv_show_table")
     void deleteAllTvShows();

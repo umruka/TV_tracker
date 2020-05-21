@@ -30,7 +30,6 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
 
     private List<TvShow> tvShows = new ArrayList<>();
-    private List<TvShow> filteredTvShows = new ArrayList<>();
     private OnItemClickListener listener;
 
 
@@ -63,8 +62,8 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
     @Override
     public int getItemCount() {
-        if(filteredTvShows != null) {
-            return filteredTvShows.size();
+        if(tvShows != null) {
+            return tvShows.size();
         }
         return 0;
     }

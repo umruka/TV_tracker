@@ -60,18 +60,18 @@ public class DiscoverFragment extends Fragment {
         tvShowViewModel.getTvShowListObservable().observe(getViewLifecycleOwner(), new Observer<Resource<List<TvShow>>>() {
                     @Override
                     public void onChanged(Resource<List<TvShow>> tvShows) {
-                        /*
-                        if(tvShows.status == Status.LOADING) {
-                            refreshLayout.setRefreshing(true);
-                        }
-                        if(tvShows.status == Status.SUCCESS) {
-                            refreshLayout.setRefreshing(false);
-                        }
-                        if(tvShows.status == Status.ERROR) {
-                            Toast.makeText(activity, "ERROR SYNC", Toast.LENGTH_SHORT).show();
-                        }
-                         */
-                        adapter.setTvShows(tvShows.data);
+
+//                        if(tvShows.status == Status.LOADING && tvShows.data == null) {
+//                            refreshLayout.setRefreshing(true);
+//                        }
+//                        if(tvShows.status == Status.SUCCESS) {
+//                            refreshLayout.setRefreshing(false);
+                            adapter.setTvShows(tvShows.data);
+//                        }
+//                        if(tvShows.status == Status.ERROR) {
+//                            Toast.makeText(activity, "ERROR SYNC", Toast.LENGTH_SHORT).show();
+//                        }
+//                         */
 
                     }
                 });

@@ -55,10 +55,12 @@ public class WatchlistFragment extends Fragment {
         watchlistViewModel = new ViewModelProvider(this).get(WatchlistViewModel.class);
         watchlistViewModel.getWatchlistListObservable().observe(getViewLifecycleOwner(), new Observer<Resource<List<TvShow>>>() {
                     @Override
-                    public void onChanged(Resource<List<TvShow>> listResource) {
-                        adapter.setTvShows(listResource.data);
+                    public void onChanged(Resource<List<TvShow>> tvShows) {
+                        adapter.setTvShows(tvShows.data);
                     }
                 });
+        watchlistViewModel.fetchData();
+
 //        tvShowViewModel.getAllWatchingTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShowTest>>() {
 //                    @Override
 //                    public void onChanged(List<TvShowTest> tvShowTests) {
