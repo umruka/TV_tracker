@@ -3,7 +3,6 @@ package com.example.tvtracker.Fragments;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.tvtracker.Adapters.TvShowBasicAdapter;
@@ -27,7 +25,7 @@ import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
-import com.example.tvtracker.ViewModels.TvShowViewModel;
+import com.example.tvtracker.ViewModels.DiscoverViewModel;
 
 import java.util.List;
 
@@ -35,7 +33,7 @@ import static com.example.tvtracker.MainActivity.TVSHOW_WATCHING_FLAG_YES;
 
 public class SearchFragment extends Fragment {
 
-    private TvShowViewModel tvShowViewModel;
+    private DiscoverViewModel discoverViewModel;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -50,14 +48,14 @@ public class SearchFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        tvShowViewModel = new ViewModelProvider(this).get(TvShowViewModel.class);
+        discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
 
         final RecyclerView recyclerView = getView().findViewById(R.id.search_recycler_view);
         recyclerView.setHasFixedSize(true);
 
         final TvShowBasicAdapter adapter = new TvShowBasicAdapter();
         recyclerView.setAdapter(adapter);
-        tvShowViewModel.getAllSearchWordTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
+        discoverViewModel.getAllSearchWordTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
             @Override
             public void onChanged(List<TvShow> tvShows) {
                 adapter.setTvShows(tvShows);
@@ -70,7 +68,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(TvShow tvShow) {
 
-                tvShowViewModel.showSearch(tvShow);
+                discoverViewModel.showSearch(tvShow);
                 NavController navHostController = Navigation.findNavController(getView());
                 if(navHostController.getCurrentDestination().getId() == R.id.searchFragment){
                     Bundle bundle = new Bundle();
@@ -82,11 +80,11 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onButtonClick(TvShow tvShow) {
-                tvShowViewModel.insertOrUpdate(tvShow);
+                discoverViewModel.insertOrUpdate(tvShow);
                 int id = tvShow.getTvShowId();
                 UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, TVSHOW_WATCHING_FLAG_YES);
-                tvShowViewModel.updateTvShowBasicWatchingFlag(params);
-//                tvShowViewModel.syncTvShowDetailsFromApi(id);
+                discoverViewModel.updateTvShowBasicWatchingFlag(params);
+//                discoverViewModel.syncTvShowDetailsFromApi(id);
 
                 Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
             }
@@ -108,9 +106,9 @@ public class SearchFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
             if(editable.toString().equals("")){
-                tvShowViewModel.clearSearchedTvShows();
+                discoverViewModel.clearSearchedTvShows();
             }else{
-                tvShowViewModel.searchWord(editable.toString(),1);
+                discoverViewModel.searchWord(editable.toString(),1);
             }
             }
         });

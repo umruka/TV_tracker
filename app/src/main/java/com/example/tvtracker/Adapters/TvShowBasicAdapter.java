@@ -49,6 +49,10 @@ public class TvShowBasicAdapter extends RecyclerView.Adapter<TvShowBasicAdapter.
         notifyDataSetChanged();
     }
 
+    public List<TvShow> getTvShowsShown() {
+        return tvShows;
+    }
+
     @Override
     public int getItemCount() {
         if(tvShows != null) {

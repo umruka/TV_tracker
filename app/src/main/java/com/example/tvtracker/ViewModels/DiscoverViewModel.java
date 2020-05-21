@@ -6,62 +6,47 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.QueryModels.TvShowTest;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
-import com.example.tvtracker.Models.TvShowGenre;
 import com.example.tvtracker.Models.TvShowPicture;
 import com.example.tvtracker.Repository.AppRepository;
 import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
-import com.example.tvtracker.Repository.WebServiceRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class TvShowViewModel extends AndroidViewModel {
+public class DiscoverViewModel extends AndroidViewModel {
     private AppRepository repository;
 //    private WebServiceRepository webServiceRepository;
 //    private LiveData<List<TvShow>> allTvShows;
-    private MediatorLiveData<Resource<List<TvShow>>> tvShowListObservable = new MediatorLiveData<>();
+    private MediatorLiveData<Resource<List<TvShow>>> discoverListObservable = new MediatorLiveData<>();
     private LiveData<List<TvShowTest>> allWatchingTvShows;
     private LiveData<List<TvShow>> allSearchWordTvShows;
 //    private final LiveData<List<TvShow>> retroObservable;
 
-    public TvShowViewModel(@NonNull Application application) {
+    public DiscoverViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
-//        webServiceRepository = new WebServiceRepository(application);
-//        retroObservable = webServiceRepository.providesWebService();
-//        allTvShows = repository.getAllTvShows();
-        tvShowListObservable.addSource(repository.getTvShowListObservable(), new Observer<Resource<List<TvShow>>>() {
+
+        discoverListObservable.addSource(repository.getDiscoverListObservable(), new Observer<Resource<List<TvShow>>>() {
             @Override
             public void onChanged(Resource<List<TvShow>> tvShows) {
-                tvShowListObservable.setValue(tvShows);
+                discoverListObservable.setValue(tvShows);
             }
         });
-//        allWatchingTvShows = repository.getAllWatchingTvShows();
         allSearchWordTvShows = repository.getAllSearchTvShows();
     }
 
-    public void getData() { repository.fetchData(); }
+    public void getDiscoverData() { repository.fetchDiscoverData(); }
 
-    public LiveData<Resource<List<TvShow>>> getTvShowListObservable() {
-        return tvShowListObservable;
+    public LiveData<Resource<List<TvShow>>> getDiscoverListObservable() {
+        return discoverListObservable;
     }
 
-    //    public LiveData<List<TvShow>> getAllTvShows() {
-//        return allTvShows;
-//    }
-
-    public LiveData<List<TvShowTest>> getAllWatchingTvShows() {
-        return allWatchingTvShows;
-    }
 
     public LiveData<List<TvShow>> getAllSearchWordTvShows() {
         return allSearchWordTvShows;

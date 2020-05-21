@@ -8,21 +8,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
-import com.example.tvtracker.Models.QueryModels.TvShowTest;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
 import com.example.tvtracker.Adapters.WatchlistAdapter;
-import com.example.tvtracker.ViewModels.TvShowViewModel;
 import com.example.tvtracker.ViewModels.WatchlistViewModel;
 
 import java.util.List;
@@ -52,6 +47,7 @@ public class WatchlistFragment extends Fragment {
         final WatchlistAdapter adapter = new WatchlistAdapter();
         recyclerView.setAdapter(adapter);
 
+
         watchlistViewModel = new ViewModelProvider(this).get(WatchlistViewModel.class);
         watchlistViewModel.getWatchlistListObservable().observe(getViewLifecycleOwner(), new Observer<Resource<List<TvShow>>>() {
                     @Override
@@ -61,7 +57,7 @@ public class WatchlistFragment extends Fragment {
                 });
         watchlistViewModel.fetchData();
 
-//        tvShowViewModel.getAllWatchingTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShowTest>>() {
+//        discoverViewModel.getAllWatchingTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShowTest>>() {
 //                    @Override
 //                    public void onChanged(List<TvShowTest> tvShowTests) {
 //                        adapter.setTvShows(tvShowTests);

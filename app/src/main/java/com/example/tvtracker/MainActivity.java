@@ -1,29 +1,21 @@
 package com.example.tvtracker;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.tvtracker.Models.TvShow;
-import com.example.tvtracker.ViewModels.TvShowViewModel;
+import com.example.tvtracker.ViewModels.DiscoverViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TvShowViewModel tvShowViewModel;
+    private DiscoverViewModel discoverViewModel;
 
     public static final String TVSHOW_WATCHING_FLAG_YES = "YES";
     public static final String TVSHOW_BUNDLE = "tv_show_bundle";
@@ -44,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        tvShowViewModel = new ViewModelProvider(this).get(TvShowViewModel.class);
+//        discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
 
 
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
@@ -59,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 //        relativeLayout.setVisibility(View.VISIBLE);
 
 
-//        tvShowViewModel.allInOne();
+//        discoverViewModel.allInOne();
 
 
 //        relativeLayout.setVisibility(View.GONE);

@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -16,20 +14,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tvtracker.MainActivity;
-import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
-import com.example.tvtracker.ViewModels.TvShowViewModel;
+import com.example.tvtracker.ViewModels.DiscoverViewModel;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 
 public class TvShowFullFragment extends Fragment {
 
 
     private Activity activity;
-    private TvShowViewModel tvShowViewModel;
+    private DiscoverViewModel discoverViewModel;
 
     private TextView textViewId;
     private TextView textViewName;
@@ -82,12 +77,12 @@ public class TvShowFullFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         this.activity = getActivity();
 
-        tvShowViewModel = new ViewModelProvider(this).get(TvShowViewModel.class);
+        discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
 
         int id = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
-//        List<TvShowFull> tvShowFulls = tvShowViewModel.getTvShowWithPicturesById(id);
+//        List<TvShowFull> tvShowFulls = discoverViewModel.getTvShowWithPicturesById(id);
 //        TvShow tvShow = tvShowFulls.get(0).tvShow;
-        TvShow tvShow = tvShowViewModel.getTvShowBasic(id);
+        TvShow tvShow = discoverViewModel.getTvShowBasic(id);
         textViewId.setText(String.valueOf(tvShow.getTvShowId()));
         textViewName.setText(tvShow.getTvShowName());
         textViewStatus.setText(tvShow.getTvShowStatus());

@@ -19,13 +19,13 @@ import com.example.tvtracker.Adapters.CalendarAdapter;
 import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.R;
-import com.example.tvtracker.ViewModels.TvShowViewModel;
+import com.example.tvtracker.ViewModels.DiscoverViewModel;
 
 import java.util.List;
 
 public class CalendarFragment extends Fragment {
     private Activity activity;
-    TvShowViewModel tvShowViewModel;
+    DiscoverViewModel discoverViewModel;
 
     public static CalendarFragment newInstance() {
         return new CalendarFragment();
@@ -42,7 +42,7 @@ public class CalendarFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         this.activity = getActivity();
         // TODO: Use the ViewModel
-        tvShowViewModel = new ViewModelProvider(this).get(TvShowViewModel.class);
+        discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
 
         final RecyclerView recyclerView = getView().findViewById(R.id.calendar_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -50,9 +50,9 @@ public class CalendarFragment extends Fragment {
 
         final CalendarAdapter adapter = new CalendarAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.setTvShows(tvShowViewModel.tvShowPicturesById(23455));
-        List<TvShowEpisode> episodes = tvShowViewModel.tvShowEpisodesById(23455);
-        List<TvShowFull> p = tvShowViewModel.getTvShowWithPicturesById(23455);
+        adapter.setTvShows(discoverViewModel.tvShowPicturesById(23455));
+        List<TvShowEpisode> episodes = discoverViewModel.tvShowEpisodesById(23455);
+        List<TvShowFull> p = discoverViewModel.getTvShowWithPicturesById(23455);
     }
 
 }

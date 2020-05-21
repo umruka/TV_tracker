@@ -3,10 +3,8 @@ package com.example.tvtracker.Repository;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.tvtracker.Api.ApiBuilder;
@@ -29,7 +27,6 @@ import com.example.tvtracker.Models.TvShowPicture;
 import com.example.tvtracker.Models.Params.UpdateTvShowDetailsParams;
 import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +39,7 @@ public class AppRepository {
     private AppDao appDao;
 
 
-    private MutableLiveData<Resource<List<TvShow>>> tvShowListObservable = new MutableLiveData<>();
+    private MutableLiveData<Resource<List<TvShow>>> discoverListObservable = new MutableLiveData<>();
     private MutableLiveData<Resource<List<TvShow>>> watchlistListObservable = new MutableLiveData<>();
 
     private MutableLiveData<List<TvShow>> allSearchTvShows;
@@ -58,12 +55,12 @@ public class AppRepository {
         allSearchTvShows = new MutableLiveData<>();
     }
 
-    public void fetchData() {
+    public void fetchDiscoverData() {
         List<TvShow> loadingList = null;
-        if(tvShowListObservable.getValue() != null) {
-            loadingList = tvShowListObservable.getValue().data;
+        if(discoverListObservable.getValue() != null) {
+            loadingList = discoverListObservable.getValue().data;
         }
-        tvShowListObservable.setValue(Resource.loading(loadingList));
+        discoverListObservable.setValue(Resource.loading(loadingList));
         loadAllTvShowsFromDb();
 //        for (int i = 0; i < 5; i++) {
             getTvShowsFromWeb(1);
@@ -83,8 +80,8 @@ public class AppRepository {
         return watchlistListObservable;
     }
 
-    public MutableLiveData<Resource<List<TvShow>>> getTvShowListObservable() {
-        return tvShowListObservable;
+    public MutableLiveData<Resource<List<TvShow>>> getDiscoverListObservable() {
+        return discoverListObservable;
     }
 
     private void getTvShowsFromWeb(int pageNum) {
@@ -192,18 +189,18 @@ public class AppRepository {
     private void setTvShowListObservableData(List<TvShow> mTvShowList, String message) {
         Log.d("setTvShowListObservable", "setRecipesListObservableData:");
         Status loadingStatus = Status.LOADING;
-        if (tvShowListObservable.getValue()!=null){
-            loadingStatus=tvShowListObservable.getValue().status;
+        if (discoverListObservable.getValue()!=null){
+            loadingStatus= discoverListObservable.getValue().status;
         }
         switch (loadingStatus) {
             case LOADING:
-                tvShowListObservable.setValue(Resource.loading(mTvShowList));
+                discoverListObservable.setValue(Resource.loading(mTvShowList));
                 break;
             case ERROR:
-                tvShowListObservable.setValue(Resource.error(message,mTvShowList));
+                discoverListObservable.setValue(Resource.error(message,mTvShowList));
                 break;
             case SUCCESS:
-                tvShowListObservable.setValue(Resource.success(mTvShowList));
+                discoverListObservable.setValue(Resource.success(mTvShowList));
                 break;
         }
     }
@@ -216,19 +213,19 @@ public class AppRepository {
     private void setTvShowsListObservableStatus(Status status, String message) {
         Log.d("setTvShowsListObservabl","setRecipesListObservableStatus");
         List<TvShow> loadingList = null;
-        if (tvShowListObservable.getValue()!=null){
-            loadingList=tvShowListObservable.getValue().data;
+        if (discoverListObservable.getValue()!=null){
+            loadingList= discoverListObservable.getValue().data;
         }
         switch (status) {
             case ERROR:
-                tvShowListObservable.setValue(Resource.error(message, loadingList));
+                discoverListObservable.setValue(Resource.error(message, loadingList));
                 break;
             case LOADING:
-                tvShowListObservable.setValue(Resource.loading(loadingList));
+                discoverListObservable.setValue(Resource.loading(loadingList));
                 break;
             case SUCCESS:
                 if (loadingList!=null) {
-                    tvShowListObservable.setValue(Resource.success(loadingList));
+                    discoverListObservable.setValue(Resource.success(loadingList));
                 }
                 break;
         }
