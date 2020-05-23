@@ -52,50 +52,14 @@ public class DiscoverViewModel extends AndroidViewModel {
         return allSearchWordTvShows;
     }
 
-    public void insertTvShowBasic(TvShow tvShow) {
-        repository.insertTvShow(tvShow);
-    }
-
-    public void insertOrUpdate(TvShow tvShow){
-        repository.insertOrUpdateTvShow(tvShow);
-    }
-
-    public void updateTvShowBasic(TvShow tvShow) {
-        repository.updateTvShow(tvShow);
-    }
-
     public void updateTvShowBasicWatchingFlag(UpdateTvShowWatchingFlagParams params) {
         repository.updateTvShowWatchingFlag(params);
-        TvShow tvShow = repository.getTvShowById(params.getId());
     }
 
-    public void deleteTvShowBasic(int id) {
-        repository.deleteTvShow(id);
-    }
-
-    public void deleteAllTvShowsBasic() {
-        repository.deleteAllTvShows();
-    }
-
-    public TvShow getTvShowBasic(int id) {
-        return repository.getTvShowById(id);
-    }
-
-    public void syncTvShowBasicFromApi(int pageNum) {
-        repository.insertMostPopularTvShowsBasicInfo(pageNum);
-    }
-
-    public void allInOne() {
-//        for (int i = 1; i <= 10; i++) {
-            syncTvShowBasicFromApi(1);
-//        }
-    }
 
     public void searchWord(String searchWord, int pageNum) {
         repository.searchTvShow(searchWord, pageNum);
     }
-
-    public void syncTvShowDetailsFromApi(int id) { repository.insertTvShowDetailsInfo(id);}
 
     public List<TvShowPicture> tvShowPicturesById(int showId) { return repository.getTvShowPicturesByShowId(showId);}
 
@@ -110,5 +74,8 @@ public class DiscoverViewModel extends AndroidViewModel {
         repository.insertFromSearch(tvShow);
     }
 
+    public void fetchDetailsForWatchlist(int id) {
+        repository.fetchTvShowDetails(id);
+    }
 
 }

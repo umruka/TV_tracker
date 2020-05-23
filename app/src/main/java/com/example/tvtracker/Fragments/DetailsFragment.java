@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
+import com.example.tvtracker.Models.Basic.Status;
 import com.example.tvtracker.Models.QueryModels.TvShowTest;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
@@ -87,7 +88,7 @@ public class DetailsFragment extends Fragment {
         detailsViewModel.getTvShowTestObservable().observe(getViewLifecycleOwner(), new Observer<Resource<TvShowTest>>() {
             @Override
             public void onChanged(Resource<TvShowTest> tvShowTestResource) {
-                if(tvShowTestResource.data != null) {
+                if(tvShowTestResource.data != null && tvShowTestResource.status != Status.LOADING && tvShowTestResource.data.getTvShow() != null) {
                     TvShowTest tvShowTest = tvShowTestResource.data;
                     TvShow tvShow = tvShowTest.getTvShow();
                     textViewId.setText(String.valueOf(tvShow.getTvShowId()));

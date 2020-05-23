@@ -25,11 +25,11 @@ import java.util.List;
 public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvShowCombinedViewHolder>{
 
     public interface OnItemClickListener {
-    void onItemClick(TvShow tvShowTest);
+    void onItemClick(TvShowTest tvShowTest);
     }
 
 
-    private List<TvShow> tvShows = new ArrayList<>();
+    private List<TvShowTest> tvShows = new ArrayList<>();
     private OnItemClickListener listener;
 
 
@@ -44,18 +44,18 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
     @Override
     public void onBindViewHolder(@NonNull TvShowCombinedViewHolder holder, int position) {
-        TvShow currentTvShow = tvShows.get(position);
+        TvShow currentTvShow = tvShows.get(position).getTvShow();
 
         Picasso.get().load(currentTvShow.getTvShowImagePath()).into(holder.textViewTvShowImageThumbnail);
         holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
         holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
-//        int progress = tvShows.get(position).getTvShowEpisodes().size();
-//        holder.textViewTvShowEpisodeProgress.setProgress(progress);
+        int progress = tvShows.get(position).getTvShowEpisodes().size();
+        holder.textViewTvShowEpisodeProgress.setProgress(progress - 5);
 
 
     }
 
-    public void setTvShows(List<TvShow> tvShows) {
+    public void setTvShows(List<TvShowTest> tvShows) {
         this.tvShows = tvShows;
         notifyDataSetChanged();
     }
@@ -78,15 +78,14 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
         private ImageView textViewTvShowImageThumbnail;
         private TextView textViewTvShowName;
         private TextView textViewTvShowId;
-//        private ProgressBar textViewTvShowEpisodeProgress;
+        private ProgressBar textViewTvShowEpisodeProgress;
 
         private TvShowCombinedViewHolder(View itemView) {
             super(itemView);
             textViewTvShowImageThumbnail = itemView.findViewById(R.id.text_view_watchlist_image_thumbnail);
             textViewTvShowName = itemView.findViewById(R.id.text_view_watchlist_tv_show_name);
             textViewTvShowId = itemView.findViewById(R.id.text_view_watchlist_tv_show_id);
-//            textViewTvShowEpisodeProgress = itemView.findViewById(R.id.sync_bar);
-            /*
+            textViewTvShowEpisodeProgress = itemView.findViewById(R.id.episode_progress);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -96,9 +95,6 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
                     }
                 }
             });
-
-             */
-
 
         }
     }

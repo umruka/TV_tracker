@@ -125,6 +125,7 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
         int id = tvShow.getTvShowId();
         UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, MainActivity.TVSHOW_WATCHING_FLAG_YES);
         discoverViewModel.updateTvShowBasicWatchingFlag(params);
+        discoverViewModel.fetchDetailsForWatchlist(id);
 
         Toast.makeText(activity, "Done", Toast.LENGTH_SHORT).show();
     }

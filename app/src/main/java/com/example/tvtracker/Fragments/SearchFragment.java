@@ -68,11 +68,13 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(TvShow tvShow) {
 
-                discoverViewModel.showSearch(tvShow);
+//                discoverViewModel.showSearch(tvShow);
+                int id = tvShow.getTvShowId();
+                discoverViewModel.fetchDetailsForWatchlist(id);
                 NavController navHostController = Navigation.findNavController(getView());
                 if(navHostController.getCurrentDestination().getId() == R.id.searchFragment){
                     Bundle bundle = new Bundle();
-                    bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(tvShow.getTvShowId()));
+                    bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(id));
                     navHostController.navigate(R.id.action_searchFragment_to_tvShowFullFragment, bundle);
                 }
 
@@ -80,7 +82,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onButtonClick(TvShow tvShow) {
-                discoverViewModel.insertOrUpdate(tvShow);
+//                discoverViewModel.insertOrUpdate(tvShow);
                 int id = tvShow.getTvShowId();
                 UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, TVSHOW_WATCHING_FLAG_YES);
                 discoverViewModel.updateTvShowBasicWatchingFlag(params);
