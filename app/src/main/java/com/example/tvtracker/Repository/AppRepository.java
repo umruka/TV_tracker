@@ -18,6 +18,7 @@ import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsInfoRoot;
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Basic.Status;
+import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
 import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.QueryModels.TvShowTest;
 import com.example.tvtracker.Models.TvShow;
@@ -350,9 +351,9 @@ public class AppRepository {
                 discoverListObservable.setValue(Resource.loading(loadingList));
                 break;
             case SUCCESS:
-                if (loadingList!=null) {
+//                if (loadingList!=null) {
                     discoverListObservable.setValue(Resource.success(loadingList));
-                }
+//                }
                 break;
         }
 
@@ -449,6 +450,18 @@ public class AppRepository {
                 int id = params.getId();
                 String flag = params.getFlag();
                 appDao.updateTvShowWatchingFlag(id, flag);
+                return null;
+            }
+        }.execute();
+    }
+
+    public void updateTvShowEpisodeIsWatchedFlag(UpdateTvShowEpisodeWatchedFlagParams params) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                int id = params.getId();
+                boolean flag = params.getFlag();
+                appDao.updateTvShowEpisodeWatchedFlag(id, flag);
                 return null;
             }
         }.execute();

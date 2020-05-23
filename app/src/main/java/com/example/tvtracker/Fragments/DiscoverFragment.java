@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
+import com.example.tvtracker.Models.Basic.Status;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
 import com.example.tvtracker.Adapters.TvShowBasicAdapter;
@@ -39,7 +41,7 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.discover_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_discover, container, false);
     }
 
     @Override
@@ -49,7 +51,8 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
         final RecyclerView recyclerView = getView().findViewById(R.id.dicover_recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        SwipeRefreshLayout pullToRefresh = getView().findViewById(R.id.sync_bar);
+        RelativeLayout syncView = getView().findViewById(R.id.sync_view_discover);
+
         final TvShowBasicAdapter adapter = new TvShowBasicAdapter();
         recyclerView.setAdapter(adapter);
         discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
@@ -62,7 +65,15 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
 //                            pullToRefresh.setRefreshing(false);
 //                        }
 //                        if(tvShows.data != null && !compareLists(adapter.getTvShowsShown(), tvShows.data)) {
-                adapter.setTvShows(tvShows.data);
+                if(tvShows.status == Status.LOADING) {
+                    recyclerView.setVisibility(View.GONE);
+                    syncView.setVisibility(View.VISIBLE);
+                }
+                if(tvShows.status == Status.SUCCESS) {
+                    syncView.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    adapter.setTvShows(tvShows.data);
+                }
 //                        }
 
 //                        if(tvShows.status == Status.LOADING && tvShows.data == null) {
@@ -86,7 +97,7 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
             public void onFocusChange(View view, boolean b) {
                 NavController navHostController = Navigation.findNavController(view);
                 if (navHostController.getCurrentDestination().getId() == R.id.navigation_discover) {
-                    navHostController.navigate(R.id.action_navigation_discover_to_searchFragment);
+                    navHostController.navigate(R.id.action_navigation_discover_to_search_fragment);
                 }
             }
         });
@@ -137,7 +148,7 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
         if (navHostController.getCurrentDestination().getId() == R.id.navigation_discover) {
             Bundle bundle = new Bundle();
             bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(tvShow.getTvShowId()));
-            navHostController.navigate(R.id.action_navigation_discover_to_tvShowFullFragment, bundle);
+            navHostController.navigate(R.id.action_navigation_discover_to_details_fragment, bundle);
         }
     }
 }

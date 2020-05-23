@@ -19,7 +19,7 @@ public class TvShowEpisode {
     private String episodeName;
     @ColumnInfo(name = "tv_show_air_date")
     private String episodeAirDate;
-
+    @ColumnInfo(name = "tv_show_is_watched")
     private boolean watched;
 
     public TvShowEpisode(int tvShowId, int seasonNum, int episodeNum, String episodeName, String episodeAirDate) {

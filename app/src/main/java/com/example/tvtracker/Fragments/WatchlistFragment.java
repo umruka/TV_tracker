@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.QueryModels.TvShowTest;
-import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
 import com.example.tvtracker.Adapters.WatchlistAdapter;
 import com.example.tvtracker.ViewModels.WatchlistViewModel;
@@ -38,7 +37,7 @@ public class WatchlistFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.watchlist_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_watchlist, container, false);
     }
 
     @Override
@@ -70,7 +69,7 @@ public class WatchlistFragment extends Fragment {
                             Bundle bundle = new Bundle();
                             int id = tvShow.getTvShow().getTvShowId();
                             bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(id));
-                            navHostController.navigate(R.id.action_navigation_watchlist_to_tvShowFullFragment, bundle);
+                            navHostController.navigate(R.id.action_navigation_watchlist_to_details_fragment, bundle);
                         }
                     }
                 });

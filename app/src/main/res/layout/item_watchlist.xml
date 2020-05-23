@@ -68,6 +68,14 @@ s
                 android:layout_below="@id/text_view_watchlist_tv_show_name"
                 style="?android:attr/progressBarStyleHorizontal"
                 />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/episode_progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/episode_progress"
+                android:layout_below="@id/text_view_watchlist_tv_show_name"
+                android:layout_marginStart="16dp"
+                />
 
         </RelativeLayout>
 

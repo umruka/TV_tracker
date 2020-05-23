@@ -42,7 +42,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.search_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class SearchFragment extends Fragment {
                 if(navHostController.getCurrentDestination().getId() == R.id.searchFragment){
                     Bundle bundle = new Bundle();
                     bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(id));
-                    navHostController.navigate(R.id.action_searchFragment_to_tvShowFullFragment, bundle);
+                    navHostController.navigate(R.id.action_searchFragment_to_details_fragment, bundle);
                 }
 
             }

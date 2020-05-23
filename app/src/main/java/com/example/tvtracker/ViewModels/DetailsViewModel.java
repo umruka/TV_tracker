@@ -8,6 +8,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.tvtracker.Models.Basic.Resource;
+import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
 import com.example.tvtracker.Models.QueryModels.TvShowTest;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Repository.AppRepository;
@@ -38,4 +39,5 @@ public class DetailsViewModel extends AndroidViewModel {
         repository.fetchTvShowDetails(id);
     }
 
+    public void setWatchedFlag(UpdateTvShowEpisodeWatchedFlagParams params) { repository.updateTvShowEpisodeIsWatchedFlag(params); }
 }

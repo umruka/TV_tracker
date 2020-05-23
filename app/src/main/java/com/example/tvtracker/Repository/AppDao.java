@@ -46,6 +46,8 @@ public interface AppDao {
     @Query("UPDATE tv_show_table SET tv_show_flag=:watchingId WHERE tv_show_id IN(:id)")
     void updateTvShowWatchingFlag(int id, String watchingId);
 
+
+
     @Query("SELECT * FROM tv_show_table WHERE tv_show_id=:Id")
     TvShow getTvShowById(int Id);
 
@@ -78,6 +80,8 @@ public interface AppDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertAllTvShowEpisodes(List<TvShowEpisode> episodes);
 
+    @Query("UPDATE tv_show_episode_table SET tv_show_is_watched=:isWatched WHERE id IN (:id)")
+    void updateTvShowEpisodeWatchedFlag(int id, boolean isWatched);
 
     @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id IN (:tvShowId)")
     List<TvShowEpisode> getTvShowEpisodesById(int tvShowId);

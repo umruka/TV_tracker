@@ -1,16 +1,13 @@
 package com.example.tvtracker.Adapters;
 
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowPicture;
 import com.example.tvtracker.R;
 import com.squareup.picasso.Picasso;
@@ -30,7 +27,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
     @Override
     public TvShowPictureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.calendar_item, parent, false);
+                .inflate(R.layout.item_calendar, parent, false);
 
         return new TvShowPictureViewHolder(itemView);
     }

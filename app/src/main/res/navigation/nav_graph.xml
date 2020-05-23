@@ -9,76 +9,53 @@
         android:id="@+id/navigation_profile"
         android:name="com.example.tvtracker.Fragments.ProfileFragment"
         android:label="profile_fragment"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/navigation_watchlist"
         android:name="com.example.tvtracker.Fragments.WatchlistFragment"
         android:label="watchlist_fragment"
-        tools:layout="@layout/watchlist_fragment" >
+        tools:layout="@layout/fragment_watchlist" >
         <action
-            android:id="@+id/action_navigation_watchlist_to_tvShowFullFragment"
-            app:destination="@id/tvShowFullFragment"
+            android:id="@+id/action_navigation_watchlist_to_details_fragment"
+            app:destination="@id/fragment_details"
             />
     </fragment>
     <fragment
         android:id="@+id/navigation_discover"
         android:name="com.example.tvtracker.Fragments.DiscoverFragment"
         android:label="discover_fragment"
-        tools:layout="@layout/discover_fragment" >
+        tools:layout="@layout/fragment_discover" >
         <action
-            android:id="@+id/action_navigation_discover_to_searchFragment"
+            android:id="@+id/action_navigation_discover_to_search_fragment"
             app:destination="@id/searchFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/searchFragment" />
         <action
-            android:id="@+id/action_navigation_discover_to_tvShowFullFragment"
-            app:destination="@id/tvShowFullFragment"
+            android:id="@+id/action_navigation_discover_to_details_fragment"
+            app:destination="@id/fragment_details"
             />
     </fragment>
     <fragment
         android:id="@+id/navigation_calendar"
         android:name="com.example.tvtracker.Fragments.CalendarFragment"
         android:label="calendar_fragment"
-        tools:layout="@layout/calendar_fragment" />
+        tools:layout="@layout/fragment_calendar" />
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.tvtracker.Fragments.SearchFragment"
         android:label="search_fragment"
-        tools:layout="@layout/search_fragment" >
+        tools:layout="@layout/fragment_search" >
         <action
-            android:id="@+id/action_searchFragment_to_tvShowFullFragment"
-            app:destination="@id/tvShowFullFragment" />
+            android:id="@+id/action_searchFragment_to_details_fragment"
+            app:destination="@id/fragment_details" />
     </fragment>
     <fragment
-        android:id="@+id/tvShowFullFragment"
+        android:id="@+id/fragment_details"
         android:name="com.example.tvtracker.Fragments.DetailsFragment"
-        android:label="TvShowFullFragment" >
+        android:label="fragment_details">
         <argument
             android:name="tvShowId"
-            app:argType="string"
-            android:defaultValue='""' />
-        <argument
-            android:name="tvShowName"
-            app:argType="string"
-            android:defaultValue='""' />
-        <argument
-            android:name="tvShowStartDate"
-            app:argType="string"
-            android:defaultValue='""' />
-        <argument
-            android:name="tvShowEndDate"
-            app:argType="string"
-            android:defaultValue='""' />
-        <argument
-            android:name="tvShowCountry"
+            android:defaultValue='""'
             app:argType="string" />
-        <argument
-            android:name="tvShowStatus"
-            app:argType="string"
-            android:defaultValue='""' />
-        <argument
-            android:name="tvShowImagePath"
-            app:argType="string"
-            android:defaultValue='""' />
     </fragment>
 </navigation>

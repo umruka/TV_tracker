@@ -31,7 +31,7 @@ public class TvShowBasicAdapter extends RecyclerView.Adapter<TvShowBasicAdapter.
     @Override
     public TvShowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.tvshow_item, parent, false);
+                .inflate(R.layout.item_discover, parent, false);
 
         return new TvShowViewHolder(itemView);
     }

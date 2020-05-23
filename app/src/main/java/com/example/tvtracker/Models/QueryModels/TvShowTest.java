@@ -51,4 +51,15 @@ public class TvShowTest {
     public void setTvShowPictures(List<TvShowPicture> tvShowPictures) {
         this.tvShowPictures = tvShowPictures;
     }
+
+    public int getEpisodeProgress () {
+        List<TvShowEpisode> tvShowEpisodes = getTvShowEpisodes();
+        int counter = 0;
+        for(int i = 0; i < tvShowEpisodes.size();i++) {
+            if (tvShowEpisodes.get(i).isWatched()) {
+                counter++;
+            }
+        }
+        return counter;
+    }
 }

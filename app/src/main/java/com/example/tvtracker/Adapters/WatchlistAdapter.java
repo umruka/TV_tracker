@@ -3,9 +3,6 @@ package com.example.tvtracker.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -37,7 +34,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
     @Override
     public TvShowCombinedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.watchlist_item, parent, false);
+                .inflate(R.layout.item_watchlist, parent, false);
 
         return new TvShowCombinedViewHolder(itemView);
     }
@@ -49,8 +46,14 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
         Picasso.get().load(currentTvShow.getTvShowImagePath()).into(holder.textViewTvShowImageThumbnail);
         holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
         holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
-        int progress = tvShows.get(position).getTvShowEpisodes().size();
-        holder.textViewTvShowEpisodeProgress.setProgress(progress - 5);
+        int progressMax = tvShows.get(position).getTvShowEpisodes().size();
+        int watched = tvShows.get(position).getEpisodeProgress();
+
+        holder.textViewTvShowEpisodeProgress.setMax(progressMax);
+
+        holder.textViewTvShowEpisodeProgress.setProgress(watched);
+
+        holder.textViewProgress.setText(watched + "/" + progressMax);
 
 
     }
@@ -79,6 +82,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
         private TextView textViewTvShowName;
         private TextView textViewTvShowId;
         private ProgressBar textViewTvShowEpisodeProgress;
+        private TextView textViewProgress;
 
         private TvShowCombinedViewHolder(View itemView) {
             super(itemView);
@@ -86,6 +90,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
             textViewTvShowName = itemView.findViewById(R.id.text_view_watchlist_tv_show_name);
             textViewTvShowId = itemView.findViewById(R.id.text_view_watchlist_tv_show_id);
             textViewTvShowEpisodeProgress = itemView.findViewById(R.id.episode_progress);
+            textViewProgress = itemView.findViewById(R.id.episode_progress_text);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
