@@ -163,14 +163,37 @@ public class AppRepository {
                 TvShowTest tvShowTest = tvShowTests[0];
                 TvShow tvShow = tvShowTest.getTvShow();
 
+                int id = tvShow.getTvShowId();
+
+
                 List<TvShowEpisode> episodes = tvShowTest.getTvShowEpisodes();
                 List<TvShowGenre> genres = tvShowTest.getTvShowGenres();
                 List<TvShowPicture> pictures = tvShowTest.getTvShowPictures();
 
+
                 appDao.updateTvShowDetails(tvShow.getTvShowId(), tvShow.getTvShowDesc(), tvShow.getTvShowYoutubeLink(), tvShow.getTvShowRating());
-                appDao.insertAllTvShowEpisodes(episodes);
-                appDao.insertAllTvShowGenres(genres);
-                appDao.insertAllTvShowPictures(pictures);
+
+
+                List<TvShowEpisode> dbEpisodes = new ArrayList<>();
+                List<TvShowGenre> dbGenres = new ArrayList<>();
+                List<TvShowPicture> dbPictures = new ArrayList<>();
+
+                dbEpisodes = appDao.getTvShowEpisodesById(id);
+                dbGenres = appDao.getTvShowGenresById(id);
+                dbPictures = appDao.getTvShowPicturesByTvShowId(id);
+
+                if(dbEpisodes.size() == 0) {
+                    appDao.insertAllTvShowEpisodes(episodes);
+                }
+
+                if(dbGenres.size() == 0) {
+                    appDao.insertAllTvShowGenres(genres);
+                }
+
+                if(dbPictures.size() == 0) {
+                    appDao.insertAllTvShowPictures(pictures);
+                }
+
 
 
                 return tvShow.getTvShowId();
