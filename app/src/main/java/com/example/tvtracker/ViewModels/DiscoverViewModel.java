@@ -70,9 +70,6 @@ public class DiscoverViewModel extends AndroidViewModel {
 
     public void clearSearchedTvShows() { repository.clearSearchedTvShows();}
 
-    public void showSearch(TvShow tvShow){
-        repository.insertFromSearch(tvShow);
-    }
 
     public void fetchDetailsForWatchlist(int id) {
         repository.fetchTvShowDetails(id);

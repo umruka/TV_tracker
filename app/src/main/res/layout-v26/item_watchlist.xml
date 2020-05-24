@@ -30,8 +30,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/text_view_watchlist_image_thumbnail"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="96sp"
+                android:layout_height="96sp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 />
@@ -62,7 +62,7 @@
                 android:layout_toEndOf="@id/text_view_watchlist_image_thumbnail"
                 android:layout_below="@id/text_view_watchlist_tv_show_name"
                 android:text="Episode name"
-                />
+            />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/episode_release_date"

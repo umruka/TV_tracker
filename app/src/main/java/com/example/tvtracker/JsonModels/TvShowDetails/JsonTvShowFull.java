@@ -1,10 +1,9 @@
 package com.example.tvtracker.JsonModels.TvShowDetails;
 import java.util.List;
 
-import com.example.tvtracker.Models.TvShowGenre;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-public class JsonTvShowDetailsInfo {
+public class JsonTvShowFull {
 
         @SerializedName("id")
         @Expose
@@ -68,7 +67,7 @@ public class JsonTvShowDetailsInfo {
         private List<String> pictures = null;
         @SerializedName("episodes")
         @Expose
-        private List<JsonTvShowDetailsEpisode> JsonTvShowDetailsEpisodes = null;
+        private List<JsonEpisode> jsonEpisodes = null;
 
         public Integer getId() {
             return id;
@@ -230,12 +229,12 @@ public class JsonTvShowDetailsInfo {
             this.pictures = pictures;
         }
 
-        public List<JsonTvShowDetailsEpisode> getJsonTvShowDetailsEpisodes() {
-            return JsonTvShowDetailsEpisodes;
+        public List<JsonEpisode> getJsonEpisodes() {
+            return jsonEpisodes;
         }
 
-        public void setJsonTvShowDetailsEpisodes(List<JsonTvShowDetailsEpisode> JsonTvShowDetailsEpisodes) {
-            this.JsonTvShowDetailsEpisodes = JsonTvShowDetailsEpisodes;
+        public void setJsonEpisodes(List<JsonEpisode> jsonEpisodes) {
+            this.jsonEpisodes = jsonEpisodes;
         }
 
 

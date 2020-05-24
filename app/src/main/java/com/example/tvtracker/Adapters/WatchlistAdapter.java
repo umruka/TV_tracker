@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tvtracker.Models.QueryModels.TvShowTest;
 import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.R;
 import com.squareup.picasso.Picasso;
 
@@ -44,7 +45,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
         TvShow currentTvShow = tvShows.get(position).getTvShow();
 
         Picasso.get().load(currentTvShow.getTvShowImagePath()).into(holder.textViewTvShowImageThumbnail);
-        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
+//        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
         holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
         int progressMax = tvShows.get(position).getTvShowEpisodes().size();
         int watched = tvShows.get(position).getEpisodeProgress();
@@ -55,6 +56,15 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
         holder.textViewProgress.setText(watched + "/" + progressMax);
 
+        if(!tvShows.get(position).getTvShowState()) {
+            TvShowEpisode tvShowEpisode = tvShows.get(position).getNextWatched();
+            holder.textViewEpisodeName.setText(tvShowEpisode.getEpisodeName());
+            holder.textViewEpisodeReleaseDate.setText(tvShowEpisode.getEpisodeAirDate());
+//        }
+        } else {
+            holder.textViewEpisodeName.setText("Series finished");
+            holder.textViewEpisodeReleaseDate.setText("");
+        }
 
     }
 
@@ -80,17 +90,24 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
     class TvShowCombinedViewHolder extends RecyclerView.ViewHolder {
         private ImageView textViewTvShowImageThumbnail;
         private TextView textViewTvShowName;
-        private TextView textViewTvShowId;
+//        private TextView textViewTvShowId;
         private ProgressBar textViewTvShowEpisodeProgress;
         private TextView textViewProgress;
+
+        private TextView textViewEpisodeName;
+        private TextView textViewEpisodeReleaseDate;
 
         private TvShowCombinedViewHolder(View itemView) {
             super(itemView);
             textViewTvShowImageThumbnail = itemView.findViewById(R.id.text_view_watchlist_image_thumbnail);
             textViewTvShowName = itemView.findViewById(R.id.text_view_watchlist_tv_show_name);
-            textViewTvShowId = itemView.findViewById(R.id.text_view_watchlist_tv_show_id);
+//            textViewTvShowId = itemView.findViewById(R.id.text_view_watchlist_tv_show_id);
             textViewTvShowEpisodeProgress = itemView.findViewById(R.id.episode_progress);
             textViewProgress = itemView.findViewById(R.id.episode_progress_text);
+
+            textViewEpisodeName = itemView.findViewById(R.id.episode_name);
+            textViewEpisodeReleaseDate = itemView.findViewById(R.id.episode_release_date);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

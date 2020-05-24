@@ -10,11 +10,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.tvtracker.Api.ApiBuilder;
 import com.example.tvtracker.Api.ApiService;
 import com.example.tvtracker.JsonModels.JsonTvShowSearchRoot;
-import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShowBasicInfo;
-import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShowBasicInfoRoot;
-import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsEpisode;
-import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsInfo;
-import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowDetailsInfoRoot;
+import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShow;
+import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShowBasicRoot;
+import com.example.tvtracker.JsonModels.TvShowDetails.JsonEpisode;
+import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowFull;
+import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowFullRoot;
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Basic.Status;
@@ -45,15 +45,12 @@ public class AppRepository {
     private MutableLiveData<Resource<TvShowTest>> detailObservable = new MutableLiveData<>();
 
     private MutableLiveData<List<TvShow>> allSearchTvShows;
-    private MutableLiveData<List<TvShowFull>> searchedTvShow;
 
 
 
     public AppRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         appDao = database.appDao();
-//        allTvShows = appDao.getAllTvShows();
-//        allWatchingTvShows = watchlist();
         allSearchTvShows = new MutableLiveData<>();
     }
 
@@ -88,16 +85,6 @@ public class AppRepository {
         getDetailsFromWeb(id);
     }
 
-    public void fetchDetailsForWatchlist(int id) {
-        TvShowTest loadingTvShow = null;
-        if (detailObservable.getValue() != null) {
-            loadingTvShow = detailObservable.getValue().data;
-        }
-        detailObservable.setValue(Resource.loading(loadingTvShow));
-        loadTvShowDetailFromDb(id);
-        getDetailsFromWeb(id);
-    }
-
     public MutableLiveData<Resource<List<TvShowTest>>> getWatchlistListObservable() {
         return watchlistListObservable;
     }
@@ -113,11 +100,11 @@ public class AppRepository {
     }
 
     private void getTvShowsFromWeb(int pageNum) {
-        Log.d("Fetch from web", "getTvShowsFromWeb");
+        Log.d("Fetch from web", "getTvShowsFromWeb: " + pageNum);
         ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
-        apiService.getTvShowsBasic(pageNum).enqueue(new Callback<JsonTvShowBasicInfoRoot>() {
+        apiService.getTvShowsBasic(pageNum).enqueue(new Callback<JsonTvShowBasicRoot>() {
             @Override
-            public void onResponse(Call<JsonTvShowBasicInfoRoot> call, Response<JsonTvShowBasicInfoRoot> response) {
+            public void onResponse(Call<JsonTvShowBasicRoot> call, Response<JsonTvShowBasicRoot> response) {
                 if(response.isSuccessful()){
                     setTvShowsListObservableStatus(Status.SUCCESS, null);
                     addTvShowsToDb(response.body().toTvShowArray());
@@ -138,7 +125,7 @@ public class AppRepository {
             }
 
             @Override
-            public void onFailure(Call<JsonTvShowBasicInfoRoot> call, Throwable t) {
+            public void onFailure(Call<JsonTvShowBasicRoot> call, Throwable t) {
                 Log.d("Fetch from web", "error");
                 setTvShowsListObservableStatus(Status.ERROR, t.getMessage());
             }
@@ -149,9 +136,9 @@ public class AppRepository {
     private void getDetailsFromWeb(int id){
         Log.d("", "getDetailsFromWeb");
         ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
-        apiService.getTvShowDetailed(id).enqueue(new Callback<JsonTvShowDetailsInfoRoot>() {
+        apiService.getTvShowDetailed(id).enqueue(new Callback<JsonTvShowFullRoot>() {
             @Override
-            public void onResponse(Call<JsonTvShowDetailsInfoRoot> call, Response<JsonTvShowDetailsInfoRoot> response) {
+            public void onResponse(Call<JsonTvShowFullRoot> call, Response<JsonTvShowFullRoot> response) {
                 if(response.isSuccessful()){
                     setDetailObservableStatus(Status.SUCCESS, null);
                     addDetailsToDb(response.body().toDetail());
@@ -159,7 +146,7 @@ public class AppRepository {
             }
 
             @Override
-            public void onFailure(Call<JsonTvShowDetailsInfoRoot> call, Throwable t) {
+            public void onFailure(Call<JsonTvShowFullRoot> call, Throwable t) {
 
             }
         });
@@ -319,7 +306,7 @@ public class AppRepository {
     }
 
     private void setTvShowListObservableData(List<TvShow> mTvShowList, String message) {
-        Log.d("setTvShowListObservable", "setRecipesListObservableData:");
+        Log.d("setTvShowListObservable", "setTvShowListObservableData:");
         Status loadingStatus = Status.LOADING;
         if (discoverListObservable.getValue()!=null){
             loadingStatus= discoverListObservable.getValue().status;
@@ -338,7 +325,7 @@ public class AppRepository {
     }
 
     private void setTvShowsListObservableStatus(Status status, String message) {
-        Log.d("setTvShowsListObservabl","setRecipesListObservableStatus");
+        Log.d("setTvShowsListObservabl","setTvShowsListObservableStatus");
         List<TvShow> loadingList = null;
         if (discoverListObservable.getValue()!=null){
             loadingList= discoverListObservable.getValue().data;
@@ -360,7 +347,7 @@ public class AppRepository {
     }
 
     private void setWatchlistListObservableData(List<TvShowTest> mTvShowList, String message) {
-        Log.d("setTvShowListObservable", "setRecipesListObservableData:");
+        Log.d("setTvShowListObservable", "setTvShowListObservableData:");
         Status loadingStatus = Status.LOADING;
         if (watchlistListObservable.getValue()!=null){
             loadingStatus=watchlistListObservable.getValue().status;
@@ -379,7 +366,7 @@ public class AppRepository {
     }
 
     private void setWatchlistListObservableStatus(Status status, String message) {
-        Log.d("setTvShowsListObservabl","setRecipesListObservableStatus");
+        Log.d("setTvShowsListObservabl","setTvShowsListObservableStatus");
         List<TvShowTest> loadingList = null;
         if (watchlistListObservable.getValue()!=null){
             loadingList=watchlistListObservable.getValue().data;
@@ -403,7 +390,7 @@ public class AppRepository {
 
 
     private void setDetailObservableData(TvShowTest tvShowTest, String message) {
-        Log.d("setDetailObservableData", "setRecipesListObservableData:");
+        Log.d("setDetailObservableData", "setDetailListObservableData:");
         Status loadingStatus = Status.LOADING;
         if (detailObservable.getValue()!=null){
             loadingStatus=detailObservable.getValue().status;
@@ -422,7 +409,7 @@ public class AppRepository {
     }
 
     private void setDetailObservableStatus(Status status, String message) {
-        Log.d("setDetailObservableStat","setRecipesListObservableStatus");
+        Log.d("setDetailObservableStat","setDetailListObservableStatus");
         TvShowTest loadingList = null;
         if (detailObservable.getValue()!=null){
             loadingList=detailObservable.getValue().data;
@@ -477,131 +464,7 @@ public class AppRepository {
     }
 
 
-    public void syncDuo() {
-
-    }
-
     //Api calls
-    public void insertMostPopularTvShowsBasicInfo(int pageNum) {
-
-        ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
-            Call<JsonTvShowBasicInfoRoot> jsonTvShowBasicRootCall = apiService.getTvShowsBasic(pageNum);
-            jsonTvShowBasicRootCall.enqueue(new Callback<JsonTvShowBasicInfoRoot>() {
-                @Override
-                public void onResponse(Call<JsonTvShowBasicInfoRoot> call, Response<JsonTvShowBasicInfoRoot> response) {
-
-                    JsonTvShowBasicInfoRoot jsonTvShowBasicElement = response.body();
-                    generateTvShowsCallback(jsonTvShowBasicElement);
-
-
-                }
-
-                @Override
-                public void onFailure(Call<JsonTvShowBasicInfoRoot> call, Throwable t) {
-                    Log.e("BIGFAIL", t.getMessage());
-                }
-            });
-
-
-    }
-
-    public void insertTvShowDetailsInfo(int tvShowId) {
-        ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
-        Call<JsonTvShowDetailsInfoRoot> jsonTvShowDetailsRootCall = apiService.getTvShowDetailed(tvShowId);
-        jsonTvShowDetailsRootCall.enqueue(new Callback<JsonTvShowDetailsInfoRoot>() {
-            @Override
-            public void onResponse(Call<JsonTvShowDetailsInfoRoot> call, Response<JsonTvShowDetailsInfoRoot> response) {
-                JsonTvShowDetailsInfoRoot jsonTvShowDetailsInfoRoot = response.body();
-                insertTvShowDetailsCallback(jsonTvShowDetailsInfoRoot);
-            }
-
-            @Override
-            public void onFailure(Call<JsonTvShowDetailsInfoRoot> call, Throwable t) {
-                Log.e("BIGFAIL", t.getMessage());
-            }
-        });
-
-    }
-
-    private void insertTvShowDetailsCallback(JsonTvShowDetailsInfoRoot data) {
-        JsonTvShowDetailsInfo tvShowDetails = data.getTvShow();
-
-        int showId = tvShowDetails.getId();
-        String description = tvShowDetails.getDescription();
-        String youtubeLink = tvShowDetails.getYoutubeLink();
-        String rating = tvShowDetails.getRating();
-
-
-        UpdateTvShowDetailsParams newTvShowDetailsParams = new UpdateTvShowDetailsParams(showId, description, youtubeLink, rating);
-        updateTvShowDetails(newTvShowDetailsParams);
-
-
-//        if(isTvShowPictureExist(showId)){
-//            Log.i(TAG, "insertTvShowDetailsCallback: picture");
-//        }else {
-            int pictureSize = tvShowDetails.getPictures().size();
-            for (int i = 0; i < pictureSize; i++) {
-                String pictureUrl = tvShowDetails.getPictures().get(i);
-
-                TvShowPicture tvShowPicture = new TvShowPicture(showId, pictureUrl);
-                insertTvShowPicture(tvShowPicture);
-            }
-//        }
-
-//        if(isTvShowEpisodeExist(showId)){
-//            Log.i(TAG, "insertTvShowDetailsCallback: episode");
-//        }else{
-            int episodeSize = tvShowDetails.getJsonTvShowDetailsEpisodes().size();
-            for (int i = 0; i < episodeSize; i++) {
-                JsonTvShowDetailsEpisode currentEpisode = tvShowDetails.getJsonTvShowDetailsEpisodes().get(i);
-
-                int seasonNum = currentEpisode.getSeason();
-                int episodeNum = currentEpisode.getEpisode();
-                String episodeName = currentEpisode.getName();
-                String episodeAirDate = currentEpisode.getAirDate();
-
-                TvShowEpisode newTvShowEpisode = new TvShowEpisode(showId, seasonNum, episodeNum, episodeName, episodeAirDate);
-                insertTvShowEpisode(newTvShowEpisode);
-            }
-//        }
-
-//        if(isTvShowGenreExist(showId)){
-//            Log.i(TAG, "insertTvShowDetailsCallback: genre");
-//        }else{
-            int genresList = tvShowDetails.getGenres().size();
-            for (int i = 0; i < genresList; i++) {
-
-                String genreName = tvShowDetails.getGenres().get(i);
-                TvShowGenre tvShowGenre = new TvShowGenre(showId, genreName);
-                insertTvShowGenre(tvShowGenre);
-            }
-//        }
-
-    }
-
-    private void generateTvShowsCallback(JsonTvShowBasicInfoRoot data) {
-        for (int i = 0; i < data.getTVShows().size(); i++) {
-            JsonTvShowBasicInfo urlTvShow = data.getTVShows().get(i);
-
-            int tvShowId = urlTvShow.getId();
-            String tvShowName = urlTvShow.getName();
-            String tvShowStatus = urlTvShow.getStatus();
-            String tvShowStartDate = urlTvShow.getStartDate();
-            String tvShowEndDate = urlTvShow.getEndDate();
-            String tvShowCountry = urlTvShow.getCountry();
-            String tvShowNetwork = urlTvShow.getNetwork();
-            String tvShowImage = urlTvShow.getImageThumbnailPath();
-
-
-            TvShow tvShow = new TvShow(tvShowId, tvShowName, tvShowStartDate, tvShowEndDate, tvShowCountry, tvShowNetwork, tvShowStatus, tvShowImage);
-//            if (isTvShowExistInDb(tvShowId)) {
-//                updateTvShow(tvShow);
-//            } else {
-//                insertTvShow(tvShow);
-//            }
-//            insertTvShowDetailsInfo(tvShowId);
-        }
-    }
 
     public void searchTvShow(String searchWord, int pageNum) {
         ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
@@ -624,87 +487,18 @@ public class AppRepository {
     private void searchTvShowsCallback(JsonTvShowSearchRoot root){
         List<TvShow> searchedTvShows = new ArrayList<>();
         for (int i = 0; i < root.getTvShows().size(); i++) {
-            JsonTvShowBasicInfo jsonTvShow = root.getTvShows().get(i);
+            JsonTvShow jsonTvShow = root.getTvShows().get(i);
             TvShow tvShow = new TvShow(jsonTvShow.getId(), jsonTvShow.getName(), jsonTvShow.getStartDate(), jsonTvShow.getEndDate(), jsonTvShow.getCountry(), jsonTvShow.getNetwork(), jsonTvShow.getStatus(), jsonTvShow.getImageThumbnailPath());
             searchedTvShows.add(tvShow);
         }
         allSearchTvShows.setValue(searchedTvShows);
     }
 
-    public void insertFromSearch(TvShow tvShow) {
-        insertOrUpdateTvShow(tvShow);
-        insertTvShowDetailsInfo(tvShow.getTvShowId());
-    }
-
-    //Help functions
-    /*
-    private Boolean isTvShowExistInDb(int tvShowId) {
-        boolean isExist = false;
-        for (int i = 0; i < allTvShows.getValue().size(); i++) {
-            TvShow tvShow = allTvShows.getValue().get(i);
-            if (tvShowId == tvShow.getTvShowId()) {
-                isExist = true;
-                return isExist;
-            }
-        }
-        return isExist;
-    }
-*/
-    private Boolean isTvShowPictureExist(int tvShowId) {
-        boolean isExist = false;
-        if (getTvShowPicturesByShowId(tvShowId).size() != 0) {
-            isExist = true;
-            return isExist;
-        }
-        return isExist;
-    }
-
-    private Boolean isTvShowEpisodeExist(int tvShowId) {
-        boolean isExist = false;
-        if (getTvShowEpisodesById(tvShowId).size() != 0) {
-            isExist = true;
-            return isExist;
-        }
-        return isExist;
-    }
-
-    private Boolean isTvShowGenreExist(int tvShowId) {
-        boolean isExist = false;
-        if (getTvShowGenresById(tvShowId).size() != 0) {
-            isExist = true;
-            return isExist;
-        }
-        return isExist;
-    }
-
+    //Help Functions
     public void clearSearchedTvShows() {
         List<TvShow> emptyTvShows = new ArrayList<>();
         allSearchTvShows.postValue(emptyTvShows);
-//        if(allSearchTvShows.getValue() != null){
-//            allSearchTvShows.getValue().clear();
-//        }
     }
-
-    private LiveData<List<TvShowTest>> watchlist() {
-        MutableLiveData<List<TvShowTest>> tvShowFullList = new MutableLiveData<>();
-        List<TvShow> allWatchingTvShows = appDao.getWatchlistListTvShows(MainActivity.TVSHOW_WATCHING_FLAG_YES);
-        List<TvShowTest> tvShowTestsss = new ArrayList<>();
-        if(allWatchingTvShows != null) {
-            for (int i = 0; i < allWatchingTvShows.size(); i++) {
-                TvShow tvShow = allWatchingTvShows.get(i);
-                int id = tvShow.getTvShowId();
-                List<TvShowEpisode> episodes = getTvShowEpisodesById(id);
-                List<TvShowGenre> genres = getTvShowGenresById(id);
-                List<TvShowPicture> pictures =  getTvShowPicturesByShowId(id);
-
-                TvShowTest test = new TvShowTest(tvShow, episodes, genres, pictures);
-                tvShowTestsss.add(test);
-            }
-            tvShowFullList.setValue(tvShowTestsss);
-        }
-        return tvShowFullList;
-    }
-
 
     //TvShow
 
@@ -712,14 +506,6 @@ public class AppRepository {
         new InsertTvShowsAsyncTask(appDao).execute(tvShows);
     }
 
-
-    public void insertOrUpdateTvShow(TvShow tvShow) {
-        if(getTvShowById(tvShow.getTvShowId()) != null){
-            updateTvShow(tvShow);
-        }else{
-            insertTvShow(tvShow);
-        }
-    }
 
     public TvShow getTvShowById(int Id) {
         try {

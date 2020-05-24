@@ -72,7 +72,7 @@ public class SearchFragment extends Fragment {
                 int id = tvShow.getTvShowId();
                 discoverViewModel.fetchDetailsForWatchlist(id);
                 NavController navHostController = Navigation.findNavController(getView());
-                if(navHostController.getCurrentDestination().getId() == R.id.searchFragment){
+                if(navHostController.getCurrentDestination().getId() == R.id.fragment_search){
                     Bundle bundle = new Bundle();
                     bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(id));
                     navHostController.navigate(R.id.action_searchFragment_to_details_fragment, bundle);

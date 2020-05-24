@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonTvShowBasicInfoRoot {
+public class JsonTvShowBasicRoot {
 
     @SerializedName("total")
     @Expose
@@ -20,7 +20,7 @@ public class JsonTvShowBasicInfoRoot {
     private Integer pages;
     @SerializedName("tv_shows")
     @Expose
-    private List<JsonTvShowBasicInfo> TVShows = null;
+    private List<JsonTvShow> TVShows = null;
 
     public String getTotal() {
         return total;
@@ -46,11 +46,11 @@ public class JsonTvShowBasicInfoRoot {
         this.pages = pages;
     }
 
-    public List<JsonTvShowBasicInfo> getTVShows() {
+    public List<JsonTvShow> getTVShows() {
         return TVShows;
     }
 
-    public void setTVShows(List<JsonTvShowBasicInfo> TVShows) {
+    public void setTVShows(List<JsonTvShow> TVShows) {
         this.TVShows = TVShows;
     }
 
@@ -58,7 +58,7 @@ public class JsonTvShowBasicInfoRoot {
         List<TvShow> returnTvShows = new ArrayList<>();
         for(int i=0;i<TVShows.size();i++){
 
-            JsonTvShowBasicInfo urlTvShow = TVShows.get(i);;
+            JsonTvShow urlTvShow = TVShows.get(i);;
 
             int tvShowId = urlTvShow.getId();
             String tvShowName = urlTvShow.getName();

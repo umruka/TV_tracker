@@ -4,7 +4,9 @@ import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowGenre;
 import com.example.tvtracker.Models.TvShowPicture;
+import com.example.tvtracker.Models.TvShowSeason;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TvShowTest {
@@ -62,4 +64,49 @@ public class TvShowTest {
         }
         return counter;
     }
+
+    public List<TvShowSeason> getTvShowSeasons() {
+        List<TvShowEpisode> tvShowEpisodes = getTvShowEpisodes();
+        List<TvShowSeason> tvShowSeasons = new ArrayList<>();
+        List<TvShowEpisode> currentSeasonEpisodes = new ArrayList<>();
+        int currentSeason = 1;
+        for (int i = 0; i < tvShowEpisodes.size(); i++) {
+            TvShowEpisode currentEpisode = tvShowEpisodes.get(i);
+
+            if(currentEpisode.getSeasonNum() == currentSeason) {
+                currentSeasonEpisodes.add(currentEpisode);
+            }else {
+                tvShowSeasons.add(new TvShowSeason(currentSeason, currentSeasonEpisodes));
+                currentSeason++;
+                currentSeasonEpisodes = new ArrayList<>();
+            }
+        }
+        return tvShowSeasons;
+    }
+
+    public TvShowEpisode getNextWatched() {
+
+        List<TvShowEpisode> tvShowEpisodes = getTvShowEpisodes();
+        for(int i=0; i< tvShowEpisodes.size(); i++) {
+            if(!tvShowEpisodes.get(i).isWatched()) {
+                return tvShowEpisodes.get(i);
+            }
+        }
+        return null;
+    }
+
+    public boolean getTvShowState() {
+        List<TvShowEpisode> tvShowEpisodes = getTvShowEpisodes();
+        boolean state = true;
+        for(int i=0; i< tvShowEpisodes.size(); i++) {
+            if(!tvShowEpisodes.get(i).isWatched()) {
+                state = false;
+                return state;
+            }
+        }
+        return state;
+    }
+
+
+
 }

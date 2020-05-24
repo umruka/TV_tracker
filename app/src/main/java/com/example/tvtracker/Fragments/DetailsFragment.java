@@ -8,6 +8,8 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,11 +18,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.tvtracker.Adapters.EpisodeAdapter;
+import com.example.tvtracker.Adapters.SeasonsAdapter;
 import com.example.tvtracker.Adapters.PicturesAdapter;
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
@@ -29,12 +30,14 @@ import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
 import com.example.tvtracker.Models.QueryModels.TvShowTest;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
+import com.example.tvtracker.Models.TvShowSeason;
 import com.example.tvtracker.R;
 import com.example.tvtracker.ViewModels.DetailsViewModel;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 
-public class DetailsFragment extends Fragment implements EpisodeAdapter.OnItemClickListener {
+public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemClickListener {
 
 
     private Activity activity;
@@ -58,7 +61,7 @@ public class DetailsFragment extends Fragment implements EpisodeAdapter.OnItemCl
     private TextView textViewNetwork;
 
     private RecyclerView gridLayoutPictures;
-    private RecyclerView episodes;
+    private RecyclerView seasons;
 
 
 
@@ -101,8 +104,8 @@ public class DetailsFragment extends Fragment implements EpisodeAdapter.OnItemCl
         gridLayoutPictures.setLayoutManager(new GridLayoutManager(activity, NUMBER_OF_COLUMNS));
         gridLayoutPictures.setHasFixedSize(true);
 
-        episodes = view.findViewById(R.id.episodes);
-        episodes.setLayoutManager(new LinearLayoutManager(activity));
+        seasons = view.findViewById(R.id.seasons);
+        seasons.setLayoutManager(new LinearLayoutManager(activity));
 
         return view;
     }
@@ -113,13 +116,13 @@ public class DetailsFragment extends Fragment implements EpisodeAdapter.OnItemCl
         this.activity = getActivity();
 
         PicturesAdapter picturesAdapter = new PicturesAdapter();
-        EpisodeAdapter episodeAdapter = new EpisodeAdapter();
+        SeasonsAdapter seasonsAdapter = new SeasonsAdapter();
 
 
         detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
 
         gridLayoutPictures.setAdapter(picturesAdapter);
-        episodes.setAdapter(episodeAdapter);
+        seasons.setAdapter(seasonsAdapter);
 
 
         int id = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
@@ -146,14 +149,14 @@ public class DetailsFragment extends Fragment implements EpisodeAdapter.OnItemCl
                     textViewCountry.setText(tvShow.getTvShowCountry());
                     textViewNetwork.setText(tvShow.getTvShowNetwork());
                     picturesAdapter.setPictures(tvShowTest.getTvShowPictures());
-                    episodeAdapter.setEpisodes(tvShowTest.getTvShowEpisodes());
+                    seasonsAdapter.setEpisodes(tvShowTest.getTvShowSeasons());
                 }
                 }
 
         });
 
         detailsViewModel.getDetails(id);
-        episodeAdapter.setOnItemClickListener(this);
+        seasonsAdapter.setOnItemClickListener(this);
 
 
 
@@ -165,9 +168,15 @@ public class DetailsFragment extends Fragment implements EpisodeAdapter.OnItemCl
     }
 
     @Override
-    public void onItemClick(TvShowEpisode episode) {
-        int id = episode.getId();
-        UpdateTvShowEpisodeWatchedFlagParams params = new UpdateTvShowEpisodeWatchedFlagParams(id, WATCHED_FLAG_YES);
-        detailsViewModel.setWatchedFlag(params);
+    public void onItemClick(TvShowSeason season) {
+        NavController navHostController = Navigation.findNavController(getView());
+        if (navHostController.getCurrentDestination().getId() == R.id.fragment_details) {
+            Bundle bundle = new Bundle();
+            Gson gson = new Gson();
+            String data = gson.toJson(season);
+            bundle.putString("data", data);
+            navHostController.navigate(R.id.action_fragment_details_to_fragment_episodes, bundle);
+        }
     }
+
 }

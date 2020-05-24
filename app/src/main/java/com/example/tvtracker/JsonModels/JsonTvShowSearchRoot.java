@@ -1,6 +1,6 @@
 package com.example.tvtracker.JsonModels;
 
-import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShowBasicInfo;
+import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShow;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -19,7 +19,7 @@ public class JsonTvShowSearchRoot {
         private Integer pages;
         @SerializedName("tv_shows")
         @Expose
-        private List<JsonTvShowBasicInfo> tvShows = null;
+        private List<JsonTvShow> tvShows = null;
 
         public String getTotal() {
             return total;
@@ -45,11 +45,11 @@ public class JsonTvShowSearchRoot {
             this.pages = pages;
         }
 
-        public List<JsonTvShowBasicInfo> getTvShows() {
+        public List<JsonTvShow> getTvShows() {
             return tvShows;
         }
 
-        public void setTvShows(List<JsonTvShowBasicInfo> tvShows) {
+        public void setTvShows(List<JsonTvShow> tvShows) {
             this.tvShows = tvShows;
         }
 
