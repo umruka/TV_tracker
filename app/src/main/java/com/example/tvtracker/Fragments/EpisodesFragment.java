@@ -56,9 +56,8 @@ public class EpisodesFragment extends Fragment implements EpisodeAdapter.OnItemC
         // TODO: Use the ViewModel
             episodeList.setAdapter(episodeAdapter);
             String jsonEpisodes = getArguments().getString("data");
-            Gson gson = new Gson();
-            TvShowSeason showSeason  = gson.fromJson(jsonEpisodes, TvShowSeason.class);
-            episodeAdapter.setEpisodes(showSeason.getEpisodes());
+            episodesViewModel.setTvShowSeason(jsonEpisodes);
+            episodeAdapter.setEpisodes(episodesViewModel.getTvShowSeason().getEpisodes());
             episodeAdapter.setOnItemClickListener(this);
 
     }
