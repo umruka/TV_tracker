@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String TVSHOW_IMAGE_PATH = "tv_show_image_path";
     public static final String TVSHOW_COUNTRY = "tv_show_country";
     public static final String TVSHOW_NETWORK = "tv_show_network";
+    public static final String TVSHOW_SEASON_NUM = "tv_show_season_number";
+    public static final boolean TVSHOW_WATCHED_EPISODE_FLAG_YES = true;
+    public static final boolean TVSHOW_WATCHED_EPISODE_FLAG_NO = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

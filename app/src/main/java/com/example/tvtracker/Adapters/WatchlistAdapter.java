@@ -24,6 +24,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
     public interface OnItemClickListener {
     void onItemClick(TvShowTest tvShowTest);
+    void onButtonClick(TvShowTest tvShowTest);
     }
 
 
@@ -65,6 +66,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
             holder.textViewEpisodeName.setText("Series finished");
             holder.textViewEpisodeReleaseDate.setText("");
         }
+        holder.textViewEpisodeWatched.setImageResource(R.drawable.ic_check_black_24dp);
 
     }
 
@@ -96,6 +98,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
         private TextView textViewEpisodeName;
         private TextView textViewEpisodeReleaseDate;
+        private ImageView textViewEpisodeWatched;
 
         private TvShowCombinedViewHolder(View itemView) {
             super(itemView);
@@ -107,6 +110,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
             textViewEpisodeName = itemView.findViewById(R.id.episode_name);
             textViewEpisodeReleaseDate = itemView.findViewById(R.id.episode_release_date);
+            textViewEpisodeWatched = itemView.findViewById(R.id.episode_watch_button);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,6 +121,17 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
                     }
                 }
             });
+
+            textViewEpisodeWatched.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onButtonClick(tvShows.get(position));
+                    }
+                }
+            });
+
 
         }
     }

@@ -28,26 +28,51 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
+            <ProgressBar
+                android:id="@+id/episode_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_view_watchlist_image_thumbnail" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/episode_watch_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_below="@id/episode_name"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/episode_release_date" />
+
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/text_view_watchlist_image_thumbnail"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                />
+                android:layout_marginBottom="8dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/episode_release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/episode_name"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/text_view_watchlist_image_thumbnail"
+                android:text="Episode release date" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_view_watchlist_tv_show_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/text_view_watchlist_image_thumbnail"
                 android:layout_marginStart="8dp"
+                android:layout_toEndOf="@+id/text_view_watchlist_image_thumbnail"
+                android:autoSizeMaxTextSize="100sp"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeStepGranularity="2sp"
+                android:autoSizeTextType="uniform"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="100sp"
-                android:autoSizeStepGranularity="2sp"
 
                 android:text="name"
                 android:textAppearance="?textAppearanceHeadline5" />
@@ -57,39 +82,19 @@
                 android:id="@+id/episode_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/text_view_watchlist_tv_show_name"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_toEndOf="@id/text_view_watchlist_image_thumbnail"
-                android:layout_below="@id/text_view_watchlist_tv_show_name"
-                android:text="Episode name"
-                />
+                android:text="Episode name" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/episode_release_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:text="Episode release date"
-                android:layout_toEndOf="@id/text_view_watchlist_image_thumbnail"
-                android:layout_below="@id/episode_name"
-                />
-
-            <ProgressBar
-                android:id="@+id/episode_progress"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_watchlist_image_thumbnail"
-                style="?android:attr/progressBarStyleHorizontal"
-                />
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/episode_progress_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/episode_progress"
                 android:layout_below="@id/text_view_watchlist_image_thumbnail"
                 android:layout_marginStart="16dp"
-                />
+                android:layout_toEndOf="@id/episode_progress" />
 
         </RelativeLayout>
 

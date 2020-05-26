@@ -27,6 +27,7 @@ import com.example.tvtracker.Models.TvShowGenre;
 import com.example.tvtracker.Models.TvShowPicture;
 import com.example.tvtracker.Models.Params.UpdateTvShowDetailsParams;
 import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
+import com.example.tvtracker.Models.TvShowSeason;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class AppRepository {
     private MutableLiveData<Resource<List<TvShow>>> discoverListObservable = new MutableLiveData<>();
     private MutableLiveData<Resource<List<TvShowTest>>> watchlistListObservable = new MutableLiveData<>();
     private MutableLiveData<Resource<TvShowTest>> detailObservable = new MutableLiveData<>();
+    private MutableLiveData<Resource<TvShowSeason>> seasonObservable = new MutableLiveData<>();
 
     private MutableLiveData<List<TvShow>> allSearchTvShows;
 
@@ -85,6 +87,18 @@ public class AppRepository {
         getDetailsFromWeb(id);
     }
 
+    public void fetchTvShowEpisodesBySeason(int id, int seasonNum){
+        TvShowSeason loadingTvShowSeason = null;
+        if(seasonObservable.getValue() != null){
+            loadingTvShowSeason = seasonObservable.getValue().data;
+        }
+        seasonObservable.setValue(Resource.loading(loadingTvShowSeason));
+        loadTvShowSeasonFromDb(id, seasonNum);
+
+    }
+
+
+
     public MutableLiveData<Resource<List<TvShowTest>>> getWatchlistListObservable() {
         return watchlistListObservable;
     }
@@ -93,10 +107,12 @@ public class AppRepository {
         return discoverListObservable;
     }
 
-
-
     public MutableLiveData<Resource<TvShowTest>> getDetailObservable() {
         return detailObservable;
+    }
+
+    public MutableLiveData<Resource<TvShowSeason>> getSeasonObservable() {
+        return seasonObservable;
     }
 
     private void getTvShowsFromWeb(int pageNum) {
@@ -131,7 +147,6 @@ public class AppRepository {
             }
         });
     }
-
 
     private void getDetailsFromWeb(int id){
         Log.d("", "getDetailsFromWeb");
@@ -253,8 +268,6 @@ public class AppRepository {
             }
         }.execute();
     }
-
-
     private void loadTvShowDetailFromDb(int id) {
         Log.d("", "load tv show detail from db");
         new AsyncTask<Void, Void, TvShowTest>() {
@@ -276,7 +289,26 @@ public class AppRepository {
             }
         }.execute();
     }
+    private void loadTvShowSeasonFromDb(int id, int seasonNum){
+        Log.d("", "load tv show season from db");
+        new AsyncTask<Void, Void, TvShowSeason>() {
+            @Override
+            protected TvShowSeason doInBackground(Void... voids) {
+                List<TvShowEpisode> episodes = appDao.getTvShowEpisodesByIdAndSeasonNum(id, seasonNum);
+                TvShowSeason season = new TvShowSeason(seasonNum, episodes);
+                return season;
+            }
 
+            @Override
+            protected void onPostExecute(TvShowSeason tvShowSeason) {
+                if(tvShowSeason != null){
+                    setSeasonObservableData(tvShowSeason, null);
+                    setSeasonObservableStatus(com.example.tvtracker.Models.Basic.Status.SUCCESS, null);
+                }
+            }
+        }.execute();
+
+    }
 
     private void loadAllWatchlistTvShowsFromDb() {
         Log.d("", "load all tv shows from db");
@@ -387,8 +419,6 @@ public class AppRepository {
 
     }
 
-
-
     private void setDetailObservableData(TvShowTest tvShowTest, String message) {
         Log.d("setDetailObservableData", "setDetailListObservableData:");
         Status loadingStatus = Status.LOADING;
@@ -424,6 +454,47 @@ public class AppRepository {
             case SUCCESS:
                 if (loadingList!=null) {
                     detailObservable.setValue(Resource.success(loadingList));
+                }
+                break;
+        }
+
+    }
+
+    private void setSeasonObservableData(TvShowSeason tvShowSeason, String message) {
+        Log.d("setSeasonObservableData", "setSeasonObservableData:");
+        Status loadingStatus = Status.LOADING;
+        if (seasonObservable.getValue()!=null){
+            loadingStatus=seasonObservable.getValue().status;
+        }
+        switch (loadingStatus) {
+            case LOADING:
+                seasonObservable.setValue(Resource.loading(tvShowSeason));
+                break;
+            case ERROR:
+                seasonObservable.setValue(Resource.error(message,tvShowSeason));
+                break;
+            case SUCCESS:
+                seasonObservable.setValue(Resource.success(tvShowSeason));
+                break;
+        }
+    }
+
+    private void setSeasonObservableStatus(Status status, String message) {
+        Log.d("setSeasonObservableStat","setSeasonObservableStatus");
+        TvShowSeason loadingList = null;
+        if (seasonObservable.getValue()!=null){
+            loadingList=seasonObservable.getValue().data;
+        }
+        switch (status) {
+            case ERROR:
+                seasonObservable.setValue(Resource.error(message, loadingList));
+                break;
+            case LOADING:
+                seasonObservable.setValue(Resource.loading(loadingList));
+                break;
+            case SUCCESS:
+                if (loadingList!=null) {
+                    seasonObservable.setValue(Resource.success(loadingList));
                 }
                 break;
         }

@@ -107,6 +107,20 @@ public class TvShowTest {
         return state;
     }
 
+    /*
+                List<TvShowSeason> seasons = tvShowSeasons;
+        for(int i = 0; i < seasons.size();i++) {
+            int seasonEpisodeSize = seasons.get(i).getEpisodes().size();
+            for(int j = 0; j < seasonEpisodeSize; j++) {
+                boolean isCurrentEpisodeWatched = tvShowSeasons.get(i).getEpisodes().get(j).isWatched();
+                if(isCurrentEpisodeWatched) {
+                    counter++;
+                }
+            }
+        }
+
+         */
+
 
 
 }

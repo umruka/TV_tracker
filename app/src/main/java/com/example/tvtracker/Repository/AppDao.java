@@ -86,6 +86,10 @@ public interface AppDao {
     @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id IN (:tvShowId)")
     List<TvShowEpisode> getTvShowEpisodesById(int tvShowId);
 
+
+    @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id IN (:tvShowId) AND tv_show_season IN(:seasonNum)")
+    List<TvShowEpisode> getTvShowEpisodesByIdAndSeasonNum(int tvShowId, int seasonNum);
+
     //TvShowGenre
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

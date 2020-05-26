@@ -21,11 +21,12 @@ import java.util.List;
 public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeViewHolder> {
 
     public interface OnItemClickListener {
-        void onItemClick(TvShowEpisode episode);
+        void onItemClick(int position, TvShowEpisode episode);
     }
 
     private List<TvShowEpisode> episodes = new ArrayList<>();
     private OnItemClickListener listener;
+    private boolean episodeState;
 
 
     @NonNull
@@ -41,6 +42,12 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeV
     public void onBindViewHolder(@NonNull EpisodeViewHolder holder, int position) {
         TvShowEpisode currentTvShowEpisode = episodes.get(position);
         holder.textView.setText(currentTvShowEpisode.getEpisodeName());
+        episodeState = currentTvShowEpisode.isWatched();
+        if(episodeState) {
+            holder.imageView.setImageResource(R.drawable.ic_check_black_24dp);
+        }else {
+            holder.imageView.setImageResource(R.drawable.ic_close_black_24dp);
+        }
         }
 
     public void setEpisodes(List<TvShowEpisode> pictures) {
@@ -69,19 +76,22 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeV
     class EpisodeViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textView;
+        private ImageView imageView;
 
         private EpisodeViewHolder(View itemView) {
             super(itemView);
 
             textView = itemView.findViewById(R.id.name);
+            imageView = itemView.findViewById(R.id.watched_flag);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(episodes.get(position));
+                        listener.onItemClick(position, episodes.get(position));
                     }
+
                 }
             });
 

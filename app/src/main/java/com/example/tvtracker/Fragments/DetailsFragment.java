@@ -172,9 +172,10 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
         NavController navHostController = Navigation.findNavController(getView());
         if (navHostController.getCurrentDestination().getId() == R.id.fragment_details) {
             Bundle bundle = new Bundle();
-            Gson gson = new Gson();
-            String data = gson.toJson(season);
-            bundle.putString("data", data);
+            int id = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
+            int seasonNum = season.getSeasonNum();
+            bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(id));
+            bundle.putString(MainActivity.TVSHOW_SEASON_NUM, String.valueOf(seasonNum));
             navHostController.navigate(R.id.action_fragment_details_to_fragment_episodes, bundle);
         }
     }
