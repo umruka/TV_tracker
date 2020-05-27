@@ -1,17 +1,16 @@
 package com.example.tvtracker.Repository;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
+import com.example.tvtracker.Models.QueryModels.fromDbCall;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowGenre;
 import com.example.tvtracker.Models.TvShowPicture;
-import com.example.tvtracker.Models.QueryModels.TvShowFull;
 
 import java.util.List;
 
@@ -90,6 +89,9 @@ public interface AppDao {
     @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id IN (:tvShowId) AND tv_show_season IN(:seasonNum)")
     List<TvShowEpisode> getTvShowEpisodesByIdAndSeasonNum(int tvShowId, int seasonNum);
 
+    @Query("SELECT MAX(tv_show_season) FROM tv_show_episode_table WHERE tv_show_id IN(:tvShowId)")
+    int getMaxSeasonByTvShowId(int tvShowId);
+
     //TvShowGenre
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -106,7 +108,7 @@ public interface AppDao {
     //DetailsFragment
     @Transaction
     @Query("SELECT * FROM tv_show_table WHERE tv_show_id IN (:tvShowId)")
-    List<TvShowFull> getTvShowWithPicturesAndEpisodesById(int tvShowId);
+    List<fromDbCall> getTvShowWithPicturesAndEpisodesById(int tvShowId);
 
 
 }

@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
-import com.example.tvtracker.Models.QueryModels.TvShowTest;
+import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.R;
 import com.example.tvtracker.Adapters.WatchlistAdapter;
 import com.example.tvtracker.ViewModels.EpisodesViewModel;
@@ -56,9 +56,9 @@ public class WatchlistFragment extends Fragment {
 
         episodesViewModel = new ViewModelProvider(this).get(EpisodesViewModel.class);
         watchlistViewModel = new ViewModelProvider(this).get(WatchlistViewModel.class);
-        watchlistViewModel.getWatchlistListObservable().observe(getViewLifecycleOwner(), new Observer<Resource<List<TvShowTest>>>() {
+        watchlistViewModel.getWatchlistListObservable().observe(getViewLifecycleOwner(), new Observer<Resource<List<TvShowFull>>>() {
                     @Override
-                    public void onChanged(Resource<List<TvShowTest>> tvShows) {
+                    public void onChanged(Resource<List<TvShowFull>> tvShows) {
                         adapter.setTvShows(tvShows.data);
                     }
                 });
@@ -66,21 +66,21 @@ public class WatchlistFragment extends Fragment {
 
                 adapter.setOnItemClickListener(new WatchlistAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(TvShowTest tvShowTest) {
+                    public void onItemClick(TvShowFull tvShowFull) {
                         NavController navHostController = Navigation.findNavController(getView());
                         if (navHostController.getCurrentDestination().getId() == R.id.navigation_watchlist) {
                             Bundle bundle = new Bundle();
-                            int id = tvShowTest.getTvShow().getTvShowId();
+                            int id = tvShowFull.getTvShow().getTvShowId();
                             bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(id));
                             navHostController.navigate(R.id.action_navigation_watchlist_to_details_fragment, bundle);
                         }
                     }
 
                     @Override
-                    public void onButtonClick(TvShowTest tvShowTest) {
+                    public void onButtonClick(TvShowFull tvShowFull) {
 
-                        if(tvShowTest.getNextWatched() != null) {
-                            int id = tvShowTest.getNextWatched().getId();
+                        if(tvShowFull.getNextWatched() != null) {
+                            int id = tvShowFull.getNextWatched().getId();
                             UpdateTvShowEpisodeWatchedFlagParams params = new UpdateTvShowEpisodeWatchedFlagParams(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_YES);
                             episodesViewModel.setWatchedFlag(params);
                             watchlistViewModel.fetchData();

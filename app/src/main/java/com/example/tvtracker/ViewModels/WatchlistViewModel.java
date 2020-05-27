@@ -9,8 +9,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.tvtracker.Models.Basic.Resource;
-import com.example.tvtracker.Models.QueryModels.TvShowTest;
-import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Repository.AppRepository;
 
 import java.util.List;
@@ -18,20 +17,20 @@ import java.util.List;
 public class WatchlistViewModel extends AndroidViewModel {
 
     private AppRepository repository;
-    private MediatorLiveData<Resource<List<TvShowTest>>> watchlistListObservable = new MediatorLiveData<>();
+    private MediatorLiveData<Resource<List<TvShowFull>>> watchlistListObservable = new MediatorLiveData<>();
 
     public WatchlistViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
-        watchlistListObservable.addSource(repository.getWatchlistListObservable(), new Observer<Resource<List<TvShowTest>>>() {
+        watchlistListObservable.addSource(repository.getWatchlistListObservable(), new Observer<Resource<List<TvShowFull>>>() {
             @Override
-            public void onChanged(Resource<List<TvShowTest>> tvShows) {
+            public void onChanged(Resource<List<TvShowFull>> tvShows) {
                 watchlistListObservable.setValue(tvShows);
             }
         });
     }
 
-    public LiveData<Resource<List<TvShowTest>>> getWatchlistListObservable() {
+    public LiveData<Resource<List<TvShowFull>>> getWatchlistListObservable() {
         return watchlistListObservable;
     }
 

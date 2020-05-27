@@ -9,29 +9,26 @@ import androidx.lifecycle.Observer;
 
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
-import com.example.tvtracker.Models.QueryModels.TvShowTest;
-import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Repository.AppRepository;
-
-import java.util.List;
 
 public class DetailsViewModel extends AndroidViewModel {
     private AppRepository repository;
 
-    private MediatorLiveData<Resource<TvShowTest>> tvShowTestObservable = new MediatorLiveData<>();
+    private MediatorLiveData<Resource<TvShowFull>> tvShowTestObservable = new MediatorLiveData<>();
     public DetailsViewModel(@NonNull Application application) {
     super(application);
     repository = new AppRepository(application);
-        tvShowTestObservable.addSource(repository.getDetailObservable(), new Observer<Resource<TvShowTest>>() {
+        tvShowTestObservable.addSource(repository.getDetailObservable(), new Observer<Resource<TvShowFull>>() {
         @Override
-        public void onChanged(Resource<TvShowTest> tvShowTestResource) {
+        public void onChanged(Resource<TvShowFull> tvShowTestResource) {
             tvShowTestObservable.setValue(tvShowTestResource);
         }
     });
 
     }
 
-    public MediatorLiveData<Resource<TvShowTest>> getTvShowTestObservable() {
+    public MediatorLiveData<Resource<TvShowFull>> getTvShowTestObservable() {
         return tvShowTestObservable;
     }
 

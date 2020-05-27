@@ -26,14 +26,11 @@ import com.example.tvtracker.Adapters.PicturesAdapter;
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Basic.Status;
-import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
-import com.example.tvtracker.Models.QueryModels.TvShowTest;
+import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.TvShow;
-import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowSeason;
 import com.example.tvtracker.R;
 import com.example.tvtracker.ViewModels.DetailsViewModel;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 
@@ -126,9 +123,9 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
 
 
         int id = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
-        detailsViewModel.getTvShowTestObservable().observe(getViewLifecycleOwner(), new Observer<Resource<TvShowTest>>() {
+        detailsViewModel.getTvShowTestObservable().observe(getViewLifecycleOwner(), new Observer<Resource<TvShowFull>>() {
             @Override
-            public void onChanged(Resource<TvShowTest> tvShowTestResource) {
+            public void onChanged(Resource<TvShowFull> tvShowTestResource) {
                 if(tvShowTestResource.status == Status.LOADING) {
                     dataView.setVisibility(View.GONE);
                     syncView.setVisibility(View.VISIBLE);
@@ -136,8 +133,8 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
                 if(tvShowTestResource.data != null && tvShowTestResource.status != Status.LOADING && tvShowTestResource.data.getTvShow() != null) {
                     syncView.setVisibility(View.GONE);
                     dataView.setVisibility(View.VISIBLE);
-                    TvShowTest tvShowTest = tvShowTestResource.data;
-                    TvShow tvShow = tvShowTest.getTvShow();
+                    TvShowFull tvShowFull = tvShowTestResource.data;
+                    TvShow tvShow = tvShowFull.getTvShow();
                     textViewId.setText(String.valueOf(tvShow.getTvShowId()));
                     textViewName.setText(tvShow.getTvShowName());
                     textViewStatus.setText(tvShow.getTvShowStatus());
@@ -148,8 +145,8 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
                     imagePath.setText(tvShow.getTvShowImagePath());
                     textViewCountry.setText(tvShow.getTvShowCountry());
                     textViewNetwork.setText(tvShow.getTvShowNetwork());
-                    picturesAdapter.setPictures(tvShowTest.getTvShowPictures());
-                    seasonsAdapter.setEpisodes(tvShowTest.getTvShowSeasons());
+                    picturesAdapter.setPictures(tvShowFull.getTvShowPictures());
+                    seasonsAdapter.setEpisodes(tvShowFull.getTvShowSeasons());
                 }
                 }
 
@@ -160,7 +157,7 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
 
 
 
-//        List<TvShowFull> tvShowFulls = discoverViewModel.getTvShowWithPicturesById(id);
+//        List<fromDbCall> tvShowFulls = discoverViewModel.getTvShowWithPicturesById(id);
 //        TvShow tvShow = tvShowFulls.get(0).tvShow;
 
 

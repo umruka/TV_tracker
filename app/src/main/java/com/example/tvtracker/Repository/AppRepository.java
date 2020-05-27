@@ -12,15 +12,13 @@ import com.example.tvtracker.Api.ApiService;
 import com.example.tvtracker.JsonModels.JsonTvShowSearchRoot;
 import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShow;
 import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShowBasicRoot;
-import com.example.tvtracker.JsonModels.TvShowDetails.JsonEpisode;
-import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowFull;
 import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowFullRoot;
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Basic.Status;
 import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
+import com.example.tvtracker.Models.QueryModels.fromDbCall;
 import com.example.tvtracker.Models.QueryModels.TvShowFull;
-import com.example.tvtracker.Models.QueryModels.TvShowTest;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowGenre;
@@ -30,6 +28,8 @@ import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 import com.example.tvtracker.Models.TvShowSeason;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -42,8 +42,8 @@ public class AppRepository {
 
 
     private MutableLiveData<Resource<List<TvShow>>> discoverListObservable = new MutableLiveData<>();
-    private MutableLiveData<Resource<List<TvShowTest>>> watchlistListObservable = new MutableLiveData<>();
-    private MutableLiveData<Resource<TvShowTest>> detailObservable = new MutableLiveData<>();
+    private MutableLiveData<Resource<List<TvShowFull>>> watchlistListObservable = new MutableLiveData<>();
+    private MutableLiveData<Resource<TvShowFull>> detailObservable = new MutableLiveData<>();
     private MutableLiveData<Resource<TvShowSeason>> seasonObservable = new MutableLiveData<>();
 
     private MutableLiveData<List<TvShow>> allSearchTvShows;
@@ -63,13 +63,13 @@ public class AppRepository {
         }
         discoverListObservable.setValue(Resource.loading(loadingList));
         loadAllTvShowsFromDb();
-//        for (int i = 0; i < 5; i++) {
-            getTvShowsFromWeb(1);
-//        }
+        for (int i = 1; i <= MainActivity.TV_SHOW_MOST_POPULAR_PAGES_COUNT; i++) {
+            getTvShowsFromWeb(i);
+        }
     }
 
     public void fetchWatchlist() {
-        List<TvShowTest> loadingList = null;
+        List<TvShowFull> loadingList = null;
         if(watchlistListObservable.getValue() != null) {
             loadingList = watchlistListObservable.getValue().data;
         }
@@ -78,7 +78,7 @@ public class AppRepository {
     }
 
     public void fetchTvShowDetails(int id) {
-        TvShowTest loadingTvShow = null;
+        TvShowFull loadingTvShow = null;
         if (detailObservable.getValue() != null) {
             loadingTvShow = detailObservable.getValue().data;
         }
@@ -99,7 +99,7 @@ public class AppRepository {
 
 
 
-    public MutableLiveData<Resource<List<TvShowTest>>> getWatchlistListObservable() {
+    public MutableLiveData<Resource<List<TvShowFull>>> getWatchlistListObservable() {
         return watchlistListObservable;
     }
 
@@ -107,7 +107,7 @@ public class AppRepository {
         return discoverListObservable;
     }
 
-    public MutableLiveData<Resource<TvShowTest>> getDetailObservable() {
+    public MutableLiveData<Resource<TvShowFull>> getDetailObservable() {
         return detailObservable;
     }
 
@@ -168,19 +168,32 @@ public class AppRepository {
 
     }
 
-    private void addDetailsToDb(TvShowTest tvShowTest){
+    private void addDetailsToDb(TvShowFull tvShowFull){
         Log.d("", "add details to db");
-        new AsyncTask<TvShowTest, Void, Integer>() {
+        new AsyncTask<TvShowFull, Void, Integer>() {
             @Override
-            protected Integer doInBackground(TvShowTest... tvShowTests) {
-                TvShowTest tvShowTest = tvShowTests[0];
-                TvShow tvShow = tvShowTest.getTvShow();
+            protected Integer doInBackground(TvShowFull... tvShowFulls) {
+                TvShowFull tvShowFull = tvShowFulls[0];
+                TvShow tvShow = tvShowFull.getTvShow();
 
                 int id = tvShow.getTvShowId();
 
-                List<TvShowEpisode> episodes = tvShowTest.getTvShowEpisodes();
-                List<TvShowGenre> genres = tvShowTest.getTvShowGenres();
-                List<TvShowPicture> pictures = tvShowTest.getTvShowPictures();
+                List<TvShowEpisode> episodes = tvShowFull.getTvShowEpisodes();
+                Collections.sort(episodes, new Comparator<TvShowEpisode>() {
+                    @Override
+                    public int compare(TvShowEpisode ep1, TvShowEpisode ep2) {
+                        if (ep1.getSeasonNum() == ep2.getSeasonNum()) {
+                            return 0;
+                        } else if (ep1.getSeasonNum() > ep2.getSeasonNum()) {
+                            return 1;
+                        } else if (ep1.getSeasonNum() < ep2.getSeasonNum()) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
+                List<TvShowGenre> genres = tvShowFull.getTvShowGenres();
+                List<TvShowPicture> pictures = tvShowFull.getTvShowPictures();
 
                 List<TvShowEpisode> dbEpisodes = new ArrayList<>();
                 List<TvShowGenre> dbGenres = new ArrayList<>();
@@ -219,7 +232,7 @@ public class AppRepository {
             protected void onPostExecute(Integer integer) {
                 loadTvShowDetailFromDb(integer);
             }
-        }.execute(tvShowTest);
+        }.execute(tvShowFull);
     }
 
     private void addTvShowsToDb(List<TvShow> tvShows)  {
@@ -270,21 +283,31 @@ public class AppRepository {
     }
     private void loadTvShowDetailFromDb(int id) {
         Log.d("", "load tv show detail from db");
-        new AsyncTask<Void, Void, TvShowTest>() {
+        new AsyncTask<Void, Void, TvShowFull>() {
             @Override
-            protected TvShowTest doInBackground(Void... voids) {
+            protected TvShowFull doInBackground(Void... voids) {
                 TvShow tvShow = appDao.getTvShowById(id);
+//                List<TvShowEpisode> episodes = appDao.getTvShowEpisodesById(id);
+                // need fix
+//                int currentSeason = 1;
+//                int maxSeason = appDao.getMaxSeasonByTvShowId(id);
+//                for(int i = 1; i <= maxSeason; i++) {
+//                    List<TvShowEpisode> currentEpisodes = appDao.getTvShowEpisodesByIdAndSeasonNum(id, currentSeason);
+//                    episodes.addAll(currentEpisodes);
+//                    currentSeason++;
+//                    currentEpisodes.clear();
+//                }
                 List<TvShowEpisode> episodes = appDao.getTvShowEpisodesById(id);
                 List<TvShowGenre> genres = appDao.getTvShowGenresById(id);
                 List<TvShowPicture> pictures = appDao.getTvShowPicturesByTvShowId(id);
-                TvShowTest tvShowTest = new TvShowTest(tvShow, episodes, genres, pictures);
-                return tvShowTest;
+                TvShowFull tvShowFull = new TvShowFull(tvShow, episodes, genres, pictures);
+                return tvShowFull;
             }
 
             @Override
-            protected void onPostExecute(TvShowTest tvShowTest) {
-                if(tvShowTest != null){
-                    setDetailObservableData(tvShowTest, null);
+            protected void onPostExecute(TvShowFull tvShowFull) {
+                if(tvShowFull != null){
+                    setDetailObservableData(tvShowFull, null);
                 }
             }
         }.execute();
@@ -312,24 +335,24 @@ public class AppRepository {
 
     private void loadAllWatchlistTvShowsFromDb() {
         Log.d("", "load all tv shows from db");
-        new AsyncTask<Void, Void, List<TvShowTest>>() {
+        new AsyncTask<Void, Void, List<TvShowFull>>() {
             @Override
-            protected List<TvShowTest> doInBackground(Void... voids) {
-                List<TvShowTest> tvShowTestList = new ArrayList<>();
+            protected List<TvShowFull> doInBackground(Void... voids) {
+                List<TvShowFull> tvShowFullList = new ArrayList<>();
                 List<TvShow> list = appDao.getWatchlistTvShows(MainActivity.TVSHOW_WATCHING_FLAG_YES);
                 for(TvShow tvShow : list) {
                     int id = tvShow.getTvShowId();
                     List<TvShowEpisode> episodes = appDao.getTvShowEpisodesById(id);
                     List<TvShowGenre> genres = appDao.getTvShowGenresById(id);
                     List<TvShowPicture> pictures = appDao.getTvShowPicturesByTvShowId(id);
-                    TvShowTest tvShowTest = new TvShowTest(tvShow, episodes, genres, pictures);
-                    tvShowTestList.add(tvShowTest);
+                    TvShowFull tvShowFull = new TvShowFull(tvShow, episodes, genres, pictures);
+                    tvShowFullList.add(tvShowFull);
                 }
-                return tvShowTestList;
+                return tvShowFullList;
             }
 
             @Override
-            protected void onPostExecute(List<TvShowTest> tvShows) {
+            protected void onPostExecute(List<TvShowFull> tvShows) {
                 if((tvShows != null) && tvShows.size()>0) {
                     setWatchlistListObservableData(tvShows, null);
                 }
@@ -378,7 +401,7 @@ public class AppRepository {
 
     }
 
-    private void setWatchlistListObservableData(List<TvShowTest> mTvShowList, String message) {
+    private void setWatchlistListObservableData(List<TvShowFull> mTvShowList, String message) {
         Log.d("setTvShowListObservable", "setTvShowListObservableData:");
         Status loadingStatus = Status.LOADING;
         if (watchlistListObservable.getValue()!=null){
@@ -399,7 +422,7 @@ public class AppRepository {
 
     private void setWatchlistListObservableStatus(Status status, String message) {
         Log.d("setTvShowsListObservabl","setTvShowsListObservableStatus");
-        List<TvShowTest> loadingList = null;
+        List<TvShowFull> loadingList = null;
         if (watchlistListObservable.getValue()!=null){
             loadingList=watchlistListObservable.getValue().data;
         }
@@ -419,7 +442,7 @@ public class AppRepository {
 
     }
 
-    private void setDetailObservableData(TvShowTest tvShowTest, String message) {
+    private void setDetailObservableData(TvShowFull tvShowFull, String message) {
         Log.d("setDetailObservableData", "setDetailListObservableData:");
         Status loadingStatus = Status.LOADING;
         if (detailObservable.getValue()!=null){
@@ -427,20 +450,20 @@ public class AppRepository {
         }
         switch (loadingStatus) {
             case LOADING:
-                detailObservable.setValue(Resource.loading(tvShowTest));
+                detailObservable.setValue(Resource.loading(tvShowFull));
                 break;
             case ERROR:
-                detailObservable.setValue(Resource.error(message,tvShowTest));
+                detailObservable.setValue(Resource.error(message, tvShowFull));
                 break;
             case SUCCESS:
-                detailObservable.setValue(Resource.success(tvShowTest));
+                detailObservable.setValue(Resource.success(tvShowFull));
                 break;
         }
     }
 
     private void setDetailObservableStatus(Status status, String message) {
         Log.d("setDetailObservableStat","setDetailListObservableStatus");
-        TvShowTest loadingList = null;
+        TvShowFull loadingList = null;
         if (detailObservable.getValue()!=null){
             loadingList=detailObservable.getValue().data;
         }
@@ -655,7 +678,7 @@ public class AppRepository {
     }
 
     //DetailsFragment
-    public List<TvShowFull> getTvShowWithPicturesAndEpisodesById(int tvShowId) {
+    public List<fromDbCall> getTvShowWithPicturesAndEpisodesById(int tvShowId) {
         try {
             return new GetTvShowWithPicturesAndEpisodesByIdAsyncTask(appDao).execute(tvShowId).get();
         } catch (Exception e) {
@@ -892,7 +915,7 @@ public class AppRepository {
     }
 
     //DetailsFragment AsyncTasks
-    private static class GetTvShowWithPicturesAndEpisodesByIdAsyncTask extends AsyncTask<Integer, Void, List<TvShowFull>> {
+    private static class GetTvShowWithPicturesAndEpisodesByIdAsyncTask extends AsyncTask<Integer, Void, List<fromDbCall>> {
         private AppDao appDao;
 
         GetTvShowWithPicturesAndEpisodesByIdAsyncTask(AppDao appDao) {
@@ -900,7 +923,7 @@ public class AppRepository {
         }
 
         @Override
-        protected List<TvShowFull> doInBackground(Integer... integers) {
+        protected List<fromDbCall> doInBackground(Integer... integers) {
             return appDao.getTvShowWithPicturesAndEpisodesById(integers[0]);
         }
     }

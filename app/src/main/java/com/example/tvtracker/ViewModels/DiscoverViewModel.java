@@ -9,8 +9,8 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.tvtracker.Models.Basic.Resource;
+import com.example.tvtracker.Models.QueryModels.fromDbCall;
 import com.example.tvtracker.Models.QueryModels.TvShowFull;
-import com.example.tvtracker.Models.QueryModels.TvShowTest;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowPicture;
@@ -24,7 +24,7 @@ public class DiscoverViewModel extends AndroidViewModel {
 //    private WebServiceRepository webServiceRepository;
 //    private LiveData<List<TvShow>> allTvShows;
     private MediatorLiveData<Resource<List<TvShow>>> discoverListObservable = new MediatorLiveData<>();
-    private LiveData<List<TvShowTest>> allWatchingTvShows;
+    private LiveData<List<TvShowFull>> allWatchingTvShows;
     private LiveData<List<TvShow>> allSearchWordTvShows;
 //    private final LiveData<List<TvShow>> retroObservable;
 
@@ -66,7 +66,7 @@ public class DiscoverViewModel extends AndroidViewModel {
     public List<TvShowEpisode> tvShowEpisodesById(int showId) { return repository.getTvShowEpisodesById(showId);}
 
 
-    public List<TvShowFull> getTvShowWithPicturesById(int showId) { return repository.getTvShowWithPicturesAndEpisodesById(showId);}
+    public List<fromDbCall> getTvShowWithPicturesById(int showId) { return repository.getTvShowWithPicturesAndEpisodesById(showId);}
 
     public void clearSearchedTvShows() { repository.clearSearchedTvShows();}
 

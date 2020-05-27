@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tvtracker.Adapters.CalendarAdapter;
-import com.example.tvtracker.Models.QueryModels.TvShowFull;
+import com.example.tvtracker.Models.QueryModels.fromDbCall;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.R;
 import com.example.tvtracker.ViewModels.DiscoverViewModel;
@@ -50,9 +50,10 @@ public class CalendarFragment extends Fragment {
 
         final CalendarAdapter adapter = new CalendarAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.setTvShows(discoverViewModel.tvShowPicturesById(23455));
-        List<TvShowEpisode> episodes = discoverViewModel.tvShowEpisodesById(23455);
-        List<TvShowFull> p = discoverViewModel.getTvShowWithPicturesById(23455);
+//        adapter.setTvShows(discoverViewModel.tvShowPicturesById(23455));
+//        List<TvShowEpisode> episodes = discoverViewModel.tvShowEpisodesById(23455);
+//        List<fromDbCall> p = discoverViewModel.getTvShowWithPicturesById(23455);
+
     }
 
 }

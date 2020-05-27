@@ -55,4 +55,5 @@ dependencies {
 
 
     implementation "net.zetetic:android-database-sqlcipher:4.2.0@aar"
+    implementation 'androidx.paging:paging-runtime:2.1.0'
 }

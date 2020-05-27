@@ -1,6 +1,6 @@
 package com.example.tvtracker.JsonModels.TvShowDetails;
 
-import com.example.tvtracker.Models.QueryModels.TvShowTest;
+import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowGenre;
@@ -24,7 +24,7 @@ public class JsonTvShowFullRoot {
         this.jsonTvShowFull = jsonTvShowFull;
     }
 
-    public TvShowTest toDetail(){
+    public TvShowFull toDetail(){
         TvShow tvShow = new TvShow(jsonTvShowFull.getId(), jsonTvShowFull.getName(), jsonTvShowFull.getStartDate(), jsonTvShowFull.getEndDate(), jsonTvShowFull.getCountry(), jsonTvShowFull.getNetwork(), jsonTvShowFull.getStatus(), jsonTvShowFull.getImagePath());
         tvShow.setTvShowDesc(jsonTvShowFull.getDescription());
         tvShow.setTvShowYoutubeLink(jsonTvShowFull.getYoutubeLink());
@@ -50,7 +50,7 @@ public class JsonTvShowFullRoot {
             tvShowPictures.add(new TvShowPicture(id, picture));
         }
 
-        return new TvShowTest(tvShow, tvShowEpisodes, tvShowGenres, tvShowPictures);
+        return new TvShowFull(tvShow, tvShowEpisodes, tvShowGenres, tvShowPictures);
 
 
     }

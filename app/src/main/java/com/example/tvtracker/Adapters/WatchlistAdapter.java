@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tvtracker.Models.QueryModels.TvShowTest;
+import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.R;
@@ -23,12 +23,12 @@ import java.util.List;
 public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvShowCombinedViewHolder>{
 
     public interface OnItemClickListener {
-    void onItemClick(TvShowTest tvShowTest);
-    void onButtonClick(TvShowTest tvShowTest);
+    void onItemClick(TvShowFull tvShowFull);
+    void onButtonClick(TvShowFull tvShowFull);
     }
 
 
-    private List<TvShowTest> tvShows = new ArrayList<>();
+    private List<TvShowFull> tvShows = new ArrayList<>();
     private OnItemClickListener listener;
 
 
@@ -70,7 +70,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
     }
 
-    public void setTvShows(List<TvShowTest> tvShows) {
+    public void setTvShows(List<TvShowFull> tvShows) {
         this.tvShows = tvShows;
         notifyDataSetChanged();
     }

@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TVSHOW_SEASON_NUM = "tv_show_season_number";
     public static final boolean TVSHOW_WATCHED_EPISODE_FLAG_YES = true;
     public static final boolean TVSHOW_WATCHED_EPISODE_FLAG_NO = false;
+    public static final int TV_SHOW_MOST_POPULAR_PAGES_COUNT = 10;
 
 
     @Override
