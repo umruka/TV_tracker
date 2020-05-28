@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer;
 
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
+import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Repository.AppRepository;
 
@@ -36,5 +37,17 @@ public class DetailsViewModel extends AndroidViewModel {
         repository.fetchTvShowDetails(id);
     }
 
+
     public void setWatchedFlag(UpdateTvShowEpisodeWatchedFlagParams params) { repository.updateTvShowEpisodeIsWatchedFlag(params); }
+
+    public void setTvShowWatchedFlag(UpdateTvShowWatchingFlagParams params) { repository.updateTvShowWatchingFlag(params);
+    }
+
+    public boolean getShowState(){
+        if(tvShowTestObservable.getValue().data.getTvShow().getTvShowWatchingFlag().equals("YES")){
+            return true;
+        }
+        return false;
+    }
+
 }

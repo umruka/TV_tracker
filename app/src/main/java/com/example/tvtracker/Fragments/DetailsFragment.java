@@ -26,6 +26,8 @@ import com.example.tvtracker.Adapters.PicturesAdapter;
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Basic.Status;
+import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
+import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowSeason;
@@ -34,13 +36,14 @@ import com.example.tvtracker.ViewModels.DetailsViewModel;
 import com.squareup.picasso.Picasso;
 
 
-public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemClickListener {
+public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemClickListener, View.OnClickListener {
 
 
     private Activity activity;
     private DetailsViewModel detailsViewModel;
     private static final int NUMBER_OF_COLUMNS =  3;
     private static final boolean WATCHED_FLAG_YES = true;
+    private int mId;
 
 
     private NestedScrollView dataView;
@@ -57,6 +60,7 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
     private TextView textViewCountry;
     private TextView textViewNetwork;
 
+    private ImageView imageViewShowState;
     private RecyclerView gridLayoutPictures;
     private RecyclerView seasons;
 
@@ -96,6 +100,8 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
         imagePath = view.findViewById(R.id.details_image_path);
         textViewCountry = view.findViewById(R.id.details_country);
         textViewNetwork = view.findViewById(R.id.details_network);
+        imageViewShowState = view.findViewById(R.id.details_show_state);
+        imageViewShowState.setOnClickListener(this::onClick);
 
         gridLayoutPictures = view.findViewById(R.id.details_pictures_grid);
         gridLayoutPictures.setLayoutManager(new GridLayoutManager(activity, NUMBER_OF_COLUMNS));
@@ -122,7 +128,7 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
         seasons.setAdapter(seasonsAdapter);
 
 
-        int id = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
+        mId  = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
         detailsViewModel.getTvShowTestObservable().observe(getViewLifecycleOwner(), new Observer<Resource<TvShowFull>>() {
             @Override
             public void onChanged(Resource<TvShowFull> tvShowTestResource) {
@@ -147,13 +153,18 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
                     textViewNetwork.setText(tvShow.getTvShowNetwork());
                     picturesAdapter.setPictures(tvShowFull.getTvShowPictures());
                     seasonsAdapter.setEpisodes(tvShowFull.getTvShowSeasons());
+                    if(detailsViewModel.getShowState()){
+                        imageViewShowState.setImageResource(R.drawable.ic_check_black_24dp);
+                    }else{
+                        imageViewShowState.setImageResource(R.drawable.ic_close_black_24dp);
+                    }
                 }
                 }
 
         });
 
-        detailsViewModel.getDetails(id);
-        seasonsAdapter.setOnItemClickListener(this);
+        detailsViewModel.getDetails(mId);
+        seasonsAdapter.setOnItemClickListener(this::onItemClick);
 
 
 
@@ -177,4 +188,18 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(mId, "");
+    if(detailsViewModel.getShowState()){
+        params.setFlag(MainActivity.TVSHOW_WATCHING_FLAG_NO);
+        detailsViewModel.setTvShowWatchedFlag(params);
+        imageViewShowState.setImageResource(R.drawable.ic_close_black_24dp);
+    }else{
+        params.setFlag(MainActivity.TVSHOW_WATCHING_FLAG_YES);
+        detailsViewModel.setTvShowWatchedFlag(params);
+        imageViewShowState.setImageResource(R.drawable.ic_check_black_24dp);
+    }
+//    detailsViewModel.getDetails(mId);
+    }
 }

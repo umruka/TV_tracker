@@ -16,6 +16,8 @@ import com.example.tvtracker.Models.TvShowSeason;
 import com.example.tvtracker.Repository.AppRepository;
 import com.google.gson.Gson;
 
+import java.util.List;
+
 public class EpisodesViewModel extends AndroidViewModel {
     // TODO: Implement the ViewModel
     private AppRepository repository;
@@ -38,6 +40,17 @@ public class EpisodesViewModel extends AndroidViewModel {
 
     public void getSeasonEpisodes(int id, int seasonNum){
         repository.fetchTvShowEpisodesBySeason(id, seasonNum);
+    }
+
+    public int getSeasonEpisodesCount() {
+        TvShowSeason season = seasonObservable.getValue().data;
+        List<TvShowEpisode> tvShowEpisodes = season.getEpisodes();
+        return tvShowEpisodes.size();
+    }
+
+    public int getSeasonProgres() {
+        TvShowSeason season = seasonObservable.getValue().data;
+        return season.getSeasonProgress();
     }
 
     public void setWatchedFlag(UpdateTvShowEpisodeWatchedFlagParams params) { repository.updateTvShowEpisodeIsWatchedFlag(params); }

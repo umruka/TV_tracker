@@ -5,10 +5,22 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.EpisodesFragment">
 
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+   >
+    <ProgressBar
+        android:id="@+id/season_progress"
+       style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       />
+
    <androidx.recyclerview.widget.RecyclerView
        android:id="@+id/episode_recyclerView"
        android:layout_height="match_parent"
        android:layout_width="match_parent"
+       android:layout_below="@id/season_progress"
        />
-
+   </RelativeLayout>
 </FrameLayout>

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.tvtracker.Adapters.EpisodeAdapter;
 import com.example.tvtracker.MainActivity;
@@ -36,6 +37,7 @@ public class EpisodesFragment extends Fragment implements EpisodeAdapter.OnItemC
     private int mSeasonNumber;
 
 
+    private ProgressBar progressBar;
     private RecyclerView episodeList;
 
     public static EpisodesFragment newInstance() {
@@ -46,6 +48,7 @@ public class EpisodesFragment extends Fragment implements EpisodeAdapter.OnItemC
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View  view = inflater.inflate(R.layout.fragment_episodes, container, false);
+        progressBar = view.findViewById(R.id.season_progress);
         episodeList = view.findViewById(R.id.episode_recyclerView);
         episodeList.setLayoutManager(new LinearLayoutManager(activity));
         return view;
@@ -58,6 +61,7 @@ public class EpisodesFragment extends Fragment implements EpisodeAdapter.OnItemC
 
         EpisodeAdapter episodeAdapter = new EpisodeAdapter();
 
+
         episodesViewModel = new ViewModelProvider(this).get(EpisodesViewModel.class);
         // TODO: Use the ViewModel
             episodeList.setAdapter(episodeAdapter);
@@ -69,6 +73,8 @@ public class EpisodesFragment extends Fragment implements EpisodeAdapter.OnItemC
                             if(tvShowSeasonResource.data != null && tvShowSeasonResource.status != Status.LOADING && tvShowSeasonResource.data.getEpisodes() != null) {
                                 episodeAdapter.setEpisodes(tvShowSeasonResource.data.getEpisodes());
 //                                episodesViewModel.getSeasonEpisodes(id, seasonNum);
+                                progressBar.setMax(episodesViewModel.getSeasonEpisodesCount());
+                                progressBar.setProgress(episodesViewModel.getSeasonProgres());
                             }
                         }
                     });

@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private DiscoverViewModel discoverViewModel;
 
     public static final String TVSHOW_WATCHING_FLAG_YES = "YES";
+    public static final String TVSHOW_WATCHING_FLAG_NO = "NO";
     public static final String TVSHOW_BUNDLE = "tv_show_bundle";
     public static final String TVSHOW_ID = "tv_show_id";
     public static final String TVSHOW_NAME = "tv_show_name";
