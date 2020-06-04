@@ -45,7 +45,10 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
     public void onBindViewHolder(@NonNull TvShowCombinedViewHolder holder, int position) {
         TvShow currentTvShow = tvShows.get(position).getTvShow();
 
-        Picasso.get().load(currentTvShow.getTvShowImagePath()).into(holder.textViewTvShowImageThumbnail);
+        Picasso.get()
+                .load(currentTvShow.getTvShowImagePath())
+                .fit()
+                .into(holder.textViewTvShowImageThumbnail);
 //        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
         holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
         int progressMax = tvShows.get(position).getTvShowEpisodes().size();

@@ -1,5 +1,6 @@
 package com.example.tvtracker.Fragments;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
@@ -8,7 +9,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -16,16 +19,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tvtracker.Adapters.CalendarAdapter;
+import com.example.tvtracker.Adapters.EpisodeAdapter;
+import com.example.tvtracker.Models.Basic.Resource;
+import com.example.tvtracker.Models.Basic.Status;
+import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.QueryModels.fromDbCall;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.R;
+import com.example.tvtracker.ViewModels.CalendarViewModel;
 import com.example.tvtracker.ViewModels.DiscoverViewModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class CalendarFragment extends Fragment {
     private Activity activity;
-    DiscoverViewModel discoverViewModel;
+    CalendarViewModel calendarViewModel;
+    private RecyclerView calendarRecyclerView;
 
     public static CalendarFragment newInstance() {
         return new CalendarFragment();
@@ -34,7 +47,10 @@ public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_calendar, container, false);
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false); ;
+        calendarRecyclerView = view.findViewById(R.id.calendar_recycler_view);
+        calendarRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        return view;
     }
 
     @Override
@@ -42,17 +58,21 @@ public class CalendarFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         this.activity = getActivity();
         // TODO: Use the ViewModel
-        discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
+        calendarViewModel = new ViewModelProvider(this).get(CalendarViewModel.class);
 
-        final RecyclerView recyclerView = getView().findViewById(R.id.calendar_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
-
-        final CalendarAdapter adapter = new CalendarAdapter();
-        recyclerView.setAdapter(adapter);
-//        adapter.setTvShows(discoverViewModel.tvShowPicturesById(23455));
-//        List<TvShowEpisode> episodes = discoverViewModel.tvShowEpisodesById(23455);
-//        List<fromDbCall> p = discoverViewModel.getTvShowWithPicturesById(23455);
+        final EpisodeAdapter adapter = new EpisodeAdapter();
+        calendarRecyclerView.setAdapter(adapter);
+        calendarViewModel.getCalendarListObservable().observe(getViewLifecycleOwner(), new Observer<List<TvShowEpisode>>() {
+            @Override
+            public void onChanged(List<TvShowEpisode> tvShowEpisodes) {
+                if(tvShowEpisodes != null){
+                    adapter.setEpisodes(tvShowEpisodes);
+//                    List<String> asd = calendarViewModel.getUniqueDates();
+//                    calendarRecyclerView.addItemDecoration(new DividerItemDecoration(activity,DividerItemDecoration.HORIZONTAL));
+                }
+            }
+        });
+        calendarViewModel.fetchData();
 
     }
 

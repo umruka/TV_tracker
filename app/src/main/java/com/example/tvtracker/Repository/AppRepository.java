@@ -46,7 +46,9 @@ public class AppRepository {
     private MutableLiveData<Resource<TvShowFull>> detailObservable = new MutableLiveData<>();
     private MutableLiveData<Resource<TvShowSeason>> seasonObservable = new MutableLiveData<>();
 
+
     private MutableLiveData<List<TvShow>> allSearchTvShows;
+    private MutableLiveData<List<TvShowEpisode>> last30daysEpisodes = new MutableLiveData<>();
 
 
 
@@ -54,6 +56,23 @@ public class AppRepository {
         AppDatabase database = AppDatabase.getInstance(application);
         appDao = database.appDao();
         allSearchTvShows = new MutableLiveData<>();
+    }
+
+    public void fetchSeasons() {
+        new AsyncTask<TvShowFull, Void, List<TvShowSeason>>(){
+            @Override
+            protected List<TvShowSeason> doInBackground(TvShowFull... tvShowFulls) {
+                TvShowFull tvShowFull = tvShowFulls[0];
+                int tvShowId = tvShowFull.getTvShow().getTvShowId();
+                int maxSeason = appDao.getMaxSeasonByTvShowId(tvShowId);
+                List<TvShowSeason> seasons = new ArrayList<>();
+                for(int i= 1; i<= maxSeason;i++){
+                List<TvShowEpisode> currentEpisodes = appDao.getTvShowEpisodesByIdAndSeasonNum(tvShowId, i);
+                seasons.add(new TvShowSeason(i, currentEpisodes));
+                }
+                return seasons;
+            }
+        }.execute();
     }
 
     public void fetchDiscoverData() {
@@ -98,6 +117,28 @@ public class AppRepository {
     }
 
 
+    public void fetchEpisodesForCalendar(){
+//        List<TvShowEpisode> episodes = new ArrayList<>();
+//        last30daysEpisodes.setValue(episodes);
+        new AsyncTask<Void, Void, List<TvShowEpisode>>(){
+            @Override
+            protected List<TvShowEpisode> doInBackground(Void... voids) {
+            List<TvShowEpisode> episodes =appDao.getTvShowEpisodesForLast30Days();
+                return episodes;
+            }
+
+            @Override
+            protected void onPostExecute(List<TvShowEpisode> tvShowEpisodes) {
+                if(tvShowEpisodes != null){
+                 last30daysEpisodes.postValue(tvShowEpisodes);
+                }
+            }
+        }.execute();
+    }
+
+    public MutableLiveData<List<TvShowEpisode>> getLast30daysEpisodes() {
+        return last30daysEpisodes;
+    }
 
     public MutableLiveData<Resource<List<TvShowFull>>> getWatchlistListObservable() {
         return watchlistListObservable;
@@ -176,9 +217,10 @@ public class AppRepository {
                 TvShowFull tvShowFull = tvShowFulls[0];
                 TvShow tvShow = tvShowFull.getTvShow();
 
-                int id = tvShow.getTvShowId();
 
+                int id = tvShow.getTvShowId();
                 List<TvShowEpisode> episodes = tvShowFull.getTvShowEpisodes();
+//                /*
                 Collections.sort(episodes, new Comparator<TvShowEpisode>() {
                     @Override
                     public int compare(TvShowEpisode ep1, TvShowEpisode ep2) {
@@ -192,6 +234,14 @@ public class AppRepository {
                         return 0;
                     }
                 });
+                for(TvShowEpisode episode : episodes){
+                    String shortDate = episode.getEpisodeAirDate().substring(0, 10);
+                    if(shortDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                        episode.setEpisodeAirDate(shortDate);
+                    }else{
+                        episode.setEpisodeAirDate("");
+                    }
+                }
                 List<TvShowGenre> genres = tvShowFull.getTvShowGenres();
                 List<TvShowPicture> pictures = tvShowFull.getTvShowPictures();
 

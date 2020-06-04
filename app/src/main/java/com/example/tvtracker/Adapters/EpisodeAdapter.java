@@ -14,18 +14,20 @@ import com.example.tvtracker.Models.TvShowPicture;
 import com.example.tvtracker.R;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeViewHolder> {
 
+    private OnItemClickListener listener;
     public interface OnItemClickListener {
         void onItemClick(int position, TvShowEpisode episode);
     }
 
     private List<TvShowEpisode> episodes = new ArrayList<>();
-    private OnItemClickListener listener;
     private boolean episodeState;
 
 
@@ -41,7 +43,10 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeV
     @Override
     public void onBindViewHolder(@NonNull EpisodeViewHolder holder, int position) {
         TvShowEpisode currentTvShowEpisode = episodes.get(position);
-        holder.textView.setText(currentTvShowEpisode.getEpisodeName());
+        holder.textViewName.setText(currentTvShowEpisode.getEpisodeName());
+        holder.textViewEpisodeNum.setText(String.valueOf("Episode: " + currentTvShowEpisode.getEpisodeNum()));
+        holder.textViewSeasonNum.setText(String.valueOf("Season: " + currentTvShowEpisode.getSeasonNum()));
+        holder.textViewAirDate.setText(String.valueOf(currentTvShowEpisode.getEpisodeAirDate()));
         episodeState = currentTvShowEpisode.isWatched();
         if(episodeState) {
             holder.imageView.setImageResource(R.drawable.ic_check_black_24dp);
@@ -75,13 +80,19 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeV
 
     class EpisodeViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView textView;
+        private TextView textViewName;
+        private TextView textViewEpisodeNum;
+        private TextView textViewSeasonNum;
+        private TextView textViewAirDate;
         private ImageView imageView;
 
         private EpisodeViewHolder(View itemView) {
             super(itemView);
 
-            textView = itemView.findViewById(R.id.name);
+            textViewName = itemView.findViewById(R.id.name);
+            textViewEpisodeNum = itemView.findViewById(R.id.episodeNum);
+            textViewSeasonNum = itemView.findViewById(R.id.seasonNum);
+            textViewAirDate = itemView.findViewById(R.id.air_date);
             imageView = itemView.findViewById(R.id.watched_flag);
 
             itemView.setOnClickListener(new View.OnClickListener() {

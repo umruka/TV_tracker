@@ -7,12 +7,7 @@ import com.example.tvtracker.Models.TvShowPicture;
 import com.example.tvtracker.Models.TvShowSeason;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TvShowFull {
     private TvShow tvShow;
@@ -76,17 +71,18 @@ public class TvShowFull {
         List<TvShowEpisode> currentSeasonEpisodes = new ArrayList<>();
 
         int currentSeason = 1;
-        for (int i = 0; i < tvShowEpisodes.size(); i++) {
-            TvShowEpisode currentEpisode = tvShowEpisodes.get(i);
-            int currentEpisodeSeason = currentEpisode.getSeasonNum();
-            if (currentEpisodeSeason == currentSeason) {
-                currentSeasonEpisodes.add(currentEpisode);
-            } else {
+        for (TvShowEpisode episode : tvShowEpisodes){
+            int currentEpisodeSeason = episode.getSeasonNum();
+            if(currentEpisodeSeason == currentSeason){
+                currentSeasonEpisodes.add(episode);
+            }else{
                 tvShowSeasons.add(new TvShowSeason(currentSeason, currentSeasonEpisodes));
                 currentSeason++;
                 currentSeasonEpisodes = new ArrayList<>();
             }
         }
+        //Last season
+        tvShowSeasons.add(new TvShowSeason(currentSeason, currentSeasonEpisodes));
         return tvShowSeasons;
     }
 

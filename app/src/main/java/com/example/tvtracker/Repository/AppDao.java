@@ -111,4 +111,7 @@ public interface AppDao {
     List<fromDbCall> getTvShowWithPicturesAndEpisodesById(int tvShowId);
 
 
+    @Query("SELECT * FROM tv_show_episode_table WHERE date(tv_show_air_date)>=date('now','-1 month') ORDER BY date(tv_show_air_date) ASC")
+    List<TvShowEpisode> getTvShowEpisodesForLast30Days();
+
 }

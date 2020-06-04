@@ -35,14 +35,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_view_watchlist_image_thumbnail" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/episode_watch_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_below="@id/episode_name"
-                android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/episode_release_date" />
-
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/text_view_watchlist_image_thumbnail"
@@ -51,6 +43,22 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp" />
 
+            <RelativeLayout
+                android:id="@+id/episode_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/text_view_watchlist_image_thumbnail"
+                android:layout_below="@id/text_view_watchlist_tv_show_name">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/episode_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Episode name" />
+
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/episode_release_date"
                 android:layout_width="wrap_content"
@@ -58,8 +66,19 @@
                 android:layout_below="@id/episode_name"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/text_view_watchlist_image_thumbnail"
                 android:text="Episode release date" />
+
+            </RelativeLayout>
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/episode_watch_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/text_view_watchlist_tv_show_name"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_view_watchlist_tv_show_name"
@@ -78,15 +97,7 @@
                 android:textAppearance="?textAppearanceHeadline5" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/episode_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_watchlist_tv_show_name"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_toEndOf="@id/text_view_watchlist_image_thumbnail"
-                android:text="Episode name" />
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/episode_progress_text"

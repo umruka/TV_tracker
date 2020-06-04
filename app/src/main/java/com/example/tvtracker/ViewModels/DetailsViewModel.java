@@ -11,7 +11,12 @@ import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
 import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 import com.example.tvtracker.Models.QueryModels.TvShowFull;
+import com.example.tvtracker.Models.TvShowEpisode;
+import com.example.tvtracker.Models.TvShowSeason;
 import com.example.tvtracker.Repository.AppRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DetailsViewModel extends AndroidViewModel {
     private AppRepository repository;
@@ -44,10 +49,12 @@ public class DetailsViewModel extends AndroidViewModel {
     }
 
     public boolean getShowState(){
-        if(tvShowTestObservable.getValue().data.getTvShow().getTvShowWatchingFlag().equals("YES")){
+        String isWatched = tvShowTestObservable.getValue().data.getTvShow().getTvShowWatchingFlag();
+        if(("YES").equals(isWatched)){
             return true;
         }
         return false;
     }
+
 
 }

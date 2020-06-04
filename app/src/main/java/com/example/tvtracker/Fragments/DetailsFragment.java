@@ -26,7 +26,6 @@ import com.example.tvtracker.Adapters.PicturesAdapter;
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Basic.Status;
-import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
 import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.TvShow;
@@ -147,17 +146,18 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
                     textViewDescription.setText(tvShow.getTvShowDesc());
                     textViewYoutubeLink.setText(tvShow.getTvShowYoutubeLink());
                     textViewRating.setText(tvShow.getTvShowRating());
-                    Picasso.get().load(tvShow.getTvShowImagePath()).into(imageViewImagePath);
+                    Picasso.get()
+                            .load(tvShow.getTvShowImagePath())
+                            .fit()
+                            .into(imageViewImagePath);
                     imagePath.setText(tvShow.getTvShowImagePath());
                     textViewCountry.setText(tvShow.getTvShowCountry());
                     textViewNetwork.setText(tvShow.getTvShowNetwork());
                     picturesAdapter.setPictures(tvShowFull.getTvShowPictures());
-                    seasonsAdapter.setEpisodes(tvShowFull.getTvShowSeasons());
-                    if(detailsViewModel.getShowState()){
-                        imageViewShowState.setImageResource(R.drawable.ic_check_black_24dp);
-                    }else{
-                        imageViewShowState.setImageResource(R.drawable.ic_close_black_24dp);
+                    if(tvShowTestResource.data.getTvShowEpisodes() != null) {
+                        seasonsAdapter.setEpisodes(tvShowFull.getTvShowSeasons());
                     }
+                    setImage(detailsViewModel.getShowState());
                 }
                 }
 
@@ -191,15 +191,30 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
     @Override
     public void onClick(View view) {
         UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(mId, "");
-    if(detailsViewModel.getShowState()){
-        params.setFlag(MainActivity.TVSHOW_WATCHING_FLAG_NO);
-        detailsViewModel.setTvShowWatchedFlag(params);
-        imageViewShowState.setImageResource(R.drawable.ic_close_black_24dp);
-    }else{
-        params.setFlag(MainActivity.TVSHOW_WATCHING_FLAG_YES);
-        detailsViewModel.setTvShowWatchedFlag(params);
-        imageViewShowState.setImageResource(R.drawable.ic_check_black_24dp);
+        int tag = (Integer) view.getTag();
+        switch (tag){
+            case R.drawable.ic_check_black_24dp:{
+                params.setFlag(MainActivity.TVSHOW_WATCHING_FLAG_NO);
+                detailsViewModel.setTvShowWatchedFlag(params);
+                setImage(false);
+                break;
+            }
+            case R.drawable.ic_close_black_24dp:{
+                params.setFlag(MainActivity.TVSHOW_WATCHING_FLAG_YES);
+                detailsViewModel.setTvShowWatchedFlag(params);
+                setImage(true);
+            }
+        }
     }
-//    detailsViewModel.getDetails(mId);
+
+    private void setImage(boolean isWatched){
+        if(isWatched){
+            imageViewShowState.setTag(R.drawable.ic_check_black_24dp);
+            imageViewShowState.setImageResource(R.drawable.ic_check_black_24dp);
+        }else{
+            imageViewShowState.setTag(R.drawable.ic_close_black_24dp);
+            imageViewShowState.setImageResource(R.drawable.ic_close_black_24dp);
+        }
     }
+
 }

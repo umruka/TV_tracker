@@ -13,7 +13,7 @@ import com.example.tvtracker.Models.TvShowGenre;
 import com.example.tvtracker.Models.TvShowPicture;
 
 
-@Database(entities = {TvShow.class, TvShowEpisode.class, TvShowPicture.class, TvShowGenre.class}, version = 1)
+@Database(entities = {TvShow.class, TvShowEpisode.class, TvShowPicture.class, TvShowGenre.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;
