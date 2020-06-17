@@ -1,11 +1,8 @@
 package com.example.tvtracker.Api;
 
-import androidx.lifecycle.LiveData;
-
 import com.example.tvtracker.JsonModels.JsonTvShowSearchRoot;
 import com.example.tvtracker.JsonModels.TvShowBasicInfo.JsonTvShowBasicRoot;
 import com.example.tvtracker.JsonModels.TvShowDetails.JsonTvShowFullRoot;
-import com.example.tvtracker.Models.Basic.ApiResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
