@@ -1,5 +1,6 @@
 package com.example.tvtracker.Repository;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -24,13 +25,13 @@ public interface AppDao {
     void insertTvShows(List<TvShow> tvShows);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    long insertTvShow(TvShow tvShow);
+    void insertTvShow(TvShow tvShow);
 
 //    @Insert(onConflict = OnConflictStrategy.IGNORE)
 //    long updateTvShow(TvShow tvShow);
 
-    @Query("UPDATE tv_show_table SET tv_show_name=:name, tv_show_status=:status WHERE tv_show_id IN(:id)")
-    int updateTvShow(int id, String name, String status);
+    @Query("UPDATE tv_show_table SET tv_show_name=:name, tv_show_status=:status, tv_show_start_date=:startDate, tv_show_end_date=:endDate, tv_show_country=:country, tv_show_network=:network, tv_show_image_path=:imagePath WHERE tv_show_api_id IN(:id)")
+    void updateTvShow(int id, String name, String status, String startDate, String endDate, String country, String network, String imagePath);
 
     @Query("DELETE FROM tv_show_table")
     void deleteAllTvShows();
@@ -39,23 +40,26 @@ public interface AppDao {
     void deleteTvShowById(int id);
 
 
-    @Query("UPDATE tv_show_table SET tv_show_description=:description, tv_show_youtube_link=:youtubeLink, tv_show_rating=:rating WHERE tv_show_id IN(:tvShowId)")
+    @Query("UPDATE tv_show_table SET tv_show_description=:description, tv_show_youtube_link=:youtubeLink, tv_show_rating=:rating WHERE tv_show_api_id IN(:tvShowId)")
     void updateTvShowDetails(int tvShowId, String description, String youtubeLink, String rating);
 
-    @Query("UPDATE tv_show_table SET tv_show_flag=:watchingId WHERE tv_show_id IN(:id)")
-    void updateTvShowWatchingFlag(int id, String watchingId);
+    @Query("UPDATE tv_show_table SET tv_show_flag=:watchingId WHERE tv_show_api_id IN(:id)")
+    void updateTvShowWatchingFlag(int id, boolean watchingId);
 
 
 
     @Query("SELECT * FROM tv_show_table WHERE tv_show_id=:Id")
     TvShow getTvShowById(int Id);
 
+    @Query("SELECT * FROM tv_show_table WHERE tv_show_api_id=:Id")
+    TvShow getTvShowByApiId(int Id);
+
     @Query("SELECT * FROM tv_show_table")
-    List<TvShow> getAllTvShows();
+    LiveData<List<TvShow>> getAllTvShows();
 
     //Watchlist
     @Query("SELECT * FROM tv_show_table WHERE tv_show_flag=:flag")
-    List<TvShow> getWatchlistTvShows(String flag);
+    List<TvShow> getWatchlistTvShows(boolean flag);
 
     @Query("SELECT * FROM tv_show_table WHERE tv_show_flag=:flag")
     List<TvShow> getWatchlistListTvShows(String flag);
@@ -111,7 +115,7 @@ public interface AppDao {
     List<fromDbCall> getTvShowWithPicturesAndEpisodesById(int tvShowId);
 
 
-    @Query("SELECT * FROM tv_show_episode_table WHERE date(tv_show_air_date)>=date('now','-1 month') ORDER BY date(tv_show_air_date) ASC")
+    @Query("SELECT * FROM tv_show_episode_table WHERE date(tv_show_air_date)>=date('now','-1 month') AND date(tv_show_air_date) <= date('now', '+14 days') ORDER BY date(tv_show_air_date) ASC")
     List<TvShowEpisode> getTvShowEpisodesForLast30Days();
 
 }

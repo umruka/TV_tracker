@@ -4,53 +4,44 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
 import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 import com.example.tvtracker.Models.QueryModels.TvShowFull;
-import com.example.tvtracker.Models.TvShowEpisode;
-import com.example.tvtracker.Models.TvShowSeason;
 import com.example.tvtracker.Repository.AppRepository;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DetailsViewModel extends AndroidViewModel {
     private AppRepository repository;
 
-    private MediatorLiveData<Resource<TvShowFull>> tvShowTestObservable = new MediatorLiveData<>();
+    private final LiveData<Resource<TvShowFull>> detailsObservable;
+    private MutableLiveData tvShowId = new MutableLiveData();
     public DetailsViewModel(@NonNull Application application) {
     super(application);
     repository = new AppRepository(application);
-        tvShowTestObservable.addSource(repository.getDetailObservable(), new Observer<Resource<TvShowFull>>() {
-        @Override
-        public void onChanged(Resource<TvShowFull> tvShowTestResource) {
-            tvShowTestObservable.setValue(tvShowTestResource);
-        }
-    });
+    detailsObservable = Transformations.switchMap(tvShowId, id -> repository.fetchTvShowDetails2((Integer) tvShowId.getValue())  );
 
     }
 
-    public MediatorLiveData<Resource<TvShowFull>> getTvShowTestObservable() {
-        return tvShowTestObservable;
+    public void setTvShowId(int id) {
+        tvShowId.setValue(id);
     }
 
-    public void getDetails(int id) {
-        repository.fetchTvShowDetails(id);
+    public LiveData<Resource<TvShowFull>> getDetailsObservable() {
+        return detailsObservable;
     }
-
 
     public void setWatchedFlag(UpdateTvShowEpisodeWatchedFlagParams params) { repository.updateTvShowEpisodeIsWatchedFlag(params); }
 
     public void setTvShowWatchedFlag(UpdateTvShowWatchingFlagParams params) { repository.updateTvShowWatchingFlag(params);
     }
-
     public boolean getShowState(){
-        String isWatched = tvShowTestObservable.getValue().data.getTvShow().getTvShowWatchingFlag();
-        if(("YES").equals(isWatched)){
+        boolean isWatched = detailsObservable.getValue().data.getTvShow().isTvShowWatchingFlag();
+        if(isWatched){
             return true;
         }
         return false;

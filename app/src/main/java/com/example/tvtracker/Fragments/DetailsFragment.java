@@ -52,6 +52,7 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
     private TextView textViewName;
     private TextView textViewStatus;
     private TextView textViewDescription;
+    private ImageView imageViewExpandDesc;
     private TextView textViewYoutubeLink;
     private TextView textViewRating;
     private ImageView imageViewImagePath;
@@ -93,6 +94,7 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
         textViewName = view.findViewById(R.id.details_name);
         textViewStatus = view.findViewById(R.id.details_status);
         textViewDescription = view.findViewById(R.id.details_description);
+        imageViewExpandDesc = view.findViewById(R.id.expand_desc);
         textViewYoutubeLink = view.findViewById(R.id.details_youtube_link);
         textViewRating = view.findViewById(R.id.details_rating);
         imageViewImagePath = view.findViewById(R.id.details_image_thumbnail);
@@ -128,7 +130,8 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
 
 
         mId  = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
-        detailsViewModel.getTvShowTestObservable().observe(getViewLifecycleOwner(), new Observer<Resource<TvShowFull>>() {
+        detailsViewModel.setTvShowId(mId);
+        detailsViewModel.getDetailsObservable().observe(getViewLifecycleOwner(), new Observer<Resource<TvShowFull>>() {
             @Override
             public void onChanged(Resource<TvShowFull> tvShowTestResource) {
                 if(tvShowTestResource.status == Status.LOADING) {
@@ -144,6 +147,17 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
                     textViewName.setText(tvShow.getTvShowName());
                     textViewStatus.setText(tvShow.getTvShowStatus());
                     textViewDescription.setText(tvShow.getTvShowDesc());
+                    imageViewExpandDesc.setImageResource(R.drawable.ic_check_black_24dp);
+                    imageViewExpandDesc.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(textViewDescription.getMaxLines() == 10){
+                                textViewDescription.setMaxLines(3);
+                            }else {
+                                textViewDescription.setMaxLines(10);
+                            }
+                        }
+                    });
                     textViewYoutubeLink.setText(tvShow.getTvShowYoutubeLink());
                     textViewRating.setText(tvShow.getTvShowRating());
                     Picasso.get()
@@ -162,8 +176,8 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
                 }
 
         });
-
-        detailsViewModel.getDetails(mId);
+//        detailsViewModel.getDetails2(mId);
+//        detailsViewModel.getDetails(mId);
         seasonsAdapter.setOnItemClickListener(this::onItemClick);
 
 
@@ -190,7 +204,7 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
 
     @Override
     public void onClick(View view) {
-        UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(mId, "");
+        UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(mId, false);
         int tag = (Integer) view.getTag();
         switch (tag){
             case R.drawable.ic_check_black_24dp:{

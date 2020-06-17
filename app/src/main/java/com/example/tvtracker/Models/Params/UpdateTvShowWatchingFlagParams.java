@@ -2,9 +2,9 @@ package com.example.tvtracker.Models.Params;
 
 public class UpdateTvShowWatchingFlagParams {
     private int id;
-    private String flag;
+    private boolean flag;
 
-    public UpdateTvShowWatchingFlagParams(int id, String flag) {
+    public UpdateTvShowWatchingFlagParams(int id, boolean flag) {
         this.id = id;
         this.flag = flag;
     }
@@ -17,11 +17,11 @@ public class UpdateTvShowWatchingFlagParams {
         this.id = id;
     }
 
-    public String getFlag() {
+    public boolean getFlag() {
         return flag;
     }
 
-    public void setFlag(String flag) {
+    public void setFlag(boolean flag) {
         this.flag = flag;
     }
 }

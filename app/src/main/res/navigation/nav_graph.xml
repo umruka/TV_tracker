@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_discover">
+    app:startDestination="@id/navigation_watchlist">
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_episodes"
-        android:name="com.example.tvtracker.Fragments.EpisodesFragment"
+        android:name="com.example.tvtracker.Fragments.SeasonEpisodesFragment"
         android:label="fragment_episodes"
         tools:layout="@layout/fragment_episodes" >
         <argument

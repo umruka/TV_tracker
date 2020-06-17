@@ -2,7 +2,6 @@ package com.example.tvtracker.Fragments;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -27,9 +26,8 @@ import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowSeason;
 import com.example.tvtracker.R;
 import com.example.tvtracker.ViewModels.EpisodesViewModel;
-import com.google.gson.Gson;
 
-public class EpisodesFragment extends Fragment implements EpisodeAdapter.OnItemClickListener {
+public class SeasonEpisodesFragment extends Fragment implements EpisodeAdapter.OnItemClickListener {
 
     private Activity activity;
     private EpisodesViewModel episodesViewModel;
@@ -40,8 +38,8 @@ public class EpisodesFragment extends Fragment implements EpisodeAdapter.OnItemC
     private ProgressBar progressBar;
     private RecyclerView episodeList;
 
-    public static EpisodesFragment newInstance() {
-        return new EpisodesFragment();
+    public static SeasonEpisodesFragment newInstance() {
+        return new SeasonEpisodesFragment();
     }
 
     @Override
@@ -67,19 +65,16 @@ public class EpisodesFragment extends Fragment implements EpisodeAdapter.OnItemC
             episodeList.setAdapter(episodeAdapter);
             mTvShowId   = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
             mSeasonNumber  = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_SEASON_NUM));
-            episodesViewModel.getSeasonObservable().observe(getViewLifecycleOwner(), new Observer<Resource<TvShowSeason>>() {
+            episodesViewModel.getSeasonEpisodes(mTvShowId, mSeasonNumber);
+            episodesViewModel.getSeasonObservable().observe(getViewLifecycleOwner(), new Observer<TvShowSeason>() {
                         @Override
-                        public void onChanged(Resource<TvShowSeason> tvShowSeasonResource) {
-                            if(tvShowSeasonResource.data != null && tvShowSeasonResource.status != Status.LOADING && tvShowSeasonResource.data.getEpisodes() != null) {
-                                episodeAdapter.setEpisodes(tvShowSeasonResource.data.getEpisodes());
-//                                episodesViewModel.getSeasonEpisodes(id, seasonNum);
+                        public void onChanged(TvShowSeason tvShowSeasonResource) {
+                                episodeAdapter.setEpisodes(tvShowSeasonResource.getEpisodes());
                                 progressBar.setMax(episodesViewModel.getSeasonEpisodesCount());
                                 progressBar.setProgress(episodesViewModel.getSeasonProgres());
                             }
-                        }
                     });
                     episodeAdapter.setOnItemClickListener(this);
-            episodesViewModel.getSeasonEpisodes(mTvShowId, mSeasonNumber);
     }
 
     @Override
@@ -94,11 +89,7 @@ public class EpisodesFragment extends Fragment implements EpisodeAdapter.OnItemC
         }
 
         episodesViewModel.setWatchedFlag(params);
-        refreshData(mTvShowId, mSeasonNumber);
-    }
-
-    private void refreshData(int id, int seasonNum) {
-        episodesViewModel.getSeasonEpisodes(id, seasonNum);
+        episodesViewModel.getSeasonEpisodes(mTvShowId, mSeasonNumber);
     }
 
 }

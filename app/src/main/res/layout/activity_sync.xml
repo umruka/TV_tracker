@@ -6,10 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".SyncActivity">
 
-    <FrameLayout
+    <RelativeLayout
+        android:id="@+id/sync_view_sync_act"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="55"
-        android:id="@+id/container_retro_room"></FrameLayout>
+        >
+
+        <ProgressBar
+            android:id="@+id/syncProgressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:progressDrawable="@drawable/circular_progress_bar"
+            android:layout_height="128dp"
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/sync_act_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/syncProgressBar"
+            android:textAlignment="center"
+            android:text="Preparing your favorite tv shows"
+            android:textAppearance="?textAppearanceHeadline5"
+            />
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

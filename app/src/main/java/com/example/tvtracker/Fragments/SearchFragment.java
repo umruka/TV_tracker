@@ -26,6 +26,7 @@ import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
 import com.example.tvtracker.ViewModels.DiscoverViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -49,6 +50,11 @@ public class SearchFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
+
+
+        //needs thinking and fixing
+//        BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation);
+//        navBar.setVisibility(View.GONE);
 
         final RecyclerView recyclerView = getView().findViewById(R.id.search_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -117,9 +123,9 @@ public class SearchFragment extends Fragment {
 
 
 
+
         // TODO: Use the ViewModel
     }
-
 
 
 

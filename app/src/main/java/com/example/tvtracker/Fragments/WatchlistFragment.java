@@ -56,13 +56,20 @@ public class WatchlistFragment extends Fragment {
 
         episodesViewModel = new ViewModelProvider(this).get(EpisodesViewModel.class);
         watchlistViewModel = new ViewModelProvider(this).get(WatchlistViewModel.class);
-        watchlistViewModel.getWatchlistListObservable().observe(getViewLifecycleOwner(), new Observer<Resource<List<TvShowFull>>>() {
+//        watchlistViewModel.getWatchlistListObservable().observe(getViewLifecycleOwner(), new Observer<Resource<List<TvShowFull>>>() {
+//                    @Override
+//                    public void onChanged(Resource<List<TvShowFull>> tvShows) {
+//                        adapter.setTvShows(tvShows.data);
+//                    }
+//                });
+
+        watchlistViewModel.getWatchlistListObservable().observe(getViewLifecycleOwner(), new Observer<List<TvShowFull>>() {
                     @Override
-                    public void onChanged(Resource<List<TvShowFull>> tvShows) {
-                        adapter.setTvShows(tvShows.data);
+                    public void onChanged(List<TvShowFull> tvShowFulls) {
+                        adapter.setTvShows(tvShowFulls);
                     }
                 });
-        watchlistViewModel.fetchData();
+                watchlistViewModel.refreshData();
 
                 adapter.setOnItemClickListener(new WatchlistAdapter.OnItemClickListener() {
                     @Override
@@ -83,7 +90,9 @@ public class WatchlistFragment extends Fragment {
                             int id = tvShowFull.getNextWatched().getId();
                             UpdateTvShowEpisodeWatchedFlagParams params = new UpdateTvShowEpisodeWatchedFlagParams(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_YES);
                             episodesViewModel.setWatchedFlag(params);
-                            watchlistViewModel.fetchData();
+//                            watchlistViewModel.fetchData();
+//                            watchlistViewModel.refreshWatchlist();
+                            watchlistViewModel.refreshData();
                         }
                     }
                 }

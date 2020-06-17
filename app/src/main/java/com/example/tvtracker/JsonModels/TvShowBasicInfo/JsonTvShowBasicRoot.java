@@ -54,28 +54,7 @@ public class JsonTvShowBasicRoot {
         this.TVShows = TVShows;
     }
 
-    public List<TvShow> toTvShowArray() {
-        List<TvShow> returnTvShows = new ArrayList<>();
-        for(int i=0;i<TVShows.size();i++){
 
-            JsonTvShow urlTvShow = TVShows.get(i);;
-
-            int tvShowId = urlTvShow.getId();
-            String tvShowName = urlTvShow.getName();
-            String tvShowStatus = urlTvShow.getStatus();
-            String tvShowStartDate = urlTvShow.getStartDate();
-            String tvShowEndDate = urlTvShow.getEndDate();
-            String tvShowCountry = urlTvShow.getCountry();
-            String tvShowNetwork = urlTvShow.getNetwork();
-            String tvShowImage = urlTvShow.getImageThumbnailPath();
-
-
-            TvShow tvShow = new TvShow(tvShowId, tvShowName, tvShowStartDate, tvShowEndDate, tvShowCountry, tvShowNetwork, tvShowStatus, tvShowImage);
-            returnTvShows.add(tvShow);
-
-        }
-        return  returnTvShows;
-    }
 
 
 }

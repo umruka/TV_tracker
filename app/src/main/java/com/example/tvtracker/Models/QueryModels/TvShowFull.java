@@ -66,6 +66,7 @@ public class TvShowFull {
     }
 
     public List<TvShowSeason> getTvShowSeasons() {
+        //last episode is missing
         List<TvShowEpisode> tvShowEpisodes = getTvShowEpisodes();
         List<TvShowSeason> tvShowSeasons = new ArrayList<>();
         List<TvShowEpisode> currentSeasonEpisodes = new ArrayList<>();

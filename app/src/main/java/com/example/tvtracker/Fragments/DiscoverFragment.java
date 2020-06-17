@@ -58,6 +58,7 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
         discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
 //        discoverViewModel.allInOne();
 //        pullToRefresh.setRefreshing(true);
+        /*
         discoverViewModel.getDiscoverListObservable().observe(getViewLifecycleOwner(), new Observer<Resource<List<TvShow>>>() {
             @Override
             public void onChanged(Resource<List<TvShow>> tvShows) {
@@ -85,11 +86,17 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
 //                        if(tvShows.status == Status.ERROR) {
 //                            Toast.makeText(activity, "ERROR SYNC", Toast.LENGTH_SHORT).show();
 //                        }
-//                         */
+                         */
 
+//            }
+//        });
+        discoverViewModel.getDiscoverList().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
+            @Override
+            public void onChanged(List<TvShow> tvShows) {
+                    adapter.setTvShows(tvShows);
+                }
             }
-        });
-
+        );
         adapter.setOnItemClickListener(this);
         androidx.appcompat.widget.AppCompatEditText editText = getView().findViewById(R.id.discover_search_bar);
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -122,13 +129,9 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
     @Override
     public void onResume() {
         super.onResume();
-        discoverViewModel.getDiscoverData();
+//        discoverViewModel.getDiscoverData();
     }
 
-    @Override
-    public void onRefresh() {
-        discoverViewModel.getDiscoverData();
-    }
 
     @Override
     public void onButtonClick(TvShow tvShow) {
@@ -150,5 +153,10 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
             bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(tvShow.getTvShowId()));
             navHostController.navigate(R.id.action_navigation_discover_to_details_fragment, bundle);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 }
