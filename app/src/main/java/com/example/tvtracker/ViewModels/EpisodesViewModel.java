@@ -6,18 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.Transformations;
-import androidx.lifecycle.ViewModel;
 
-import com.example.tvtracker.Models.Basic.Resource;
-import com.example.tvtracker.Models.Params.SeasonTvShowParams;
 import com.example.tvtracker.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowSeason;
 import com.example.tvtracker.Repository.AppRepository;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -29,7 +23,7 @@ public class EpisodesViewModel extends AndroidViewModel {
     public EpisodesViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
-        seasonObservable.addSource(repository.getSeasonObservable(), new Observer<TvShowSeason>() {
+        seasonObservable.addSource(repository.getSeasonEpisodesListObservable(), new Observer<TvShowSeason>() {
             @Override
             public void onChanged(TvShowSeason tvShowSeason) {
                 seasonObservable.setValue(tvShowSeason);
@@ -63,6 +57,6 @@ public class EpisodesViewModel extends AndroidViewModel {
         return season.getSeasonProgress();
     }
 
-    public void setWatchedFlag(UpdateTvShowEpisodeWatchedFlagParams params) { repository.updateTvShowEpisodeIsWatchedFlag(params); }
+    public void setWatchedFlag(UpdateTvShowEpisodeWatchedFlagParams params) { repository.setTvShowEpisodeIsWatchedFlag(params); }
 
 }

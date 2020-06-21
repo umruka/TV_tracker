@@ -1,4 +1,4 @@
-package com.example.tvtracker.Models;
+package com.example.tvtracker.Models.Basic;
 
 public abstract class MultiTaskHandler {
     private int mTasksLeft;

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.MaterialComponents.CardView"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
     android:paddingStart="16dp"
@@ -12,32 +14,65 @@
     android:paddingBottom="12dp"
     app:cardBackgroundColor="#E0E0E0">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
-
+            android:layout_height="match_parent"
+            android:paddingTop="2dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:paddingBottom="2dp"
+            >
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/tv_show_picture"
-                android:layout_width="50sp"
-                android:layout_height="50sp"
+                android:id="@+id/calendar_image"
+                android:layout_width="96dp"
+                android:layout_height="128dp"
                 />
 
+            <RelativeLayout
+                android:layout_toEndOf="@id/calendar_image"
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:layout_marginStart="8dp"
+                >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/calendar_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/calendar_episodeNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/calendar_name"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/calendar_seasonNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/calendar_episodeNum"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/calendar_air_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/calendar_seasonNum"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/calendar_days_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/calendar_air_date"
+                />
+
+            </RelativeLayout>
+
+
         </RelativeLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

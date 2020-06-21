@@ -74,7 +74,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(TvShow tvShow) {
 
-//                discoverViewModel.showSearch(tvShow);
                 int id = tvShow.getTvShowId();
                 discoverViewModel.fetchDetailsForWatchlist(id);
                 NavController navHostController = Navigation.findNavController(getView());
@@ -90,8 +89,10 @@ public class SearchFragment extends Fragment {
             public void onButtonClick(TvShow tvShow) {
 //                discoverViewModel.insertOrUpdate(tvShow);
                 int id = tvShow.getTvShowId();
+                discoverViewModel.addTvShowToDb(tvShow);
                 UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, TVSHOW_WATCHING_FLAG_YES);
                 discoverViewModel.updateTvShowBasicWatchingFlag(params);
+                discoverViewModel.fetchDetailsForWatchlist(id);
 //                discoverViewModel.syncTvShowDetailsFromApi(id);
 
                 Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();

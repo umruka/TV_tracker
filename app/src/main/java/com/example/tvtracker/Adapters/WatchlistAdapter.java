@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tvtracker.Models.DateHelper;
 import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
@@ -51,6 +52,8 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
                 .into(holder.textViewTvShowImageThumbnail);
 //        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
         holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
+        holder.textViewTvShowCountry.setText(currentTvShow.getTvShowCountry());
+        holder.textViewTvShowNetwork.setText(currentTvShow.getTvShowNetwork());
         int progressMax = tvShows.get(position).getTvShowEpisodes().size();
         int watched = tvShows.get(position).getEpisodeProgress();
 
@@ -58,12 +61,12 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
         holder.textViewTvShowEpisodeProgress.setProgress(watched);
 
-        holder.textViewProgress.setText(watched + "/" + progressMax);
+        holder.textViewProgress.setText(progressMax - watched  + " remaining");
 
         if(!tvShows.get(position).getTvShowState()) {
             TvShowEpisode tvShowEpisode = tvShows.get(position).getNextWatched();
-            holder.textViewEpisodeName.setText(tvShowEpisode.getEpisodeName());
-            holder.textViewEpisodeReleaseDate.setText(tvShowEpisode.getEpisodeAirDate());
+            holder.textViewEpisodeName.setText(tvShowEpisode.getSeasonNum() + "x" + tvShowEpisode.getEpisodeNum()  + " " + tvShowEpisode.getEpisodeName());
+            holder.textViewEpisodeReleaseDate.setText(DateHelper.toDateString(tvShowEpisode.getEpisodeAirDate()));
 //        }
         } else {
             holder.textViewEpisodeName.setText("Series finished");
@@ -72,6 +75,8 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
         holder.textViewEpisodeWatched.setImageResource(R.drawable.ic_check_black_24dp);
 
     }
+
+
 
     public void setTvShows(List<TvShowFull> tvShows) {
         this.tvShows = tvShows;
@@ -95,6 +100,8 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
     class TvShowCombinedViewHolder extends RecyclerView.ViewHolder {
         private ImageView textViewTvShowImageThumbnail;
         private TextView textViewTvShowName;
+        private TextView textViewTvShowCountry;
+        private TextView textViewTvShowNetwork;
 //        private TextView textViewTvShowId;
         private ProgressBar textViewTvShowEpisodeProgress;
         private TextView textViewProgress;
@@ -105,14 +112,18 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
         private TvShowCombinedViewHolder(View itemView) {
             super(itemView);
-            textViewTvShowImageThumbnail = itemView.findViewById(R.id.text_view_watchlist_image_thumbnail);
-            textViewTvShowName = itemView.findViewById(R.id.text_view_watchlist_tv_show_name);
+            textViewTvShowImageThumbnail = itemView.findViewById(R.id.watchlist_image_thumbnail);
+            textViewTvShowName = itemView.findViewById(R.id.watchlist_tv_show_name);
 //            textViewTvShowId = itemView.findViewById(R.id.text_view_watchlist_tv_show_id);
-            textViewTvShowEpisodeProgress = itemView.findViewById(R.id.episode_progress);
-            textViewProgress = itemView.findViewById(R.id.episode_progress_text);
+            textViewTvShowEpisodeProgress = itemView.findViewById(R.id.watchlist_episode_progress);
+            textViewProgress = itemView.findViewById(R.id.watchlist_episode_progress_text);
 
-            textViewEpisodeName = itemView.findViewById(R.id.episode_name);
-            textViewEpisodeReleaseDate = itemView.findViewById(R.id.episode_release_date);
+
+            textViewTvShowCountry = itemView.findViewById(R.id.watchlist_tv_show_country);
+            textViewTvShowNetwork = itemView.findViewById(R.id.text_view_watchlist_tv_show_network);
+
+            textViewEpisodeName = itemView.findViewById(R.id.watchlist_episode_name);
+            textViewEpisodeReleaseDate = itemView.findViewById(R.id.watchlist_episode_release_date);
             textViewEpisodeWatched = itemView.findViewById(R.id.episode_watch_button);
 
             itemView.setOnClickListener(new View.OnClickListener() {

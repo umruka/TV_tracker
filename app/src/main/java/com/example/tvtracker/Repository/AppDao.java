@@ -13,6 +13,7 @@ import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowGenre;
 import com.example.tvtracker.Models.TvShowPicture;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -53,6 +54,9 @@ public interface AppDao {
 
     @Query("SELECT * FROM tv_show_table WHERE tv_show_api_id=:Id")
     TvShow getTvShowByApiId(int Id);
+
+    @Query("SELECT tv_show_api_id FROM tv_show_table WHERE tv_show_api_id IN(:ids)")
+    List<Integer> getTvShowsIfExists(List<Integer> ids);
 
     @Query("SELECT * FROM tv_show_table")
     LiveData<List<TvShow>> getAllTvShows();
@@ -114,8 +118,13 @@ public interface AppDao {
     @Query("SELECT * FROM tv_show_table WHERE tv_show_id IN (:tvShowId)")
     List<fromDbCall> getTvShowWithPicturesAndEpisodesById(int tvShowId);
 
+    //@Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id=:id AND date(tv_show_air_date)>=date('now','-1 month') AND date(tv_show_air_date) <= date('now', '+14 days') ORDER BY date(tv_show_air_date) ASC")
+    @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id=:id AND date(tv_show_air_date)>=date('now') AND date(tv_show_air_date) <= date('now', '+14 days') ORDER BY date(tv_show_air_date) ASC")
+    List<TvShowEpisode> getTvShowEpisodesForLast30Days(int id);
 
-    @Query("SELECT * FROM tv_show_episode_table WHERE date(tv_show_air_date)>=date('now','-1 month') AND date(tv_show_air_date) <= date('now', '+14 days') ORDER BY date(tv_show_air_date) ASC")
-    List<TvShowEpisode> getTvShowEpisodesForLast30Days();
+    //tryout
+    @Query("SELECT MAX(date(tv_show_air_date)) FROM tv_show_episode_table WHERE tv_show_id=:id")
+    String getDateForTheLastEpisodeOfTvShowAired(int id);
+
 
 }

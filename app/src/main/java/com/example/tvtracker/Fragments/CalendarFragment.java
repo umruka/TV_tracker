@@ -20,14 +20,17 @@ import android.view.ViewGroup;
 
 import com.example.tvtracker.Adapters.CalendarAdapter;
 import com.example.tvtracker.Adapters.EpisodeAdapter;
+import com.example.tvtracker.Adapters.WatchlistAdapter;
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Basic.Status;
+import com.example.tvtracker.Models.CalendarTvShowEpisode;
 import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.QueryModels.fromDbCall;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.R;
 import com.example.tvtracker.ViewModels.CalendarViewModel;
 import com.example.tvtracker.ViewModels.DiscoverViewModel;
+import com.example.tvtracker.ViewModels.WatchlistViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -60,13 +63,13 @@ public class CalendarFragment extends Fragment {
         // TODO: Use the ViewModel
         calendarViewModel = new ViewModelProvider(this).get(CalendarViewModel.class);
 
-        final EpisodeAdapter adapter = new EpisodeAdapter();
+        final CalendarAdapter adapter = new CalendarAdapter();
         calendarRecyclerView.setAdapter(adapter);
-        calendarViewModel.getCalendarListObservable().observe(getViewLifecycleOwner(), new Observer<List<TvShowEpisode>>() {
+        calendarViewModel.getCalendarListObservable().observe(getViewLifecycleOwner(), new Observer<List<CalendarTvShowEpisode>>() {
             @Override
-            public void onChanged(List<TvShowEpisode> tvShowEpisodes) {
-                if(tvShowEpisodes != null){
-                    adapter.setEpisodes(tvShowEpisodes);
+            public void onChanged(List<CalendarTvShowEpisode> tvShowFulls) {
+                if(tvShowFulls != null){
+                    adapter.setTvShows(tvShowFulls);
 //                    List<String> asd = calendarViewModel.getUniqueDates();
 //                    calendarRecyclerView.addItemDecoration(new DividerItemDecoration(activity,DividerItemDecoration.HORIZONTAL));
                 }

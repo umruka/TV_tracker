@@ -1,9 +1,11 @@
 package com.example.tvtracker.Adapters;
 
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +43,12 @@ public class TvShowBasicAdapter extends RecyclerView.Adapter<TvShowBasicAdapter.
     public void onBindViewHolder(@NonNull TvShowViewHolder holder, int position) {
         TvShow currentTvShow = tvShows.get(position);
         holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
-        holder.textViewTvShowStatus.setText(currentTvShow.getTvShowStatus());
-        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
+//        holder.textViewTvShowStatus.setText(currentTvShow.getTvShowStatus());
+//        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
+        Picasso.get()
+                .load(currentTvShow.getTvShowImagePath())
+                .fit()
+                .into(holder.imageViewTvShowImage);
     }
 
     public void setTvShows(List<TvShow> tvShows) {
@@ -68,16 +75,12 @@ public class TvShowBasicAdapter extends RecyclerView.Adapter<TvShowBasicAdapter.
 
     class TvShowViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewTvShowName;
-        private TextView textViewTvShowStatus;
-        private TextView textViewTvShowId;
-        private Button buttonTvShowAdd;
+        private ImageView imageViewTvShowImage;
 
         private TvShowViewHolder(View itemView) {
             super(itemView);
             textViewTvShowName = itemView.findViewById(R.id.text_view_tvshow_name);
-            textViewTvShowStatus = itemView.findViewById(R.id.text_view_tvshow_status);
-            textViewTvShowId = itemView.findViewById(R.id.text_view_tvshow_id);
-            buttonTvShowAdd = itemView.findViewById(R.id.button_tv_show_add);
+            imageViewTvShowImage = itemView.findViewById(R.id.text_view_discover_image_thumbnail);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,7 +92,7 @@ public class TvShowBasicAdapter extends RecyclerView.Adapter<TvShowBasicAdapter.
                 }
             });
 
-            buttonTvShowAdd.setOnClickListener(new View.OnClickListener() {
+            imageViewTvShowImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();

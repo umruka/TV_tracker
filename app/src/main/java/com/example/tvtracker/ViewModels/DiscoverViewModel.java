@@ -8,11 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
 import com.example.tvtracker.Models.Basic.Resource;
-import com.example.tvtracker.Models.QueryModels.fromDbCall;
-import com.example.tvtracker.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.Models.TvShow;
-import com.example.tvtracker.Models.TvShowEpisode;
-import com.example.tvtracker.Models.TvShowPicture;
 import com.example.tvtracker.Repository.AppRepository;
 import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 
@@ -44,19 +40,13 @@ public class DiscoverViewModel extends AndroidViewModel {
         return discoverList;
     }
 
-    //    public void getDiscoverData() { repository.fetchDiscoverData(); }
-
-    public LiveData<Resource<List<TvShow>>> getDiscoverListObservable() {
-        return discoverListObservable;
-    }
-
 
     public LiveData<List<TvShow>> getAllSearchWordTvShows() {
         return allSearchWordTvShows;
     }
 
     public void updateTvShowBasicWatchingFlag(UpdateTvShowWatchingFlagParams params) {
-        repository.updateTvShowWatchingFlag(params);
+        repository.setTvShowWatchingFlag(params);
     }
 
 
@@ -64,19 +54,18 @@ public class DiscoverViewModel extends AndroidViewModel {
         repository.searchTvShow(searchWord, pageNum);
     }
 
-    public List<TvShowPicture> tvShowPicturesById(int showId) { return repository.getTvShowPicturesByShowId(showId);}
-
-    public List<TvShowEpisode> tvShowEpisodesById(int showId) { return repository.getTvShowEpisodesById(showId);}
-
-
-    public List<fromDbCall> getTvShowWithPicturesById(int showId) { return repository.getTvShowWithPicturesAndEpisodesById(showId);}
 
     public void clearSearchedTvShows() { repository.clearSearchedTvShows();}
 
+    public void addTvShowToDb(TvShow tvShow){
+        repository.addTvShowToDb(tvShow);
+    }
 
     public void fetchDetailsForWatchlist(int id) {
-        repository.fetchTvShowDetails(id);
+
+        repository.fetchTvShowDetailsFromSearch(id);
     }
+
 
 
 

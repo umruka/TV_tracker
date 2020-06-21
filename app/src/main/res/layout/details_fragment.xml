@@ -8,6 +8,7 @@
     android:clipToPadding="false"
     app:cardBackgroundColor="#E0E0E0">
 
+
     <RelativeLayout
         android:id="@+id/sync_view"
         android:layout_width="match_parent"
@@ -42,6 +43,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 >
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -96,82 +99,108 @@
                     android:text="status"
                     android:textAppearance="?textAppearanceSubtitle1" />
 
+
+                <View
+                    style="@style/Divider"
+                    android:layout_below="@id/details_image_thumbnail" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/details_description"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/details_image_thumbnail"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
                     android:maxLines="3"
                     android:text="description"
                     android:textAppearance="?textAppearanceBody2" />
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/expand_desc"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Read more"
                     android:layout_below="@id/details_description"
-                    android:layout_centerHorizontal="true"
                     />
+
+
+                <View
+                    style="@style/Divider"
+                    android:layout_below="@id/expand_desc"/>
+
+                <View
+                    style="@style/Divider"
+                    android:layout_below="@id/details_youtube_link"/>
+
+                <LinearLayout
+                    android:id="@+id/simpleLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/details_youtube_link"
+                    >
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/details_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="rating"
+                        android:textAppearance="?textAppearanceBody2" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/details_genre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="genre"
+                        android:textAppearance="?textAppearanceBody2"
+                        />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/details_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="country"
+                        android:textAppearance="?textAppearanceBody2" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/details_network"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="network"
+                        android:textAppearance="?textAppearanceBody2" />
+
+                </LinearLayout>
+
 
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/details_youtube_link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/details_description"
+                    android:layout_below="@+id/expand_desc"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:text="youtube link"
                     android:textAppearance="?textAppearanceBody2" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/details_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/details_youtube_link"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="rating"
-                    android:textAppearance="?textAppearanceBody2" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/details_image_path"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/details_rating"
+                    android:layout_below="@id/simpleLayout"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:text="image path"
                     android:textAppearance="?textAppearanceBody2" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/details_country"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/details_image_path"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="country"
-                    android:textAppearance="?textAppearanceBody2" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/details_network"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/details_country"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="network"
-                    android:textAppearance="?textAppearanceBody2" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/details_pictures_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/details_network"
+                android:layout_below="@id/details_image_path"
                 />
 
 

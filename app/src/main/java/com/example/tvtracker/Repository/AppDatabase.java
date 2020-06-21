@@ -6,7 +6,6 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.tvtracker.Models.Genre;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.Models.TvShowGenre;

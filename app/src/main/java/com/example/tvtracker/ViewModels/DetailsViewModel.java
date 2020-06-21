@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
@@ -35,9 +34,9 @@ public class DetailsViewModel extends AndroidViewModel {
         return detailsObservable;
     }
 
-    public void setWatchedFlag(UpdateTvShowEpisodeWatchedFlagParams params) { repository.updateTvShowEpisodeIsWatchedFlag(params); }
+    public void setWatchedFlag(UpdateTvShowEpisodeWatchedFlagParams params) { repository.setTvShowEpisodeIsWatchedFlag(params); }
 
-    public void setTvShowWatchedFlag(UpdateTvShowWatchingFlagParams params) { repository.updateTvShowWatchingFlag(params);
+    public void setTvShowWatchedFlag(UpdateTvShowWatchingFlagParams params) { repository.setTvShowWatchingFlag(params);
     }
     public boolean getShowState(){
         boolean isWatched = detailsObservable.getValue().data.getTvShow().isTvShowWatchingFlag();

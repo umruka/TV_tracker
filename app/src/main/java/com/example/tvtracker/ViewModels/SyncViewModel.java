@@ -4,7 +4,6 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
@@ -18,7 +17,7 @@ public class SyncViewModel extends AndroidViewModel {
     public SyncViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
-        repository.fetchAllData();
+        repository.initialFetchData();
         syncStateObservable.addSource(repository.getSyncState(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {

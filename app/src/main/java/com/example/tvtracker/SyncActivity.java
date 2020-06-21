@@ -1,7 +1,6 @@
 package com.example.tvtracker;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
-import com.example.tvtracker.Models.MultiTaskHandler;
 import com.example.tvtracker.ViewModels.SyncViewModel;
 
 public class SyncActivity extends AppCompatActivity   {

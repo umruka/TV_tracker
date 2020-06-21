@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.example.tvtracker.Adapters.SeasonsAdapter;
 import com.example.tvtracker.Adapters.PicturesAdapter;
@@ -52,7 +54,7 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
     private TextView textViewName;
     private TextView textViewStatus;
     private TextView textViewDescription;
-    private ImageView imageViewExpandDesc;
+    private TextView textViewExpandDesc;
     private TextView textViewYoutubeLink;
     private TextView textViewRating;
     private ImageView imageViewImagePath;
@@ -94,7 +96,7 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
         textViewName = view.findViewById(R.id.details_name);
         textViewStatus = view.findViewById(R.id.details_status);
         textViewDescription = view.findViewById(R.id.details_description);
-        imageViewExpandDesc = view.findViewById(R.id.expand_desc);
+        textViewExpandDesc = view.findViewById(R.id.expand_desc);
         textViewYoutubeLink = view.findViewById(R.id.details_youtube_link);
         textViewRating = view.findViewById(R.id.details_rating);
         imageViewImagePath = view.findViewById(R.id.details_image_thumbnail);
@@ -110,6 +112,8 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
 
         seasons = view.findViewById(R.id.seasons);
         seasons.setLayoutManager(new LinearLayoutManager(activity));
+
+
 
         return view;
     }
@@ -146,9 +150,9 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
                     textViewId.setText(String.valueOf(tvShow.getTvShowId()));
                     textViewName.setText(tvShow.getTvShowName());
                     textViewStatus.setText(tvShow.getTvShowStatus());
-                    textViewDescription.setText(tvShow.getTvShowDesc());
-                    imageViewExpandDesc.setImageResource(R.drawable.ic_check_black_24dp);
-                    imageViewExpandDesc.setOnClickListener(new View.OnClickListener() {
+                    textViewDescription.setText(Html.fromHtml(tvShow.getTvShowDesc()));
+//                    imageViewExpandDesc.setImageResource(R.drawable.ic_check_black_24dp);
+                    textViewExpandDesc.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             if(textViewDescription.getMaxLines() == 10){
@@ -179,7 +183,6 @@ public class DetailsFragment extends Fragment implements SeasonsAdapter.OnItemCl
 //        detailsViewModel.getDetails2(mId);
 //        detailsViewModel.getDetails(mId);
         seasonsAdapter.setOnItemClickListener(this::onItemClick);
-
 
 
 //        List<fromDbCall> tvShowFulls = discoverViewModel.getTvShowWithPicturesById(id);

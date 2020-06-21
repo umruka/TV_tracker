@@ -8,46 +8,30 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
-import com.example.tvtracker.Models.TvShowEpisode;
+import com.example.tvtracker.Models.CalendarTvShowEpisode;
 import com.example.tvtracker.Repository.AppRepository;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class CalendarViewModel extends AndroidViewModel {
     private AppRepository repository;
-    private MediatorLiveData<List<TvShowEpisode>> calendarListObservable = new MediatorLiveData<>();
+    private MediatorLiveData<List<CalendarTvShowEpisode>> calendarListObservable = new MediatorLiveData<>();
     public CalendarViewModel(@NonNull Application application){
         super(application);
         repository = new AppRepository(application);
-        calendarListObservable.addSource(repository.getLast30daysEpisodes(), new Observer<List<TvShowEpisode>>() {
+        calendarListObservable.addSource(repository.getCalendarListObservable(), new Observer<List<CalendarTvShowEpisode>>() {
             @Override
-            public void onChanged(List<TvShowEpisode> tvShowEpisodes) {
-                calendarListObservable.setValue(tvShowEpisodes);
+            public void onChanged(List<CalendarTvShowEpisode> tvShowFulls) {
+                calendarListObservable.setValue(tvShowFulls);
             }
         });
     }
 
-    public LiveData<List<TvShowEpisode>> getCalendarListObservable() {
+    public LiveData<List<CalendarTvShowEpisode>> getCalendarListObservable() {
         return calendarListObservable;
     }
-
-    public List<String> getUniqueDates(){
-        List<TvShowEpisode> episodes = new ArrayList<>();
-        if(calendarListObservable.getValue() != null){
-            episodes = calendarListObservable.getValue();
-        }
-        List<String> dates = new ArrayList<>();
-        for (TvShowEpisode episode : episodes){
-            dates.add(episode.getEpisodeAirDate());
-        }
-        List<String> uniqueDates = new ArrayList<>(new HashSet<String>(dates));
-        return uniqueDates;
-    }
-
     public void fetchData() {
-        repository.fetchEpisodesForCalendar();
+        repository.fetchCalendar();
     }
 
 

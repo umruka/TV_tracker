@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -34,6 +35,7 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
     private Activity activity;
     private DiscoverViewModel discoverViewModel;
 
+
     public static DiscoverFragment newInstance() {
         return new DiscoverFragment();
     }
@@ -50,7 +52,8 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
         this.activity = getActivity();
         final RecyclerView recyclerView = getView().findViewById(R.id.dicover_recycler_view);
         recyclerView.setHasFixedSize(true);
-
+        recyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
+        recyclerView.setHasFixedSize(true);
         RelativeLayout syncView = getView().findViewById(R.id.sync_view_discover);
 
         final TvShowBasicAdapter adapter = new TvShowBasicAdapter();
@@ -140,7 +143,6 @@ public class DiscoverFragment extends Fragment implements  TvShowBasicAdapter.On
         UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, MainActivity.TVSHOW_WATCHING_FLAG_YES);
         discoverViewModel.updateTvShowBasicWatchingFlag(params);
         discoverViewModel.fetchDetailsForWatchlist(id);
-
         Toast.makeText(activity, "Done", Toast.LENGTH_SHORT).show();
     }
 
