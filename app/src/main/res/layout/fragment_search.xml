@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/search_fragment"
-    tools:context=".Fragments.SearchFragment">
+    tools:context=".UI.Search.SearchFragment">
 
     <LinearLayout
         android:id="@+id/linear_layout1"

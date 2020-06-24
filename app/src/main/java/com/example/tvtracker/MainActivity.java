@@ -1,12 +1,9 @@
 package com.example.tvtracker;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
-import com.example.tvtracker.Models.TvShow;
-import com.example.tvtracker.ViewModels.DiscoverViewModel;
+import com.example.tvtracker.UI.Discover.DiscoverViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;

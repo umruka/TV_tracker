@@ -6,9 +6,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.RelativeLayout;
 
-import com.example.tvtracker.ViewModels.SyncViewModel;
+import com.example.tvtracker.UI.SyncViewModel;
 
 public class SyncActivity extends AppCompatActivity   {
 

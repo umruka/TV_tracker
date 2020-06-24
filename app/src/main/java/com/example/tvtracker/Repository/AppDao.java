@@ -7,13 +7,12 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.example.tvtracker.Models.QueryModels.fromDbCall;
-import com.example.tvtracker.Models.TvShow;
-import com.example.tvtracker.Models.TvShowEpisode;
-import com.example.tvtracker.Models.TvShowGenre;
-import com.example.tvtracker.Models.TvShowPicture;
+import com.example.tvtracker.DTO.Models.QueryModels.fromDbCall;
+import com.example.tvtracker.DTO.Models.TvShow;
+import com.example.tvtracker.DTO.Models.TvShowEpisode;
+import com.example.tvtracker.DTO.Models.TvShowGenre;
+import com.example.tvtracker.DTO.Models.TvShowPicture;
 
-import java.util.Date;
 import java.util.List;
 
 @Dao

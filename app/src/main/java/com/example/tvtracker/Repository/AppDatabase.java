@@ -6,10 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.tvtracker.Models.TvShow;
-import com.example.tvtracker.Models.TvShowEpisode;
-import com.example.tvtracker.Models.TvShowGenre;
-import com.example.tvtracker.Models.TvShowPicture;
+import com.example.tvtracker.DTO.Models.TvShow;
+import com.example.tvtracker.DTO.Models.TvShowEpisode;
+import com.example.tvtracker.DTO.Models.TvShowGenre;
+import com.example.tvtracker.DTO.Models.TvShowPicture;
 
 
 @Database(entities = {TvShow.class, TvShowEpisode.class, TvShowPicture.class, TvShowGenre.class}, version = 4)
