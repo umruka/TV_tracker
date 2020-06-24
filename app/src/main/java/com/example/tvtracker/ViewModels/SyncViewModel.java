@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
+import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Repository.AppRepository;
 
 public class SyncViewModel extends AndroidViewModel {
@@ -17,7 +18,12 @@ public class SyncViewModel extends AndroidViewModel {
     public SyncViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
-        repository.initialFetchData();
+
+        if(!MainActivity.TEST_MODE){
+            repository.initialFetchData();
+        }else {
+            repository.initialFetchTestData();
+        }
         syncStateObservable.addSource(repository.getSyncState(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {

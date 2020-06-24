@@ -11,23 +11,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tvtracker.Models.CalendarTvShowEpisode;
 import com.example.tvtracker.Models.DateHelper;
-import com.example.tvtracker.Models.TvShowPicture;
 import com.example.tvtracker.R;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShowPictureViewHolder> {
 
-
+    public interface OnItemClickListener {
+        void onItemClick(CalendarTvShowEpisode calendarTvShowEpisode);
+    }
 
 
     private List<CalendarTvShowEpisode> calendarTvShowEpisodes = new ArrayList<>();
+    private OnItemClickListener listener;
 
 
     @NonNull
@@ -47,8 +45,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
         holder.textViewName.setText(currentTvShowEpisode.getTvShowName());
         holder.textViewEpisodeNum.setText(String.valueOf("Episode: " + currentTvShowEpisode.getTvShowEpisode().getEpisodeNum()));
         holder.textViewSeasonNum.setText(String.valueOf("Season: " + currentTvShowEpisode.getTvShowEpisode().getSeasonNum()));
-        holder.textViewAirDate.setText(String.valueOf(currentTvShowEpisode.getTvShowEpisode().getEpisodeAirDate()));
-        holder.textViewDaysLeft.setText(DateHelper.daysDifferenceFromCurrentDate(currentTvShowEpisode.getTvShowEpisode().getEpisodeAirDate()) + " days left");
+        holder.textViewAirDate.setText(DateHelper.toDateString(currentTvShowEpisode.getTvShowEpisode().getEpisodeAirDate()));
+        holder.textViewDaysLeft.setText(DateHelper.daysDifferenceFromCurrentDate(currentTvShowEpisode.getTvShowEpisode().getEpisodeAirDate()));
 
     }
 
@@ -67,6 +65,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
         return 0;
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+
+    }
 
 
     class TvShowPictureViewHolder extends RecyclerView.ViewHolder {
@@ -86,6 +88,16 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
             textViewSeasonNum = itemView.findViewById(R.id.calendar_seasonNum);
             textViewAirDate = itemView.findViewById(R.id.calendar_air_date);
             textViewDaysLeft = itemView.findViewById(R.id.calendar_days_left);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(calendarTvShowEpisodes.get(position));
+                    }
+                }
+            });
 
         }
 

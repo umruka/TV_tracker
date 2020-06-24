@@ -39,7 +39,11 @@
         android:id="@+id/navigation_calendar"
         android:name="com.example.tvtracker.Fragments.CalendarFragment"
         android:label="calendar_fragment"
-        tools:layout="@layout/fragment_calendar" />
+        tools:layout="@layout/fragment_calendar" >
+        <action
+            android:id="@+id/action_navigation_calendar_to_fragment_details"
+            app:destination="@id/fragment_details" />
+    </fragment>
     <fragment
         android:id="@+id/fragment_search"
         android:name="com.example.tvtracker.Fragments.SearchFragment"

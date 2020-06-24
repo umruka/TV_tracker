@@ -48,6 +48,8 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
         Picasso.get()
                 .load(currentTvShow.getTvShowImagePath())
+                .error(R.drawable.image_error_placeholder)
+                .placeholder(R.drawable.image_loading_placeholder)
                 .fit()
                 .into(holder.textViewTvShowImageThumbnail);
 //        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
@@ -63,13 +65,19 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
         holder.textViewProgress.setText(progressMax - watched  + " remaining");
 
-        if(!tvShows.get(position).getTvShowState()) {
+        if(tvShows.get(position).getTvShowEpisodes().size() == 0){
+            holder.textViewEpisodeName.setText("no episodes avaible");
+            holder.textViewEpisodeReleaseDate.setText("no episodes avaible");
+        }else if(!tvShows.get(position).getTvShowState()) {
             TvShowEpisode tvShowEpisode = tvShows.get(position).getNextWatched();
             holder.textViewEpisodeName.setText(tvShowEpisode.getSeasonNum() + "x" + tvShowEpisode.getEpisodeNum()  + " " + tvShowEpisode.getEpisodeName());
             holder.textViewEpisodeReleaseDate.setText(DateHelper.toDateString(tvShowEpisode.getEpisodeAirDate()));
 //        }
-        } else {
+        } else if(currentTvShow.getTvShowStatus().equals("Ended")) {
             holder.textViewEpisodeName.setText("Series finished");
+            holder.textViewEpisodeReleaseDate.setText("");
+        }else {
+            holder.textViewEpisodeName.setText("No more released episodes");
             holder.textViewEpisodeReleaseDate.setText("");
         }
         holder.textViewEpisodeWatched.setImageResource(R.drawable.ic_check_black_24dp);

@@ -13,8 +13,6 @@ import com.example.tvtracker.ViewModels.SyncViewModel;
 public class SyncActivity extends AppCompatActivity   {
 
 private SyncViewModel syncViewModel;
-    private RelativeLayout syncView;
-public static final int numOfTasks = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +20,6 @@ public static final int numOfTasks = 20;
         getSupportActionBar().hide();
         setContentView(R.layout.activity_sync);
 
-        syncView = findViewById(R.id.sync_view_sync_act);
         syncViewModel = new ViewModelProvider(this).get(SyncViewModel.class);
 
         syncViewModel.getSyncStateObservable().observe( this, new Observer<Boolean>() {

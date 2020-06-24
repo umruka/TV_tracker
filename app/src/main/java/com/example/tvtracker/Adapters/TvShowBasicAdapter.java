@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
 import com.squareup.picasso.Picasso;
@@ -45,10 +46,12 @@ public class TvShowBasicAdapter extends RecyclerView.Adapter<TvShowBasicAdapter.
         holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
 //        holder.textViewTvShowStatus.setText(currentTvShow.getTvShowStatus());
 //        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
-        Picasso.get()
-                .load(currentTvShow.getTvShowImagePath())
-                .fit()
-                .into(holder.imageViewTvShowImage);
+            Picasso.get()
+                    .load(currentTvShow.getTvShowImagePath())
+                    .error(R.drawable.image_error_placeholder)
+                    .placeholder(R.drawable.image_loading_placeholder)
+                    .fit()
+                    .into(holder.imageViewTvShowImage);
     }
 
     public void setTvShows(List<TvShow> tvShows) {

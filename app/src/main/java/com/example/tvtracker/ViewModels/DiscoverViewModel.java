@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
+import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.Repository.AppRepository;
@@ -34,6 +35,11 @@ public class DiscoverViewModel extends AndroidViewModel {
  */
             discoverList = repository.fetchDiscover2();
         allSearchWordTvShows = repository.getAllSearchTvShows();
+
+
+        if(MainActivity.TEST_MODE) {
+            repository.fetchTestDetails();
+        }
     }
 
     public LiveData<List<TvShow>> getDiscoverList() {

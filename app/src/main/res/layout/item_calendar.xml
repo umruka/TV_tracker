@@ -17,10 +17,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="2dp"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:paddingBottom="2dp"
             >
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/calendar_image"
@@ -39,34 +35,47 @@
                 android:id="@+id/calendar_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="name"
                 />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/calendar_episodeNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_below="@id/calendar_name"
+                android:text="episodeNum"
                 />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/calendar_seasonNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:layout_below="@id/calendar_episodeNum"
+                android:text="seasonNum"
                 />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/calendar_air_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:layout_below="@id/calendar_seasonNum"
+                android:text="air_date"
                 />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:layout_marginTop="16dp"
                 android:id="@+id/calendar_days_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/calendar_air_date"
+                android:textColor="@android:color/black"
+                android:text="days left"
                 />
 
             </RelativeLayout>

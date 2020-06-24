@@ -1,5 +1,7 @@
 package com.example.tvtracker;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
@@ -16,6 +18,9 @@ import androidx.navigation.ui.NavigationUI;
 public class MainActivity extends AppCompatActivity {
 
     private DiscoverViewModel discoverViewModel;
+
+    public static final boolean TEST_MODE =  false;
+
 
     public static final boolean TVSHOW_WATCHING_FLAG_YES = true;
     public static final boolean TVSHOW_WATCHING_FLAG_NO = false;
@@ -54,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 
 
 

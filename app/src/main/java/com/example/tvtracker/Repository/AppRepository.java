@@ -1,6 +1,9 @@
 package com.example.tvtracker.Repository;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -31,7 +34,14 @@ import com.example.tvtracker.Models.TvShowGenre;
 import com.example.tvtracker.Models.TvShowPicture;
 import com.example.tvtracker.Models.Params.UpdateTvShowWatchingFlagParams;
 import com.example.tvtracker.Models.TvShowSeason;
+import com.example.tvtracker.R;
+import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,6 +54,7 @@ import retrofit2.Response;
 
 public class AppRepository {
     private AppDao appDao;
+    private Context context;
 
 
     private MutableLiveData<List<TvShowFull>> watchlistListObservable;
@@ -55,6 +66,7 @@ public class AppRepository {
     private final MultiTaskHandler handler;
 
     public AppRepository(Application application) {
+        context = application.getApplicationContext();
         AppDatabase database = AppDatabase.getInstance(application);
         appDao = database.appDao();
         watchlistListObservable = new MutableLiveData<>();
@@ -63,12 +75,15 @@ public class AppRepository {
         syncState = new MutableLiveData<>();
         allSearchTvShows = new MutableLiveData<>();
 
-        handler = new MultiTaskHandler(MainActivity.TV_SHOW_MOST_POPULAR_PAGES_COUNT) {
-            @Override
-            protected void onAllTasksCompleted() {
-                syncState.setValue(true);
-            }
-        };
+        if(!MainActivity.TEST_MODE) {
+            handler = new MultiTaskHandler(MainActivity.TV_SHOW_MOST_POPULAR_PAGES_COUNT) {
+                @Override
+                protected void onAllTasksCompleted() {
+                    syncState.setValue(true);
+                }
+            };
+
+        }
     }
 
     public MutableLiveData<List<CalendarTvShowEpisode>> getCalendarListObservable() {
@@ -87,29 +102,77 @@ public class AppRepository {
         return allSearchTvShows;
     }
 
+    public boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
 
     public void initialFetchData(){
-        ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
-        for (int i = 1; i <= MainActivity.TV_SHOW_MOST_POPULAR_PAGES_COUNT; i++) {
-            apiService.getTvShowsBasic(i).enqueue(new Callback<JsonTvShowBasicRoot>() {
-                @Override
-                public void onResponse(Call<JsonTvShowBasicRoot> call, Response<JsonTvShowBasicRoot> response) {
-                    if(response.isSuccessful()){
+        if(isNetworkConnected()) {
+            ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
+            for (int i = 1; i <= MainActivity.TV_SHOW_MOST_POPULAR_PAGES_COUNT; i++) {
+                apiService.getTvShowsBasic(i).enqueue(new Callback<JsonTvShowBasicRoot>() {
+                    @Override
+                    public void onResponse(Call<JsonTvShowBasicRoot> call, Response<JsonTvShowBasicRoot> response) {
+                        if (response.isSuccessful()) {
 //                    setTvShowsListObservableStatus(Status.SUCCESS, null);
-                        addTvShowsToDb(toTvShowArray(response.body()));
+                            addTvShowsToDb(toTvShowArray(response.body()));
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<JsonTvShowBasicRoot> call, Throwable t) {
-                    Log.d("Fetch from web", "error");
+                    @Override
+                    public void onFailure(Call<JsonTvShowBasicRoot> call, Throwable t) {
+                        Log.d("Fetch from web", "error");
 //                setTvShowsListObservableStatus(Status.ERROR, t.getMessage());
-                }
-            });
+                    }
+                });
+            }
+        }else {
+            syncState.setValue(true);
+        }
+        //else if not network is available
+    }
+
+    public void initialFetchTestData(){
+        AssetManager assetManager = context.getAssets();
+        JsonTvShowBasicRoot jsonTvShowBasicRoot = new JsonTvShowBasicRoot();
+        try (InputStream is = assetManager.open(context.getString(R.string.mostPopularTvShowsOffline)); // or file2
+             Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
+            Gson gson = new Gson();
+            jsonTvShowBasicRoot = gson.fromJson(reader, JsonTvShowBasicRoot.class);
+            addTvShowsToDb(toTvShowArray(jsonTvShowBasicRoot));
+            syncState.setValue(true);
+        } catch (IOException e) {
+            e.getMessage();
+        }
+    }
+
+    public void fetchTestDetails(){
+        AssetManager assetManager = context.getAssets();
+        List<String> testData = new ArrayList<>();
+        testData.add(context.getString(R.string.gameOfThronesDetails));
+        testData.add(context.getString(R.string.theFlashDetails));
+        testData.add(context.getString(R.string.theWalkingDeadDetails));
+
+        for (String fileName : testData){
+            JsonTvShowFullRoot jsonTvShowFullRoot = new JsonTvShowFullRoot();
+            try (InputStream is = assetManager.open(fileName); // or file2
+                 Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
+                Gson gson = new Gson();
+                jsonTvShowFullRoot = gson.fromJson(reader, JsonTvShowFullRoot.class);
+//                jsonTvShowFullRoot.getTvShow().setImagePath("file:///android_asset/"+fileName+".jpg");
+                addDetailsToDbAsync(jsonTvShowFullRoot);
+            } catch (IOException e) {
+                e.getMessage();
+            }
         }
 
 
     }
+
+
 
     public void fetchWatchlist() {
         Log.d("", "load all tv shows from db");
@@ -169,6 +232,7 @@ public class AppRepository {
      return appDao.getAllTvShows();
     }
 
+
     public LiveData<Resource<TvShowFull>> fetchTvShowDetails2(int id){
         return new NetworkBoundResource<TvShowFull, JsonTvShowFullRoot>() {
             @Override
@@ -178,7 +242,10 @@ public class AppRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable TvShowFull data) {
-                return true;
+                if(isNetworkConnected()) {
+                    return true;
+                }
+                return false;
             }
 
             @NonNull
@@ -215,21 +282,25 @@ public class AppRepository {
     }
 
     public void fetchTvShowDetailsFromSearch(int id){
-        Log.d("", "getDetailsFromWeb");
-        ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
-        apiService.getTvShowDetailed(id).enqueue(new Callback<JsonTvShowFullRoot>() {
-            @Override
-            public void onResponse(Call<JsonTvShowFullRoot> call, Response<JsonTvShowFullRoot> response) {
-                if(response.isSuccessful()){
-                    addDetailsToDbAsync(response.body());
+        if(isNetworkConnected()) {
+            Log.d("", "getDetailsFromWeb");
+            ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
+            apiService.getTvShowDetailed(id).enqueue(new Callback<JsonTvShowFullRoot>() {
+                @Override
+                public void onResponse(Call<JsonTvShowFullRoot> call, Response<JsonTvShowFullRoot> response) {
+                    if (response.isSuccessful()) {
+                        addDetailsToDbAsync(response.body());
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<JsonTvShowFullRoot> call, Throwable t) {
+                @Override
+                public void onFailure(Call<JsonTvShowFullRoot> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }else{
+            Log.d("", "no network available");
+        }
     }
 
     public void fetchTvShowEpisodesBySeason(int id, int seasonNum){
@@ -272,8 +343,8 @@ public class AppRepository {
             }
         });
         for(TvShowEpisode episode : episodes){
-            String shortDate = episode.getEpisodeAirDate().substring(0, 10);
-            if(shortDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            String shortDate = episode.getEpisodeAirDate();
+            if(shortDate.matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}")) {
                 episode.setEpisodeAirDate(shortDate);
             }else{
                 episode.setEpisodeAirDate("");
@@ -298,8 +369,8 @@ public class AppRepository {
             appDao.updateTvShowDetails(tvShow.getTvShowId(), tvShow.getTvShowDesc(), tvShow.getTvShowYoutubeLink(), tvShow.getTvShowRating());
         }
 
-        TvShowEpisode testEpisode = new TvShowEpisode(35624, 7, 1, "Test Episode", "2020-08-11");
-        episodes.add(testEpisode);
+//        TvShowEpisode testEpisode = new TvShowEpisode(35624, 7, 1, "Test Episode", "2020-08-11");
+//        episodes.add(testEpisode);
         if(dbEpisodes.size() == 0) {
             appDao.insertAllTvShowEpisodes(episodes);
         }else{
@@ -364,7 +435,10 @@ public class AppRepository {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-            handler.taskComplete();
+
+                if(!MainActivity.TEST_MODE){
+                    handler.taskComplete();
+                }
             }
         }.execute(tvShows);
     }

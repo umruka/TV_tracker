@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +23,7 @@ import android.view.ViewGroup;
 import com.example.tvtracker.Adapters.CalendarAdapter;
 import com.example.tvtracker.Adapters.EpisodeAdapter;
 import com.example.tvtracker.Adapters.WatchlistAdapter;
+import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.Models.Basic.Resource;
 import com.example.tvtracker.Models.Basic.Status;
 import com.example.tvtracker.Models.CalendarTvShowEpisode;
@@ -38,7 +41,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements CalendarAdapter.OnItemClickListener {
     private Activity activity;
     CalendarViewModel calendarViewModel;
     private RecyclerView calendarRecyclerView;
@@ -76,7 +79,18 @@ public class CalendarFragment extends Fragment {
             }
         });
         calendarViewModel.fetchData();
+        adapter.setOnItemClickListener(this);
 
     }
 
+    @Override
+    public void onItemClick(CalendarTvShowEpisode calendarTvShowEpisode) {
+        NavController navHostController = Navigation.findNavController(getView());
+        if (navHostController.getCurrentDestination().getId() == R.id.navigation_calendar) {
+            Bundle bundle = new Bundle();
+            int id = calendarTvShowEpisode.getTvShowEpisode().getTvShowId();
+            bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(id));
+            navHostController.navigate(R.id.action_navigation_calendar_to_fragment_details, bundle);
+        }
+    }
 }
