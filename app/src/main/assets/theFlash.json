@@ -1,0 +1,844 @@
+{
+  "tvShow": {
+    "id": 35624,
+    "name": "The Flash",
+    "permalink": "the-flash",
+    "url": "https://www.episodate.com/tv-show/the-flash",
+    "description": "Barry Allen is a Central City police forensic scientist with a reasonably happy life, despite the childhood trauma of a mysterious red and yellow being killing his mother and framing his father. All that changes when a massive particle accelerator accident leads to Barry being struck by lightning in his lab. Coming out of coma nine months later, Barry and his new friends at STAR labs find that he now has the ability to move at superhuman speed. <br>Furthermore, Barry learns that he is but one of many affected by that event, most of whom are using their powers for evil. Determined to make a difference, Barry dedicates his life to fighting such threats, as The Flash. While he gains allies he never expected, there are also secret forces determined to aid and manipulate him for their own agenda.",
+    "description_source": "http://www.imdb.com/title/tt3107288/plotsummary?ref_=tt_stry_pl",
+    "start_date": "2014-10-07",
+    "end_date": null,
+    "country": "US",
+    "status": "Running",
+    "runtime": 60,
+    "network": "The CW",
+    "youtube_link": "ZakNpLrIPE4",
+    "image_path": "https://static.episodate.com/images/tv-show/full/35624.jpg",
+    "image_thumbnail_path": "https://static.episodate.com/images/tv-show/thumbnail/35624.jpg",
+    "rating": "9.3935",
+    "rating_count": "1451",
+    "countdown": null,
+    "genres": ["Drama", "Action", "Science-Fiction"],
+    "pictures": [
+      "https://static.episodate.com/images/episode/35624-559.jpg",
+      "https://static.episodate.com/images/episode/35624-973.jpg",
+      "https://static.episodate.com/images/episode/35624-201.jpg",
+      "https://static.episodate.com/images/episode/35624-783.jpg",
+      "https://static.episodate.com/images/episode/35624-130.jpg",
+      "https://static.episodate.com/images/episode/35624-551.jpg",
+      "https://static.episodate.com/images/episode/35624-620.jpg"
+    ],
+    "episodes": [
+      {
+        "season": 1,
+        "episode": 1,
+        "name": "City of Heroes",
+        "air_date": "2014-10-08 00:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 2,
+        "name": "Fastest Man Alive",
+        "air_date": "2014-10-15 00:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 3,
+        "name": "Things You Can't Outrun",
+        "air_date": "2014-10-22 00:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 4,
+        "name": "Going Rogue",
+        "air_date": "2014-10-29 00:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 5,
+        "name": "Plastique",
+        "air_date": "2014-11-12 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 6,
+        "name": "The Flash Is Born",
+        "air_date": "2014-11-19 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 7,
+        "name": "Power Outage",
+        "air_date": "2014-11-26 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 8,
+        "name": "Flash vs. Arrow",
+        "air_date": "2014-12-03 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 9,
+        "name": "The Man in the Yellow Suit",
+        "air_date": "2014-12-10 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 10,
+        "name": "Revenge of the Rogues",
+        "air_date": "2015-01-21 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 11,
+        "name": "The Sound and the Fury",
+        "air_date": "2015-01-28 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 12,
+        "name": "Crazy for You",
+        "air_date": "2015-02-04 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 13,
+        "name": "The Nuclear Man",
+        "air_date": "2015-02-11 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 14,
+        "name": "Fallout",
+        "air_date": "2015-02-18 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 15,
+        "name": "Out of Time",
+        "air_date": "2015-03-18 00:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 16,
+        "name": "Rogue Time",
+        "air_date": "2015-03-25 00:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 17,
+        "name": "Tricksters",
+        "air_date": "2015-04-01 00:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 18,
+        "name": "All Star Team Up",
+        "air_date": "2015-04-15 00:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 19,
+        "name": "Who Is Harrison Wells?",
+        "air_date": "2015-04-22 00:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 20,
+        "name": "The Trap",
+        "air_date": "2015-04-29 00:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 21,
+        "name": "Grodd Lives",
+        "air_date": "2015-05-06 00:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 22,
+        "name": "Rogue Air",
+        "air_date": "2015-05-13 00:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 23,
+        "name": "Fast Enough",
+        "air_date": "2015-05-20 00:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 1,
+        "name": "The Man Who Saved Central City",
+        "air_date": "2015-10-07 00:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 2,
+        "name": "Flash of Two Worlds",
+        "air_date": "2015-10-14 00:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 3,
+        "name": "Family of Rogues",
+        "air_date": "2015-10-21 00:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 4,
+        "name": "The Fury of Firestorm",
+        "air_date": "2015-10-28 00:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 5,
+        "name": "The Darkness and the Light",
+        "air_date": "2015-11-04 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 6,
+        "name": "Enter Zoom",
+        "air_date": "2015-11-11 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 7,
+        "name": "Gorilla Warfare",
+        "air_date": "2015-11-18 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 8,
+        "name": "Legends of Today. Part 1",
+        "air_date": "2015-12-02 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 9,
+        "name": "Running to Stand Still",
+        "air_date": "2015-12-09 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 10,
+        "name": "Potential Energy",
+        "air_date": "2016-01-20 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 11,
+        "name": "The Reverse-Flash Returns",
+        "air_date": "2016-01-27 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 12,
+        "name": "Fast Lane",
+        "air_date": "2016-02-03 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 13,
+        "name": "Welcome to Earth-2",
+        "air_date": "2016-02-10 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 14,
+        "name": "Escape from Earth-2",
+        "air_date": "2016-02-17 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 15,
+        "name": "King Shark",
+        "air_date": "2016-02-24 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 16,
+        "name": "Trajectory",
+        "air_date": "2016-03-23 00:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 17,
+        "name": "Flash Back",
+        "air_date": "2016-03-30 00:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 18,
+        "name": "Versus Zoom",
+        "air_date": "2016-04-20 00:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 19,
+        "name": "Back to Normal",
+        "air_date": "2016-04-27 00:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 20,
+        "name": "Rupture",
+        "air_date": "2016-05-04 00:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 21,
+        "name": "The Runaway Dinosaur",
+        "air_date": "2016-05-11 00:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 22,
+        "name": "Invincible",
+        "air_date": "2016-05-18 00:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 23,
+        "name": "The Race of His Life",
+        "air_date": "2016-05-25 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 1,
+        "name": "Flashpoint",
+        "air_date": "2016-10-05 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 2,
+        "name": "Paradox",
+        "air_date": "2016-10-12 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 3,
+        "name": "Magenta",
+        "air_date": "2016-10-19 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 4,
+        "name": "The New Rogues",
+        "air_date": "2016-10-26 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 5,
+        "name": "Monster",
+        "air_date": "2016-11-02 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 6,
+        "name": "Shade",
+        "air_date": "2016-11-16 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 7,
+        "name": "Killer Frost",
+        "air_date": "2016-11-23 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 8,
+        "name": "Invasion!",
+        "air_date": "2016-11-30 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 9,
+        "name": "The Present",
+        "air_date": "2016-12-07 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 10,
+        "name": "Borrowing Problems from the Future",
+        "air_date": "2017-01-25 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 11,
+        "name": "Dead or Alive",
+        "air_date": "2017-02-01 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 12,
+        "name": "Untouchable",
+        "air_date": "2017-02-08 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 13,
+        "name": "Attack on Gorilla City",
+        "air_date": "2017-02-22 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 14,
+        "name": "Attack on Central City",
+        "air_date": "2017-03-01 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 15,
+        "name": "The Wrath of Savitar",
+        "air_date": "2017-03-08 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 16,
+        "name": "Into the Speed Force",
+        "air_date": "2017-03-15 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 17,
+        "name": "Duet",
+        "air_date": "2017-03-22 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 18,
+        "name": "Abra Kadabra",
+        "air_date": "2017-03-29 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 19,
+        "name": "The Once and Future Flash",
+        "air_date": "2017-04-26 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 20,
+        "name": "I Know Who You Are",
+        "air_date": "2017-05-03 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 21,
+        "name": "Cause and Effect",
+        "air_date": "2017-05-10 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 22,
+        "name": "Infantino Street",
+        "air_date": "2017-05-17 00:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 23,
+        "name": "Finish Line",
+        "air_date": "2017-05-24 00:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 1,
+        "name": "The Flash Reborn",
+        "air_date": "2017-10-11 00:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 2,
+        "name": "Mixed Signals",
+        "air_date": "2017-10-18 00:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 3,
+        "name": "Luck Be a Lady",
+        "air_date": "2017-10-25 00:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 4,
+        "name": "Elongated Journey Into Night",
+        "air_date": "2017-11-01 00:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 5,
+        "name": "Girls Night Out",
+        "air_date": "2017-11-08 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 6,
+        "name": "When Harry Met Harry…",
+        "air_date": "2017-11-15 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 7,
+        "name": "Therefore I Am",
+        "air_date": "2017-11-22 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 8,
+        "name": "Crisis on Earth-X, Part 3",
+        "air_date": "2017-11-29 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 9,
+        "name": "Don't Run",
+        "air_date": "2017-12-06 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 10,
+        "name": "The Trial of the Flash",
+        "air_date": "2018-01-17 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 11,
+        "name": "The Elongated Knight Rises",
+        "air_date": "2018-01-24 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 12,
+        "name": "Honey, I Shrunk Team Flash",
+        "air_date": "2018-01-31 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 13,
+        "name": "True Colors",
+        "air_date": "2018-02-07 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 14,
+        "name": "Subject 9",
+        "air_date": "2018-02-28 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 15,
+        "name": "Enter Flashtime",
+        "air_date": "2018-03-07 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 16,
+        "name": "Run, Iris, Run",
+        "air_date": "2018-03-14 00:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 17,
+        "name": "Null and Annoyed",
+        "air_date": "2018-04-11 00:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 18,
+        "name": "Lose Yourself",
+        "air_date": "2018-04-18 00:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 19,
+        "name": "Fury Rogue",
+        "air_date": "2018-04-25 00:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 20,
+        "name": "Therefore She Is",
+        "air_date": "2018-05-02 00:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 21,
+        "name": "Harry and the Harrisons",
+        "air_date": "2018-05-09 00:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 22,
+        "name": "Think Fast",
+        "air_date": "2018-05-16 00:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 23,
+        "name": "We Are the Flash",
+        "air_date": "2018-05-23 00:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 1,
+        "name": "Nora",
+        "air_date": "2018-10-10 00:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 2,
+        "name": "Blocked",
+        "air_date": "2018-10-17 00:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 3,
+        "name": "The Death of Vibe",
+        "air_date": "2018-10-24 00:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 4,
+        "name": "News Flash",
+        "air_date": "2018-10-31 00:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 5,
+        "name": "All Doll'd Up",
+        "air_date": "2018-11-14 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 6,
+        "name": "The Icicle Cometh",
+        "air_date": "2018-11-21 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 7,
+        "name": "O Come, All Ye Thankful",
+        "air_date": "2018-11-28 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 8,
+        "name": "What's Past Is Prologue",
+        "air_date": "2018-12-05 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 9,
+        "name": "Elseworlds, Part 1",
+        "air_date": "2018-12-10 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 10,
+        "name": "The Flash & The Furious",
+        "air_date": "2019-01-16 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 11,
+        "name": "Seeing Red",
+        "air_date": "2019-01-23 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 12,
+        "name": "Memorabilia",
+        "air_date": "2019-01-30 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 13,
+        "name": "Goldfaced",
+        "air_date": "2019-02-06 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 14,
+        "name": "Cause and XS",
+        "air_date": "2019-02-13 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 15,
+        "name": "King Shark vs. Gorilla Grodd",
+        "air_date": "2019-03-06 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 16,
+        "name": "Failure Is an Orphan",
+        "air_date": "2019-03-13 00:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 17,
+        "name": "Time Bomb",
+        "air_date": "2019-03-20 00:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 18,
+        "name": "Godspeed",
+        "air_date": "2019-04-17 00:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 19,
+        "name": "Snow Pack",
+        "air_date": "2019-04-24 00:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 20,
+        "name": "Gone Rogue",
+        "air_date": "2019-05-01 00:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 21,
+        "name": "The Girl with the Red Lightning",
+        "air_date": "2019-05-08 00:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 22,
+        "name": "Legacy",
+        "air_date": "2019-05-15 00:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 1,
+        "name": "Into the Void",
+        "air_date": "2019-10-09 00:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 2,
+        "name": "A Flash of the Lightning",
+        "air_date": "2019-10-16 00:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 3,
+        "name": "Dead Man Running",
+        "air_date": "2019-10-23 00:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 4,
+        "name": "There Will Be Blood",
+        "air_date": "2019-10-30 00:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 5,
+        "name": "Kiss Kiss Breach Breach",
+        "air_date": "2019-11-06 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 6,
+        "name": "License to Elongate",
+        "air_date": "2019-11-20 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 7,
+        "name": "The Last Temptation of Barry Allen, Pt. 1",
+        "air_date": "2019-11-27 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 8,
+        "name": "The Last Temptation of Barry Allen, Pt. 2",
+        "air_date": "2019-12-04 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 9,
+        "name": "Crisis on Infinite Earths: Part Three",
+        "air_date": "2019-12-11 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 10,
+        "name": "Marathon",
+        "air_date": "2020-02-05 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 11,
+        "name": "Love Is a Battlefield",
+        "air_date": "2020-02-12 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 12,
+        "name": "A Girl Named Sue",
+        "air_date": "2020-02-19 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 13,
+        "name": "Grodd Friended Me",
+        "air_date": "2020-02-26 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 14,
+        "name": "Death of the Speed Force",
+        "air_date": "2020-03-11 00:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 15,
+        "name": "The Exorcism of Nash Wells",
+        "air_date": "2020-03-18 00:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 16,
+        "name": "So Long and Goodnight",
+        "air_date": "2020-04-22 00:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 17,
+        "name": "Liberation",
+        "air_date": "2020-04-29 00:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 18,
+        "name": "Pay the Piper",
+        "air_date": "2020-05-06 00:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 19,
+        "name": "Success Is Assured",
+        "air_date": "2020-05-13 00:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 21,
+        "name": "Episode 21",
+        "air_date": "2020-05-13 00:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 22,
+        "name": "Episode 22",
+        "air_date": "2020-05-20 00:00:00"
+      }
+    ]
+  }
+}

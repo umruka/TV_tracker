@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_watchlist">
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.tvtracker.UI.Profile.ProfileFragment"
+        android:label="profile_fragment"
+        tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/navigation_watchlist"
+        android:name="com.example.tvtracker.UI.Watchlist.WatchlistFragment"
+        android:label="watchlist_fragment"
+        tools:layout="@layout/watchlist_fragment" >
+        <action
+            android:id="@+id/action_navigation_watchlist_to_details_fragment"
+            app:destination="@id/fragment_details" />
+        <action
+            android:id="@+id/action_navigation_watchlist_to_fragment_search"
+            app:destination="@id/fragment_search" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_discover"
+        android:name="com.example.tvtracker.UI.Discover.DiscoverFragment"
+        android:label="discover_fragment"
+        tools:layout="@layout/discover_fragment" >
+        <action
+            android:id="@+id/action_navigation_discover_to_search_fragment"
+            app:destination="@id/fragment_search"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_navigation_discover_to_details_fragment"
+            app:destination="@id/fragment_details" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_calendar"
+        android:name="com.example.tvtracker.UI.Calendar.CalendarFragment"
+        android:label="calendar_fragment"
+        tools:layout="@layout/calendar_fragment" >
+        <action
+            android:id="@+id/action_navigation_calendar_to_fragment_details"
+            app:destination="@id/fragment_details" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_search"
+        android:name="com.example.tvtracker.UI.Search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/search_fragment">
+        <action
+            android:id="@+id/action_searchFragment_to_details_fragment"
+            app:destination="@id/fragment_details" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_details"
+        android:name="com.example.tvtracker.UI.Details.DetailsFragment"
+        android:label="fragment_details">
+        <action
+            android:id="@+id/action_fragment_details_to_fragment_episodes"
+            app:destination="@id/fragment_episodes" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_episodes"
+        android:name="com.example.tvtracker.UI.SeasonEpisodes.SeasonEpisodesFragment"
+        android:label="fragment_episodes"
+        tools:layout="@layout/episodes_fragment" >
+    </fragment>
+</navigation>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".UI.Watchlist.WatchlistFragment">
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/watchlist_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+        />
+
+    <RelativeLayout
+        android:id="@+id/emptystatelayout"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        >
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/empty_state_calendar_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/empty_state_watchlist_icon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_marginTop="16dp"
+            android:id="@+id/text1"
+            android:text="No added tv series yet"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/empty_state_calendar_image"
+            android:layout_centerHorizontal="true"
+
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text2"
+            android:layout_marginTop="8dp"
+            android:text="Add some shows from 'Discover' to track them"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/text1"/>
+    </RelativeLayout>
+
+
+</FrameLayout>

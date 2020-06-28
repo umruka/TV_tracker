@@ -1,0 +1,472 @@
+{
+  "tvShow": {
+    "id": 23455,
+    "name": "Game of Thrones",
+    "permalink": "game-of-thrones",
+    "url": "https://www.episodate.com/tv-show/game-of-thrones",
+    "description": "Nine noble families fight for control of the mythical land of Westeros. Political and sexual intrigue is pervasive. Robert Baratheon, King of Westeros, asks his old friend Eddard, Lord Stark, to serve as Hand of the King, or highest official. Secretly warned that the previous Hand was assassinated, Eddard accepts in order to investigate further. Meanwhile the Queen's family, the Lannisters, may be hatching a plot to take power. Across the sea, the last members of the previous and deposed ruling family, the Targaryens, are also scheming to regain the throne. The friction between the houses Stark, Lannister, Baratheon and Targaryen and with the remaining great houses Greyjoy, Tully, Arryn,Tyrell and Martell leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war and political confusion, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+    "description_source": "http://www.imdb.com/title/tt0944947/plotsummary",
+    "start_date": "2011-04-17",
+    "end_date": null,
+    "country": "US",
+    "status": "Ended",
+    "runtime": 60,
+    "network": "HBO",
+    "youtube_link": null,
+    "image_path": "https://static.episodate.com/images/tv-show/full/23455.jpg",
+    "image_thumbnail_path": "https://static.episodate.com/images/tv-show/thumbnail/23455.jpg",
+    "rating": "9.4832",
+    "rating_count": "714",
+    "countdown": null,
+    "genres": ["Drama", "Adventure", "Fantasy"],
+    "pictures": [
+      "https://static.episodate.com/images/episode/23455-225.png",
+      "https://static.episodate.com/images/episode/23455-861.png",
+      "https://static.episodate.com/images/episode/23455-218.png",
+      "https://static.episodate.com/images/episode/23455-432.png",
+      "https://static.episodate.com/images/episode/23455-577.png",
+      "https://static.episodate.com/images/episode/23455-491.png",
+      "https://static.episodate.com/images/episode/23455-167.png"
+    ],
+    "episodes": [
+      {
+        "season": 1,
+        "episode": 1,
+        "name": "Winter is Coming",
+        "air_date": "2011-04-18 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 2,
+        "name": "The Kingsroad",
+        "air_date": "2011-04-25 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 3,
+        "name": "Lord Snow",
+        "air_date": "2011-05-02 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 4,
+        "name": "Cripples, Bastards, and Broken Things",
+        "air_date": "2011-05-09 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 5,
+        "name": "The Wolf and the Lion",
+        "air_date": "2011-05-16 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 6,
+        "name": "A Golden Crown",
+        "air_date": "2011-05-23 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 7,
+        "name": "You Win or You Die",
+        "air_date": "2011-05-30 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 8,
+        "name": "The Pointy End",
+        "air_date": "2011-06-06 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 9,
+        "name": "Baelor",
+        "air_date": "2011-06-13 01:00:00"
+      },
+      {
+        "season": 1,
+        "episode": 10,
+        "name": "Fire and Blood",
+        "air_date": "2011-06-20 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 1,
+        "name": "The North Remembers",
+        "air_date": "2012-04-02 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 2,
+        "name": "The Night Lands",
+        "air_date": "2012-04-09 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 3,
+        "name": "What is Dead May Never Die",
+        "air_date": "2012-04-16 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 4,
+        "name": "Garden of Bones",
+        "air_date": "2012-04-23 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 5,
+        "name": "The Ghost of Harrenhal",
+        "air_date": "2012-04-30 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 6,
+        "name": "The Old Gods and the New",
+        "air_date": "2012-05-07 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 7,
+        "name": "A Man Without Honor",
+        "air_date": "2012-05-14 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 8,
+        "name": "The Prince of Winterfell",
+        "air_date": "2012-05-21 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 9,
+        "name": "Blackwater",
+        "air_date": "2012-05-28 01:00:00"
+      },
+      {
+        "season": 2,
+        "episode": 10,
+        "name": "Valar Morghulis",
+        "air_date": "2012-06-04 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 1,
+        "name": "Valar Dohaeris",
+        "air_date": "2013-04-01 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 2,
+        "name": "Dark Wings, Dark Words",
+        "air_date": "2013-04-08 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 3,
+        "name": "Walk of Punishment",
+        "air_date": "2013-04-15 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 4,
+        "name": "And Now His Watch is Ended",
+        "air_date": "2013-04-22 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 5,
+        "name": "Kissed by Fire",
+        "air_date": "2013-04-29 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 6,
+        "name": "The Climb",
+        "air_date": "2013-05-06 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 7,
+        "name": "The Bear and the Maiden Fair",
+        "air_date": "2013-05-13 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 8,
+        "name": "Second Sons",
+        "air_date": "2013-05-20 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 9,
+        "name": "The Rains of Castamere",
+        "air_date": "2013-06-03 01:00:00"
+      },
+      {
+        "season": 3,
+        "episode": 10,
+        "name": "Mhysa",
+        "air_date": "2013-06-10 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 1,
+        "name": "Two Swords",
+        "air_date": "2014-04-07 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 2,
+        "name": "The Lion and the Rose",
+        "air_date": "2014-04-14 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 3,
+        "name": "Breaker of Chains",
+        "air_date": "2014-04-21 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 4,
+        "name": "Oathkeeper",
+        "air_date": "2014-04-28 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 5,
+        "name": "First of His Name",
+        "air_date": "2014-05-05 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 6,
+        "name": "The Laws of Gods and Men",
+        "air_date": "2014-05-12 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 7,
+        "name": "Mockingbird",
+        "air_date": "2014-05-19 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 8,
+        "name": "The Mountain and the Viper",
+        "air_date": "2014-06-02 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 9,
+        "name": "The Watchers on the Wall",
+        "air_date": "2014-06-09 01:00:00"
+      },
+      {
+        "season": 4,
+        "episode": 10,
+        "name": "The Children",
+        "air_date": "2014-06-16 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 1,
+        "name": "The Wars to Come",
+        "air_date": "2015-04-13 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 2,
+        "name": "The House of Black and White",
+        "air_date": "2015-04-20 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 3,
+        "name": "High Sparrow",
+        "air_date": "2015-04-27 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 4,
+        "name": "Sons of the Harpy",
+        "air_date": "2015-05-04 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 5,
+        "name": "Kill the Boy",
+        "air_date": "2015-05-11 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 6,
+        "name": "Unbowed, Unbent, Unbroken",
+        "air_date": "2015-05-18 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 7,
+        "name": "The Gift",
+        "air_date": "2015-05-25 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 8,
+        "name": "Hardhome",
+        "air_date": "2015-06-01 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 9,
+        "name": "The Dance of Dragons",
+        "air_date": "2015-06-08 01:00:00"
+      },
+      {
+        "season": 5,
+        "episode": 10,
+        "name": "Mother's Mercy",
+        "air_date": "2015-06-15 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 1,
+        "name": "The Red Woman",
+        "air_date": "2016-04-25 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 2,
+        "name": "Home",
+        "air_date": "2016-05-02 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 3,
+        "name": "Oathbreaker",
+        "air_date": "2016-05-09 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 4,
+        "name": "Book of the Stranger",
+        "air_date": "2016-05-16 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 5,
+        "name": "The Door",
+        "air_date": "2016-05-23 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 6,
+        "name": "Blood of My Blood",
+        "air_date": "2016-05-30 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 7,
+        "name": "The Broken Man",
+        "air_date": "2016-06-06 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 8,
+        "name": "No One",
+        "air_date": "2016-06-13 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 9,
+        "name": "Battle of the Bastards",
+        "air_date": "2016-06-20 01:00:00"
+      },
+      {
+        "season": 6,
+        "episode": 10,
+        "name": "The Winds of Winter",
+        "air_date": "2016-06-27 01:00:00"
+      },
+      {
+        "season": 7,
+        "episode": 1,
+        "name": "Dragonstone",
+        "air_date": "2017-07-17 01:00:00"
+      },
+      {
+        "season": 7,
+        "episode": 2,
+        "name": "Stormborn",
+        "air_date": "2017-07-24 01:00:00"
+      },
+      {
+        "season": 7,
+        "episode": 3,
+        "name": "The Queen's Justice",
+        "air_date": "2017-07-31 01:00:00"
+      },
+      {
+        "season": 7,
+        "episode": 4,
+        "name": "The Spoils of War",
+        "air_date": "2017-08-07 01:00:00"
+      },
+      {
+        "season": 7,
+        "episode": 5,
+        "name": "Eastwatch",
+        "air_date": "2017-08-14 01:00:00"
+      },
+      {
+        "season": 7,
+        "episode": 6,
+        "name": "Beyond the Wall",
+        "air_date": "2017-08-21 01:00:00"
+      },
+      {
+        "season": 7,
+        "episode": 7,
+        "name": "The Dragon and the Wolf",
+        "air_date": "2017-08-28 01:00:00"
+      },
+      {
+        "season": 8,
+        "episode": 1,
+        "name": "Winterfell",
+        "air_date": "2019-04-15 01:00:00"
+      },
+      {
+        "season": 8,
+        "episode": 2,
+        "name": "A Knight of the Seven Kingdoms",
+        "air_date": "2019-04-22 01:00:00"
+      },
+      {
+        "season": 8,
+        "episode": 3,
+        "name": "The Long Night",
+        "air_date": "2019-04-29 01:00:00"
+      },
+      {
+        "season": 8,
+        "episode": 4,
+        "name": "The Last of the Starks",
+        "air_date": "2019-05-06 01:00:00"
+      },
+      {
+        "season": 8,
+        "episode": 5,
+        "name": "The Bells",
+        "air_date": "2019-05-13 01:00:00"
+      },
+      {
+        "season": 8,
+        "episode": 6,
+        "name": "The Iron Throne",
+        "air_date": "2019-05-20 01:00:00"
+      }
+    ]
+  }
+}

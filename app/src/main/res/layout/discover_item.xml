@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.MaterialComponents.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="12dp"
+    app:cardBackgroundColor="#E0E0E0">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/text_view_discover_image_thumbnail"
+                android:layout_width="96dp"
+                android:layout_height="112dp"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_view_tvshow_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_view_discover_image_thumbnail"
+                android:layout_marginTop="4dp"
+                android:maxLines="2"
+                android:text="tv show name"
+                android:textAlignment="center"
+                android:layout_alignStart="@id/text_view_discover_image_thumbnail"
+                android:layout_alignEnd="@id/text_view_discover_image_thumbnail"
+                android:textAppearance="?textAppearanceBody2" />
+
+
+
+
+        </RelativeLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+

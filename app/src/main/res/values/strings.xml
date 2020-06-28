@@ -4,11 +4,29 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
-    <string name="nav_tvseries">TV Series</string>
-    <string name="nav_movies">Movies</string>
-    <string name="nav_search">Search</string>
+    <string name="nav_watchlist">Watchlist</string>
+    <string name="nav_calendar">Calendar</string>
+    <string name="nav_discover">Discover</string>
     <string name="nav_profile">Profile</string>
+
+    <string name="button_add">Add</string>
+
+    <string name="calendar_episode">Episode: %1$d</string>
+    <string name="calendar_season">Season: %1$d</string>
+
+
+
+    <string name="details_seasonNumber">Season %1$d</string>
+    <string name="details_seasonProgress">%1$d / %2$d</string>
+    <string name="details_expand_desc_more">Read more</string>
+    <string name="details_expand_desc_less">Read less</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="mostPopularTvShowsOffline">mostPopularData.json</string>
+    <string name="gameOfThronesDetails">gameOfThrones.json</string>
+    <string name="theFlashDetails">theFlash.json</string>
+    <string name="theWalkingDeadDetails">theWalkingDead.json</string>
+
 </resources>

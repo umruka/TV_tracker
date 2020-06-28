@@ -1,65 +1,93 @@
 package com.example.tvtracker;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.Toolbar;
 
-import com.example.tvtracker.movies.MoviesFragment;
-import com.example.tvtracker.profile.profileFragment;
-import com.example.tvtracker.tvSeries.tvSeriesFragment;
+import com.example.tvtracker.UI.Discover.DiscoverViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
-import android.view.MenuItem;
+public class MainActivity extends AppCompatActivity implements NavController.OnDestinationChangedListener {
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+    private DiscoverViewModel discoverViewModel;
+
+    public static final boolean TEST_MODE =  false;
 
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_tvseries:
-                    tvSeriesFragment tvSeriesFragment = new tvSeriesFragment();
-                    changeFragment(tvSeriesFragment);
-                    return true;
-                case R.id.navigation_movies:
-                    MoviesFragment moviesFragment = new MoviesFragment();
-                    changeFragment(moviesFragment);
-                    return true;
-                case R.id.navigation_search:
-                    return true;
-                case R.id.navigation_profile:
-                    profileFragment profileFragment = new profileFragment();
-                    changeFragment(profileFragment);
-                    return true;
-            }
-            return false;
-        }
+    public static final boolean TVSHOW_WATCHING_FLAG_YES = true;
+    public static final boolean TVSHOW_WATCHING_FLAG_NO = false;
+    public static final String TVSHOW_ID = "tv_show_id";
+    public static final String TVSHOW_SEASON_NUM = "tv_show_season_number";
+    public static final boolean TVSHOW_WATCHED_EPISODE_FLAG_YES = true;
+    public static final boolean TVSHOW_WATCHED_EPISODE_FLAG_NO = false;
+    public static final int TV_SHOW_MOST_POPULAR_PAGES_COUNT = 5;
+
+    private BottomNavigationView navigationView;
+    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
-        navView.setOnNavigationItemSelectedListener(this);
+
+//        discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
+        navigationView = findViewById(R.id.bottom_navigation);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
+        NavigationUI.setupWithNavController(navigationView, navController);
+
+        navController.addOnDestinationChangedListener(this);
+
+        final RelativeLayout relativeLayout = findViewById(R.id.syncState);
+        final ConstraintLayout constraintLayout = findViewById(R.id.appState);
 
 
+//        constraintLayout.setVisibility(View.GONE);
+//        relativeLayout.setVisibility(View.VISIBLE);
 
 
+//        discoverViewModel.allInOne();
 
+
+//        relativeLayout.setVisibility(View.GONE);
+//        constraintLayout.setVisibility(View.VISIBLE);
 
 
     }
 
-    private void changeFragment(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.replace(R.id.fragment_container,fragment);
-        fragmentTransaction.commit();
+    @Override
+    public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+        switch (destination.getId()) {
+            case R.id.fragment_details:
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                break;
+            case R.id.fragment_search:
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                break;
+            case R.id.navigation_watchlist:
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                break;
+            case R.id.navigation_calendar:
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                break;
+            case R.id.navigation_discover:
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                break;
+            case R.id.navigation_profile:
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                break;
+            default:
+                navigationView.setVisibility(View.VISIBLE);
+        }
     }
-
 }

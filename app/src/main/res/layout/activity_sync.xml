@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SyncActivity">
+
+    <RelativeLayout
+        android:id="@+id/sync_view_sync_act"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ProgressBar
+            android:id="@+id/details_sync_progress_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:progressDrawable="@drawable/circular_progress_bar"
+            android:layout_height="128dp"
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/sync_act_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_sync_progress_bar"
+            android:textAlignment="center"
+            android:text="Preparing your favorite tv shows"
+            android:textAppearance="?textAppearanceHeadline5"
+            />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

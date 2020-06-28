@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="#E0E0E0">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilot"
+            android:maxLines="2"
+            android:textAppearance="?textAppearanceBody1"
+            />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/episodeAndSeasonNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name"
+                android:text="S01E01"
+                android:textAppearance="?textAppearanceOverline"
+                />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/air_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/episodeAndSeasonNum"
+                android:layout_below="@id/name"
+                android:layout_marginStart="8dp"
+                android:text="01-01-01"
+                android:textAppearance="?textAppearanceOverline"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/watched_flag"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                />
+
+            <View
+                style="@style/Divider"
+                android:layout_below="@id/watched_flag"/>
+
+
+        </RelativeLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
