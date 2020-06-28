@@ -12,7 +12,10 @@ import com.example.tvtracker.DTO.Models.Basic.Resource;
 import com.example.tvtracker.DTO.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
 import com.example.tvtracker.DTO.Models.Params.UpdateTvShowWatchingFlagParams;
 import com.example.tvtracker.DTO.Models.QueryModels.TvShowFull;
+import com.example.tvtracker.DTO.Models.TvShowGenre;
 import com.example.tvtracker.Repository.AppRepository;
+
+import java.util.List;
 
 public class DetailsViewModel extends AndroidViewModel {
     private AppRepository repository;
@@ -45,6 +48,28 @@ public class DetailsViewModel extends AndroidViewModel {
         }
         return false;
     }
+
+    public String getGenresString() {
+        String genresString = "";
+        List<TvShowGenre> genres = detailsObservable.getValue().data.getTvShowGenres();
+        for (TvShowGenre genre : genres){
+            if(genre.equals(genres.get(genres.size() - 1))) {
+                genresString += genre.getTvShowGenreName();
+            }else{
+                genresString += genre.getTvShowGenreName() + ", ";
+            }
+        }
+        return genresString;
+    }
+
+    public String getTvShowRatingString(String rating){
+        if (rating.length() >= 5) {
+            return rating.substring(0, 4);
+        } else {
+            return rating;
+        }
+    }
+
 
 
 }

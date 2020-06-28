@@ -26,16 +26,12 @@ public class TvShow {
     private String tvShowNetwork;
     @ColumnInfo(name = "tv_show_image_path")
     private String tvShowImagePath;
-
     @ColumnInfo(name = "tv_show_description")
     private String tvShowDesc;
-
     @ColumnInfo(name = "tv_show_youtube_link")
     private String tvShowYoutubeLink;
-
     @ColumnInfo(name = "tv_show_rating")
     private String tvShowRating;
-
     @ColumnInfo(name = "tv_show_flag")
     private boolean tvShowWatchingFlag;
 

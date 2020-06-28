@@ -2,22 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Widget.MaterialComponents.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp"
     app:cardBackgroundColor="#E0E0E0">
 
 
     <RelativeLayout
-        android:id="@+id/sync_view"
+        android:id="@+id/details_sync_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
         >
 
         <ProgressBar
-            android:id="@+id/syncProgressBar"
+            android:id="@+id/details_sync_progress_bar"
             style="?android:attr/progressBarStyleLarge"
             android:progressDrawable="@drawable/circular_progress_bar"
             android:layout_height="wrap_content"
@@ -26,72 +28,52 @@
     </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nested_scroll_view"
+        android:id="@+id/details_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
                 >
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/details_image_thumbnail"
-                    android:layout_width="192dp"
-                    android:layout_height="192dp"
+                    android:id="@+id/details_image_view_image_thumbnail"
+                    android:layout_width="164dp"
+                    android:layout_height="164dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
                     />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/details_show_state"
+                    android:id="@+id/details_text_view_tv_show_state"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_toEndOf="@id/details_image_view_image_thumbnail"
+                    android:layout_below="@id/details_text_view_tv_show_status"
                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/details_id"
+                    android:id="@+id/details_text_view_tv_show_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/details_image_view_image_thumbnail"
                     android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/details_image_thumbnail"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="4dp"
-                    android:alpha="0.5"
-                    android:text="id"
-                    android:textAppearance="?textAppearanceOverline"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/details_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/details_image_thumbnail"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="128dp"
                     android:ellipsize="end"
-                    android:maxLines="1"
+                    android:maxLines="2"
+                    android:layout_marginTop="8dp"
                     android:text="name"
                     android:textAppearance="?textAppearanceHeadline5" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/details_status"
+                    android:id="@+id/details_text_view_tv_show_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/details_image_thumbnail"
-                    android:layout_below="@id/details_name"
+                    android:layout_toEndOf="@id/details_image_view_image_thumbnail"
+                    android:layout_below="@id/details_text_view_tv_show_name"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
@@ -99,123 +81,155 @@
                     android:text="status"
                     android:textAppearance="?textAppearanceSubtitle1" />
 
-
-                <View
-                    style="@style/Divider"
-                    android:layout_below="@id/details_image_thumbnail" />
-
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/details_description"
+                    android:id="@+id/details_text_view_tv_show_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/details_image_thumbnail"
+                    android:layout_below="@id/details_image_view_image_thumbnail"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:maxLines="3"
                     android:text="description"
                     android:textAppearance="?textAppearanceBody2" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/expand_desc"
+                    android:id="@+id/details_text_view_expand_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Read more"
-                    android:layout_below="@id/details_description"
+                    android:layout_below="@id/details_text_view_tv_show_description"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
                     />
 
-
                 <View
                     style="@style/Divider"
-                    android:layout_below="@id/expand_desc"/>
-
-                <View
-                    style="@style/Divider"
-                    android:layout_below="@id/details_youtube_link"/>
+                    android:layout_below="@id/details_text_view_expand_description"/>
 
                 <LinearLayout
-                    android:id="@+id/simpleLayout"
+                    android:id="@+id/details_linear_layout_tv_show_info"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
-                    android:layout_below="@id/details_youtube_link"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_below="@id/details_text_view_expand_description"
+                    android:orientation="vertical"
                     >
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/details_rating"
+                        android:id="@+id/details_text_view_tv_show_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="rating"
                         android:textAppearance="?textAppearanceBody2" />
 
+
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/details_genre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Rating"
+                        android:textAppearance="?textAppearanceOverline"
+                        />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/details_text_view_tv_show_genre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:text="genre"
+                        android:maxLines="3"
                         android:textAppearance="?textAppearanceBody2"
                         />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/details_country"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="genres"
+                        android:textAppearance="?textAppearanceOverline"
+                        />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/details_text_view_tv_show_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:text="country"
                         android:textAppearance="?textAppearanceBody2" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/details_network"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Country"
+                        android:textAppearance="?textAppearanceOverline"
+                        />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/details_text_view_tv_show_network"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="network"
+                        android:layout_marginTop="8dp"
                         android:textAppearance="?textAppearanceBody2" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Network"
+                        android:textAppearance="?textAppearanceOverline"
+                        />
+
 
                 </LinearLayout>
 
+                <View
+                    style="@style/Divider"
+                    android:layout_below="@id/details_linear_layout_tv_show_info"/>
 
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/details_view_pager_tv_show_images"
+                    android:layout_width="match_parent"
+                    android:layout_height="224dp"
+                    android:layout_below="@id/details_linear_layout_tv_show_info"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/details_view_pager_tab_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="bottom"
+                        app:tabBackground="@drawable/tab_selector"
+                        app:tabGravity="center"
+                        app:tabIndicatorHeight="0dp" />
+
+                </androidx.viewpager.widget.ViewPager>
+
+                <View
+                    style="@style/Divider"
+                    android:layout_below="@id/details_view_pager_tv_show_images" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/details_youtube_link"
+                    android:id="@+id/details_text_view_seasons"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/expand_desc"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="youtube link"
-                    android:textAppearance="?textAppearanceBody2" />
-
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/details_image_path"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/simpleLayout"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="image path"
-                    android:textAppearance="?textAppearanceBody2" />
-
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/details_pictures_grid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/details_image_path"
-                />
-
+                    android:layout_below="@id/details_view_pager_tv_show_images"
+                    android:textAppearance="?textAppearanceHeadline6"
+                    android:layout_marginTop="8dp"
+                    android:text="Seasons"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/seasons"
+                    android:id="@+id/details_recycler_view_tv_show_seasons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_below="@id/details_pictures_grid"/>
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@id/details_text_view_seasons"/>
 
             </RelativeLayout>
 
 
 
-        </com.google.android.material.card.MaterialCardView>
 
     </androidx.core.widget.NestedScrollView>
 

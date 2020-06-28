@@ -13,8 +13,12 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.DTO.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
@@ -30,6 +34,11 @@ public class WatchlistFragment extends Fragment {
     private WatchlistViewModel watchlistViewModel;
     private SeasonEpisodesViewModel seasonEpisodesViewModel;
 
+    private RecyclerView recyclerView;
+    private RelativeLayout emptyLayout;
+
+    private NavController navController;
+
     public static WatchlistFragment newInstance() {
         return new WatchlistFragment();
     }
@@ -37,46 +46,45 @@ public class WatchlistFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_watchlist, container, false);
+        View view = inflater.inflate(R.layout.watchlist_fragment, container, false);
+        recyclerView = view.findViewById(R.id.watchlist_recycler_view);
+        emptyLayout = view.findViewById(R.id.emptystatelayout);
+        setHasOptionsMenu(true);
+
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        final RecyclerView recyclerView = getView().findViewById(R.id.watchlist_recycler_view);
+        navController = Navigation.findNavController(getView());
         recyclerView.setHasFixedSize(true);
-
         final WatchlistAdapter adapter = new WatchlistAdapter();
         recyclerView.setAdapter(adapter);
-
-
         seasonEpisodesViewModel = new ViewModelProvider(this).get(SeasonEpisodesViewModel.class);
         watchlistViewModel = new ViewModelProvider(this).get(WatchlistViewModel.class);
-//        watchlistViewModel.getWatchlistListObservable().observe(getViewLifecycleOwner(), new Observer<Resource<List<TvShowFull>>>() {
-//                    @Override
-//                    public void onChanged(Resource<List<TvShowFull>> tvShows) {
-//                        adapter.setTvShows(tvShows.data);
-//                    }
-//                });
 
         watchlistViewModel.getWatchlistListObservable().observe(getViewLifecycleOwner(), new Observer<List<TvShowFull>>() {
                     @Override
                     public void onChanged(List<TvShowFull> tvShowFulls) {
                         adapter.setTvShows(tvShowFulls);
+                        if(adapter.getItemCount() == 0){
+                            emptyLayout.setVisibility(View.VISIBLE);
+                        }else if(adapter.getItemCount() != 0){
+                            emptyLayout.setVisibility(View.GONE);
+                        }
                     }
                 });
-                watchlistViewModel.refreshData();
+                watchlistViewModel.fetchWatchlistData();
 
                 adapter.setOnItemClickListener(new WatchlistAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(TvShowFull tvShowFull) {
-                        NavController navHostController = Navigation.findNavController(getView());
-                        if (navHostController.getCurrentDestination().getId() == R.id.navigation_watchlist) {
+                        if (navController.getCurrentDestination().getId() == R.id.navigation_watchlist) {
                             Bundle bundle = new Bundle();
                             int id = tvShowFull.getTvShow().getTvShowId();
                             bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(id));
-                            navHostController.navigate(R.id.action_navigation_watchlist_to_details_fragment, bundle);
+                            navController.navigate(R.id.action_navigation_watchlist_to_details_fragment, bundle);
                         }
                     }
 
@@ -87,14 +95,29 @@ public class WatchlistFragment extends Fragment {
                             int id = tvShowFull.getNextWatched().getId();
                             UpdateTvShowEpisodeWatchedFlagParams params = new UpdateTvShowEpisodeWatchedFlagParams(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_YES);
                             seasonEpisodesViewModel.setWatchedFlag(params);
-//                            watchlistViewModel.fetchData();
-//                            watchlistViewModel.refreshWatchlist();
-                            watchlistViewModel.refreshData();
+                            watchlistViewModel.fetchWatchlistData();
                         }
                     }
                 }
     );
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.watchlist_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_fragment_search:
+                if (navController.getCurrentDestination().getId() == R.id.navigation_watchlist) {
+                    navController.navigate(R.id.action_navigation_watchlist_to_fragment_search);
+                }
+                return true;
+            default:
+                return false;
+        }
+    }
 }

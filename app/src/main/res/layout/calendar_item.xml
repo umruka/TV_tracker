@@ -11,7 +11,7 @@
     android:paddingStart="16dp"
     android:paddingTop="8dp"
     android:paddingEnd="16dp"
-    android:paddingBottom="12dp"
+    android:paddingBottom="8dp"
     app:cardBackgroundColor="#E0E0E0">
 
         <RelativeLayout
@@ -21,13 +21,13 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/calendar_image"
                 android:layout_width="96dp"
-                android:layout_height="128dp"
+                android:layout_height="112dp"
                 />
 
             <RelativeLayout
                 android:layout_toEndOf="@id/calendar_image"
                 android:layout_width="match_parent"
-                android:layout_height="128dp"
+                android:layout_height="112dp"
                 android:layout_marginStart="8dp"
                 >
 
@@ -45,7 +45,7 @@
                 android:id="@+id/calendar_episodeNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_below="@id/calendar_name"
                 android:text="episodeNum"
                 />
@@ -69,7 +69,7 @@
                 />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:id="@+id/calendar_days_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

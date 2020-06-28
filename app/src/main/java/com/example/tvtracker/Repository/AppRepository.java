@@ -189,6 +189,15 @@ public class AppRepository {
                     TvShowFull tvShowFull = new TvShowFull(tvShow, episodes, genres, pictures);
                     tvShowFullList.add(tvShowFull);
                 }
+//                Collections.sort(tvShowFullList, new Comparator<TvShowFull>() {
+//                    @Override
+//                    public int compare(TvShowFull tvShowFull, TvShowFull t1) {
+//                        if(tvShowFull.getTvShowState()) {
+//                            return -1;
+//                        }else if(tvShowFull.getTvShow().)
+//                        return 0;
+//                    }
+//                }
                 return tvShowFullList;
             }
 
@@ -209,7 +218,8 @@ public class AppRepository {
                 List<TvShow> list = appDao.getWatchlistTvShows(MainActivity.TVSHOW_WATCHING_FLAG_YES);
                 for(TvShow tvShow : list) {
                     int id = tvShow.getTvShowId();
-                    List<TvShowEpisode> episodes = appDao.getTvShowEpisodesForLast30Days(id);
+                    List<TvShowEpisode> episodes = appDao.getUpcomingTvShowEpisodes(id);
+//                    List<TvShowEpisode> episodes = appDao.getTvShowEpisodesById(id);
                     for (int i = 0; i < episodes.size(); i++) {
                         CalendarTvShowEpisode calendarTvShowEpisode = new CalendarTvShowEpisode(tvShow.getTvShowName(), tvShow.getTvShowImagePath(), episodes.get(i));
                         tvShowFullList.add(calendarTvShowEpisode);
@@ -386,7 +396,7 @@ public class AppRepository {
 //        TvShowGenre testGenre = new TvShowGenre(35624, "TestGenre");
 //        TvShowPicture testPicture = new TvShowPicture(35624, "empty path");
 
-//        genres.add(testGenre);
+//        genres.add(testGenre);s
 //        pictures.add(testPicture);
 
         if(dbGenres.size() == 0) {
@@ -552,7 +562,7 @@ public class AppRepository {
 
     private TvShowFull jsonToModel(JsonTvShowFullRoot root){
         JsonTvShowFull jsonTvShowFull = root.getTvShow();
-        TvShow tvShow = new TvShow(jsonTvShowFull.getId(), jsonTvShowFull.getName(), jsonTvShowFull.getStartDate(), jsonTvShowFull.getEndDate(), jsonTvShowFull.getCountry(), jsonTvShowFull.getNetwork(), jsonTvShowFull.getStatus(), jsonTvShowFull.getImagePath());
+        TvShow tvShow = new TvShow(jsonTvShowFull.getId(), jsonTvShowFull.getName(), jsonTvShowFull.getStartDate(), jsonTvShowFull.getEndDate(), jsonTvShowFull.getCountry(), jsonTvShowFull.getNetwork(), jsonTvShowFull.getStatus(), jsonTvShowFull.getImageThumbnailPath());
         tvShow.setTvShowDesc(jsonTvShowFull.getDescription());
         tvShow.setTvShowYoutubeLink(jsonTvShowFull.getYoutubeLink());
         tvShow.setTvShowRating(jsonTvShowFull.getRating());

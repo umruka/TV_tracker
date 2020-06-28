@@ -1,5 +1,6 @@
 package com.example.tvtracker.UI.Calendar;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tvtracker.DTO.Models.CalendarTvShowEpisode;
 import com.example.tvtracker.DTO.Models.DateHelper;
+import com.example.tvtracker.DTO.Models.TvShowEpisode;
 import com.example.tvtracker.R;
 import com.squareup.picasso.Picasso;
 
@@ -23,7 +25,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
         void onItemClick(CalendarTvShowEpisode calendarTvShowEpisode);
     }
 
-
     private List<CalendarTvShowEpisode> calendarTvShowEpisodes = new ArrayList<>();
     private OnItemClickListener listener;
 
@@ -32,7 +33,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
     @Override
     public TvShowPictureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_calendar, parent, false);
+                .inflate(R.layout.calendar_item, parent, false);
 
         return new TvShowPictureViewHolder(itemView);
     }
@@ -40,16 +41,22 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
     @Override
     public void onBindViewHolder(@NonNull TvShowPictureViewHolder holder, int position) {
         CalendarTvShowEpisode currentTvShowEpisode = calendarTvShowEpisodes.get(position);
-        Picasso.get().setIndicatorsEnabled(true);
-        Picasso.get().load(currentTvShowEpisode.getTvShowImageThumbnail()).into(holder.imageViewImage);
+
+        Picasso.get()
+                .load(currentTvShowEpisode.getTvShowImageThumbnail())
+                .fit()
+                .into(holder.imageViewImage);
+
+        Context context = holder.itemView.getContext();
+        TvShowEpisode episode = currentTvShowEpisode.getTvShowEpisode();
+
         holder.textViewName.setText(currentTvShowEpisode.getTvShowName());
-        holder.textViewEpisodeNum.setText(String.valueOf("Episode: " + currentTvShowEpisode.getTvShowEpisode().getEpisodeNum()));
-        holder.textViewSeasonNum.setText(String.valueOf("Season: " + currentTvShowEpisode.getTvShowEpisode().getSeasonNum()));
-        holder.textViewAirDate.setText(DateHelper.toDateString(currentTvShowEpisode.getTvShowEpisode().getEpisodeAirDate()));
-        holder.textViewDaysLeft.setText(DateHelper.daysDifferenceFromCurrentDate(currentTvShowEpisode.getTvShowEpisode().getEpisodeAirDate()));
+        holder.textViewEpisodeNum.setText(context.getString(R.string.calendar_episode, episode.getEpisodeNum()));
+        holder.textViewSeasonNum.setText(context.getString(R.string.calendar_season, episode.getSeasonNum()));
+        holder.textViewAirDate.setText(DateHelper.toDateString(episode.getEpisodeAirDate()));
+        holder.textViewDaysLeft.setText(DateHelper.daysDifferenceFromCurrentDate(episode.getEpisodeAirDate()));
 
     }
-
 
 
     public void setTvShows(List<CalendarTvShowEpisode> tvShowPictures) {
@@ -59,7 +66,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
 
     @Override
     public int getItemCount() {
-        if(calendarTvShowEpisodes != null) {
+        if (calendarTvShowEpisodes != null) {
             return calendarTvShowEpisodes.size();
         }
         return 0;
@@ -93,7 +100,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    if(listener != null && position != RecyclerView.NO_POSITION) {
+                    if (listener != null && position != RecyclerView.NO_POSITION) {
                         listener.onItemClick(calendarTvShowEpisodes.get(position));
                     }
                 }

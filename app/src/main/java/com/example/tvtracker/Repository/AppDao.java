@@ -119,10 +119,10 @@ public interface AppDao {
 
     //@Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id=:id AND date(tv_show_air_date)>=date('now','-1 month') AND date(tv_show_air_date) <= date('now', '+14 days') ORDER BY date(tv_show_air_date) ASC")
     @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id=:id AND date(tv_show_air_date)>=date('now') AND date(tv_show_air_date) <= date('now', '+14 days') ORDER BY date(tv_show_air_date) ASC")
-    List<TvShowEpisode> getTvShowEpisodesForLast30Days(int id);
+    List<TvShowEpisode> getUpcomingTvShowEpisodes(int id);
 
     //tryout
-    @Query("SELECT MAX(date(tv_show_air_date)) FROM tv_show_episode_table WHERE tv_show_id=:id")
+    @Query("SELECT MAX(tv_show_air_date) FROM tv_show_episode_table WHERE tv_show_id=:id")
     String getDateForTheLastEpisodeOfTvShowAired(int id);
 
 

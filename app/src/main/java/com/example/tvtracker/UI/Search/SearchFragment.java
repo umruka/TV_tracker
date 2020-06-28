@@ -15,25 +15,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.tvtracker.UI.Discover.DiscoverAdapter;
 import com.example.tvtracker.MainActivity;
-import com.example.tvtracker.DTO.Models.Params.UpdateTvShowWatchingFlagParams;
 import com.example.tvtracker.DTO.Models.TvShow;
 import com.example.tvtracker.R;
 import com.example.tvtracker.UI.Discover.DiscoverViewModel;
 
 import java.util.List;
 
-import static com.example.tvtracker.MainActivity.TVSHOW_WATCHING_FLAG_YES;
-
 public class SearchFragment extends Fragment {
 
     private DiscoverViewModel discoverViewModel;
+
+    private RecyclerView searchFragmentRecyclerView;
+    private EditText searchFragmentEditText;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -42,7 +41,13 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        View view =  inflater.inflate(R.layout.search_fragment, container, false);
+        searchFragmentRecyclerView = view.findViewById(R.id.search_recycler_view);
+        searchFragmentRecyclerView.setHasFixedSize(true);
+        searchFragmentEditText = view.findViewById(R.id.search_edit_text);
+
+        setHasOptionsMenu(true);
+        return view;
     }
 
     @Override
@@ -50,16 +55,9 @@ public class SearchFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
 
+        final SearchAdapter adapter = new SearchAdapter();
 
-        //needs thinking and fixing
-//        BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation);
-//        navBar.setVisibility(View.GONE);
-
-        final RecyclerView recyclerView = getView().findViewById(R.id.search_recycler_view);
-        recyclerView.setHasFixedSize(true);
-
-        final DiscoverAdapter adapter = new DiscoverAdapter();
-        recyclerView.setAdapter(adapter);
+        searchFragmentRecyclerView.setAdapter(adapter);
         discoverViewModel.getAllSearchWordTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
             @Override
             public void onChanged(List<TvShow> tvShows) {
@@ -67,9 +65,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
-
-        adapter.setOnItemClickListener(new DiscoverAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(TvShow tvShow) {
 
@@ -84,23 +80,22 @@ public class SearchFragment extends Fragment {
 
             }
 
-            @Override
-            public void onButtonClick(TvShow tvShow) {
+//            @Override
+//            public void onButtonClick(TvShow tvShow) {
 //                discoverViewModel.insertOrUpdate(tvShow);
-                int id = tvShow.getTvShowId();
-                discoverViewModel.addTvShowToDb(tvShow);
-                UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, TVSHOW_WATCHING_FLAG_YES);
-                discoverViewModel.updateTvShowBasicWatchingFlag(params);
-                discoverViewModel.fetchDetailsForWatchlist(id);
+//                int id = tvShow.getTvShowId();
+//                discoverViewModel.addTvShowToDb(tvShow);
+//                UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, TVSHOW_WATCHING_FLAG_YES);
+//                discoverViewModel.updateTvShowBasicWatchingFlag(params);
+//                discoverViewModel.fetchDetailsForWatchlist(id);
 //                discoverViewModel.syncTvShowDetailsFromApi(id);
-
-                Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
-            }
+//
+//                Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
+//            }
         });
 
-        EditText editText = getView().findViewById(R.id.search_edit_text);
 
-        editText.addTextChangedListener(new TextWatcher() {
+        searchFragmentEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -126,6 +121,21 @@ public class SearchFragment extends Fragment {
 
         // TODO: Use the ViewModel
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                NavController navHostController = Navigation.findNavController(getView());
+                navHostController.popBackStack();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+
+
 
 
 

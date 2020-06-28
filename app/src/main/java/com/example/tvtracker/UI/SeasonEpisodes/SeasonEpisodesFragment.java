@@ -41,7 +41,7 @@ public class SeasonEpisodesFragment extends Fragment implements SeasonEpisodesAd
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View  view = inflater.inflate(R.layout.fragment_episodes, container, false);
+        View  view = inflater.inflate(R.layout.episodes_fragment, container, false);
         progressBar = view.findViewById(R.id.season_progress);
         episodeList = view.findViewById(R.id.episode_recyclerView);
         episodeList.setLayoutManager(new LinearLayoutManager(activity));

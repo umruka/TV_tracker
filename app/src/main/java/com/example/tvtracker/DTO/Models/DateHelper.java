@@ -21,15 +21,21 @@ public class DateHelper {
     public static String daysDifferenceFromCurrentDate(String epDate){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
+            String timeText;
             Date episodeDate =  format.parse(epDate);
             Date currentDate = new Date();
             long diff = episodeDate.getTime() - currentDate.getTime();
             long diffDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            long diffHours = TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS);
             if(diffDays == 0) {
-                long diffHours = TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS);
-                return Long.toString(diffHours) + " hours left";
+                timeText = Long.toString(diffHours);
+                return timeText + " hours left";
+            }else if(diffDays < 0) {
+                    timeText = Long.toString(diffHours);
+                    return "released before " + timeText.substring(1) + " hours";
             }
-            return Long.toString(diffDays) + " days left";
+            timeText = Long.toString(diffDays);
+            return timeText + " days left";
         }catch (ParseException e){
             e.printStackTrace();
         }

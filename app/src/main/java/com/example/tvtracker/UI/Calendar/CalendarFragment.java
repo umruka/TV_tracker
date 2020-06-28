@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.DTO.Models.CalendarTvShowEpisode;
@@ -26,19 +27,18 @@ import java.util.List;
 
 public class CalendarFragment extends Fragment implements CalendarAdapter.OnItemClickListener {
     private Activity activity;
-    CalendarViewModel calendarViewModel;
+    private CalendarViewModel calendarViewModel;
     private RecyclerView calendarRecyclerView;
-
-    public static CalendarFragment newInstance() {
-        return new CalendarFragment();
-    }
+    private RelativeLayout calendarEmptyStateLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calendar, container, false); ;
+        View view = inflater.inflate(R.layout.calendar_fragment, container, false);
+        ;
         calendarRecyclerView = view.findViewById(R.id.calendar_recycler_view);
         calendarRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        calendarEmptyStateLayout = view.findViewById(R.id.empty_state_calendar_layout);
         return view;
     }
 
@@ -46,24 +46,27 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.activity = getActivity();
-        // TODO: Use the ViewModel
+
         calendarViewModel = new ViewModelProvider(this).get(CalendarViewModel.class);
 
         final CalendarAdapter adapter = new CalendarAdapter();
         calendarRecyclerView.setAdapter(adapter);
+
         calendarViewModel.getCalendarListObservable().observe(getViewLifecycleOwner(), new Observer<List<CalendarTvShowEpisode>>() {
             @Override
             public void onChanged(List<CalendarTvShowEpisode> tvShowFulls) {
-                if(tvShowFulls != null){
+                if (tvShowFulls != null) {
                     adapter.setTvShows(tvShowFulls);
-//                    List<String> asd = calendarViewModel.getUniqueDates();
-//                    calendarRecyclerView.addItemDecoration(new DividerItemDecoration(activity,DividerItemDecoration.HORIZONTAL));
+                    if (adapter.getItemCount() == 0) {
+                        calendarEmptyStateLayout.setVisibility(View.VISIBLE);
+                    } else if (adapter.getItemCount() != 0) {
+                        calendarEmptyStateLayout.setVisibility(View.GONE);
+                    }
                 }
             }
         });
-        calendarViewModel.fetchData();
+        calendarViewModel.fetchCalendarData();
         adapter.setOnItemClickListener(this);
-
     }
 
     @Override

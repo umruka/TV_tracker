@@ -29,13 +29,11 @@ public class WatchlistViewModel extends AndroidViewModel {
 
     }
 
-
     public MediatorLiveData<List<TvShowFull>> getWatchlistListObservable() {
         return watchlistListObservable;
     }
 
-    public void refreshData() {
-        repository.fetchWatchlist();;
+    public void fetchWatchlistData() {
+        repository.fetchWatchlist();
     }
-
 }

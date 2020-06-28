@@ -16,7 +16,8 @@ import java.util.List;
 public class CalendarViewModel extends AndroidViewModel {
     private AppRepository repository;
     private MediatorLiveData<List<CalendarTvShowEpisode>> calendarListObservable = new MediatorLiveData<>();
-    public CalendarViewModel(@NonNull Application application){
+
+    public CalendarViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
         calendarListObservable.addSource(repository.getCalendarListObservable(), new Observer<List<CalendarTvShowEpisode>>() {
@@ -30,10 +31,10 @@ public class CalendarViewModel extends AndroidViewModel {
     public LiveData<List<CalendarTvShowEpisode>> getCalendarListObservable() {
         return calendarListObservable;
     }
-    public void fetchData() {
+
+    public void fetchCalendarData() {
         repository.fetchCalendar();
     }
-
 
 
 }

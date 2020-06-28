@@ -37,7 +37,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
     @Override
     public TvShowCombinedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_watchlist, parent, false);
+                .inflate(R.layout.watchlist_item, parent, false);
 
         return new TvShowCombinedViewHolder(itemView);
     }
@@ -76,6 +76,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
         } else if(currentTvShow.getTvShowStatus().equals("Ended")) {
             holder.textViewEpisodeName.setText("Series finished");
             holder.textViewEpisodeReleaseDate.setText("");
+
         }else {
             holder.textViewEpisodeName.setText("No more released episodes");
             holder.textViewEpisodeReleaseDate.setText("");
@@ -110,7 +111,6 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
         private TextView textViewTvShowName;
         private TextView textViewTvShowCountry;
         private TextView textViewTvShowNetwork;
-//        private TextView textViewTvShowId;
         private ProgressBar textViewTvShowEpisodeProgress;
         private TextView textViewProgress;
 

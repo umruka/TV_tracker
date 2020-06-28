@@ -1,4 +1,4 @@
-package com.example.tvtracker.UI.Discover;
+package com.example.tvtracker.UI.Search;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +16,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.TvShowViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchTvShowViewHolder> {
 
     public interface OnItemClickListener {
         void onItemClick(TvShow tvShow);
-//        void onButtonClick(TvShow tvShow);
     }
 
 
@@ -30,34 +29,31 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.TvShow
 
     @NonNull
     @Override
-    public TvShowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchTvShowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.discover_item, parent, false);
+                .inflate(R.layout.search_item, parent, false);
 
-        return new TvShowViewHolder(itemView);
+        return new SearchTvShowViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TvShowViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SearchTvShowViewHolder holder, int position) {
         TvShow currentTvShow = tvShows.get(position);
-        holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
-//        holder.textViewTvShowStatus.setText(currentTvShow.getTvShowStatus());
-//        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
             Picasso.get()
                     .load(currentTvShow.getTvShowImagePath())
                     .error(R.drawable.image_error_placeholder)
                     .placeholder(R.drawable.image_loading_placeholder)
                     .fit()
                     .into(holder.imageViewTvShowImage);
+            holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
+            holder.textViewTvShowStatus.setText(String.valueOf(currentTvShow.getTvShowStatus()));
+            holder.textViewTvShowCountry.setText(String.valueOf(currentTvShow.getTvShowCountry()));
+            holder.textViewTvShowNetwork.setText(String.valueOf(currentTvShow.getTvShowNetwork()));
     }
 
     public void setTvShows(List<TvShow> tvShows) {
         this.tvShows = tvShows;
         notifyDataSetChanged();
-    }
-
-    public List<TvShow> getTvShowsShown() {
-        return tvShows;
     }
 
     @Override
@@ -73,14 +69,20 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.TvShow
 
     }
 
-    class TvShowViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewTvShowName;
+    class SearchTvShowViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageViewTvShowImage;
+        private TextView textViewTvShowName;
+        private TextView textViewTvShowStatus;
+        private TextView textViewTvShowCountry;
+        private TextView textViewTvShowNetwork;
 
-        private TvShowViewHolder(View itemView) {
+        private SearchTvShowViewHolder(View itemView) {
             super(itemView);
-            textViewTvShowName = itemView.findViewById(R.id.text_view_tvshow_name);
-            imageViewTvShowImage = itemView.findViewById(R.id.text_view_discover_image_thumbnail);
+            imageViewTvShowImage = itemView.findViewById(R.id.search_image_view_image_thumbnail);
+            textViewTvShowName = itemView.findViewById(R.id.search_text_view_tv_show_name);
+            textViewTvShowStatus = itemView.findViewById(R.id.search_text_view_tv_show_status);
+            textViewTvShowCountry = itemView.findViewById(R.id.search_text_view_tv_show_country);
+            textViewTvShowNetwork = itemView.findViewById(R.id.search_text_view_tv_show_network);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

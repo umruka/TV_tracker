@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tvtracker.DTO.Models.DateHelper;
 import com.example.tvtracker.DTO.Models.TvShowEpisode;
 import com.example.tvtracker.R;
 
@@ -31,7 +32,7 @@ public class SeasonEpisodesAdapter extends RecyclerView.Adapter<SeasonEpisodesAd
     @Override
     public EpisodeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_episode, parent, false);
+                .inflate(R.layout.episode_item, parent, false);
 
         return new EpisodeViewHolder(itemView);
     }
@@ -40,9 +41,8 @@ public class SeasonEpisodesAdapter extends RecyclerView.Adapter<SeasonEpisodesAd
     public void onBindViewHolder(@NonNull EpisodeViewHolder holder, int position) {
         TvShowEpisode currentTvShowEpisode = episodes.get(position);
         holder.textViewName.setText(currentTvShowEpisode.getEpisodeName());
-        holder.textViewEpisodeNum.setText(String.valueOf("Episode: " + currentTvShowEpisode.getEpisodeNum()));
-        holder.textViewSeasonNum.setText(String.valueOf("Season: " + currentTvShowEpisode.getSeasonNum()));
-        holder.textViewAirDate.setText(String.valueOf(currentTvShowEpisode.getEpisodeAirDate()));
+        holder.textViewEpisodeAndSeasonNum.setText("S" +currentTvShowEpisode.getSeasonNum() + "E" + currentTvShowEpisode.getEpisodeNum());
+        holder.textViewAirDate.setText(DateHelper.toDateString(currentTvShowEpisode.getEpisodeAirDate()));
         episodeState = currentTvShowEpisode.isWatched();
         if(episodeState) {
             holder.imageView.setImageResource(R.drawable.ic_check_black_24dp);
@@ -77,8 +77,7 @@ public class SeasonEpisodesAdapter extends RecyclerView.Adapter<SeasonEpisodesAd
     class EpisodeViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textViewName;
-        private TextView textViewEpisodeNum;
-        private TextView textViewSeasonNum;
+        private TextView textViewEpisodeAndSeasonNum;
         private TextView textViewAirDate;
         private ImageView imageView;
 
@@ -86,8 +85,7 @@ public class SeasonEpisodesAdapter extends RecyclerView.Adapter<SeasonEpisodesAd
             super(itemView);
 
             textViewName = itemView.findViewById(R.id.name);
-            textViewEpisodeNum = itemView.findViewById(R.id.episodeNum);
-            textViewSeasonNum = itemView.findViewById(R.id.seasonNum);
+            textViewEpisodeAndSeasonNum = itemView.findViewById(R.id.episodeAndSeasonNum);
             textViewAirDate = itemView.findViewById(R.id.air_date);
             imageView = itemView.findViewById(R.id.watched_flag);
 

@@ -1,5 +1,6 @@
 package com.example.tvtracker.UI.Details;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,21 +31,22 @@ public class DetailsSeasonsAdapter extends RecyclerView.Adapter<DetailsSeasonsAd
     @Override
     public SeasonsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_season, parent, false);
+                .inflate(R.layout.season_item, parent, false);
 
         return new SeasonsViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SeasonsViewHolder holder, int position) {
+        Context context = holder.itemView.getContext();
         TvShowSeason currentTvShowSeason = seasons.get(position);
 
         int progress = currentTvShowSeason.getEpisodes().size();
         holder.progressBar.setMax(progress);
         holder.progressBar.setProgress(currentTvShowSeason.getSeasonProgress());
 
-        holder.textView.setText("Season " +String.valueOf(currentTvShowSeason.getSeasonNum()));
-        holder.progressTextView.setText(currentTvShowSeason.getSeasonProgress() + "/" + progress);
+        holder.textView.setText(context.getString(R.string.details_seasonNumber,currentTvShowSeason.getSeasonNum()));
+        holder.progressTextView.setText(context.getString(R.string.details_seasonProgress, currentTvShowSeason.getSeasonProgress(), progress));
     }
 
     public void setEpisodes(List<TvShowSeason> pictures) {
@@ -58,7 +60,7 @@ public class DetailsSeasonsAdapter extends RecyclerView.Adapter<DetailsSeasonsAd
 
     @Override
     public int getItemCount() {
-        if(seasons != null) {
+        if (seasons != null) {
             return seasons.size();
         }
         return 0;
