@@ -7,13 +7,13 @@
     tools:context=".SyncActivity">
 
     <RelativeLayout
-        android:id="@+id/sync_view_sync_act"
+        android:id="@+id/sync_activity_sync_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
         <ProgressBar
-            android:id="@+id/details_sync_progress_bar"
+            android:id="@+id/sync_activity_progress_bar"
             style="?android:attr/progressBarStyleLarge"
             android:progressDrawable="@drawable/circular_progress_bar"
             android:layout_height="128dp"
@@ -22,13 +22,14 @@
             />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/sync_act_text"
-            android:layout_width="match_parent"
+            android:layout_marginTop="16dp"
+            android:id="@+id/text1"
+            android:text="@string/app_name"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/details_sync_progress_bar"
-            android:textAlignment="center"
-            android:text="Preparing your favorite tv shows"
-            android:textAppearance="?textAppearanceHeadline5"
+            android:layout_below="@id/sync_activity_progress_bar"
+            android:layout_centerHorizontal="true"
             />
     </RelativeLayout>
 
