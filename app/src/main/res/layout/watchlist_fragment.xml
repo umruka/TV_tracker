@@ -21,6 +21,7 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center"
+        android:visibility="gone"
         >
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/empty_state_calendar_image"

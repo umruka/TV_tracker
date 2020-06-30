@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +31,9 @@ public class DiscoverFragment extends Fragment implements DiscoverAdapter.OnItem
     private Activity activity;
     private DiscoverViewModel discoverViewModel;
     private RecyclerView discoverRecyclerView;
+    private TextView discoverFilterTitle;
     private NavController navController;
+    private DiscoverAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -42,6 +45,8 @@ public class DiscoverFragment extends Fragment implements DiscoverAdapter.OnItem
         discoverRecyclerView.setHasFixedSize(true);
         discoverRecyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
 
+        discoverFilterTitle = view.findViewById(R.id.discover_text_view_filter_name);
+
         return view;
     }
 
@@ -50,7 +55,7 @@ public class DiscoverFragment extends Fragment implements DiscoverAdapter.OnItem
         super.onActivityCreated(savedInstanceState);
         this.activity = getActivity();
         navController = Navigation.findNavController(getView());
-        final DiscoverAdapter adapter = new DiscoverAdapter();
+        adapter = new DiscoverAdapter();
         discoverRecyclerView.setAdapter(adapter);
         discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
         discoverViewModel.getDiscoverList().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
@@ -76,22 +81,68 @@ public class DiscoverFragment extends Fragment implements DiscoverAdapter.OnItem
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.discover_menu, menu);
+        MenuItem menuItemGenres = menu.findItem(R.id.menu_filters_networks);
+        inflater.inflate(R.menu.discover_filters_sub_menu_networks, menuItemGenres.getSubMenu());
+
+        MenuItem menuItemNetworks = menu.findItem(R.id.menu_filters_statuses);
+        inflater.inflate(R.menu.discover_filters_sub_menu_statuses, menuItemNetworks.getSubMenu());
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        radioCheckChange(item);
         switch (item.getItemId()) {
             case R.id.menu_fragment_search:
                 if (navController.getCurrentDestination().getId() == R.id.navigation_discover) {
                     navController.navigate(R.id.action_navigation_discover_to_search_fragment);
                 }
                 break;
-            case R.id.menu_filters:
+             //Networks
+            case R.id.mostPopular:
+                adapter.filter(MainActivity.NETWORK_DEFAULT, MainActivity.NETWORKS_CODE);
+                discoverFilterTitle.setText("Most Popular");
                 break;
+            case R.id.netflix:
+                adapter.filter(MainActivity.NETWORK_NETFLIX, MainActivity.NETWORKS_CODE);
+                discoverFilterTitle.setText(MainActivity.NETWORK_NETFLIX);
+                break;
+            case R.id.thecw:
+                 adapter.filter(MainActivity.NETWORK_CW, MainActivity.NETWORKS_CODE);
+                 discoverFilterTitle.setText(MainActivity.NETWORK_CW);
+                break;
+            case R.id.hbo:
+                adapter.filter(MainActivity.NETWORK_HBO, MainActivity.NETWORKS_CODE);
+                discoverFilterTitle.setText(MainActivity.NETWORK_HBO);
+                break;
+            case R.id.amc:
+                adapter.filter(MainActivity.NETWORK_AMC, MainActivity.NETWORKS_CODE);
+                discoverFilterTitle.setText(MainActivity.NETWORK_AMC);
+                break;
+            case R.id.fox:
+                adapter.filter(MainActivity.NETWORK_FOX, MainActivity.NETWORKS_CODE);
+                discoverFilterTitle.setText(MainActivity.NETWORK_FOX);
+                break;
+
+             //Statuses
+            case R.id.running:
+                adapter.filter(MainActivity.STATUS_RUNNING, MainActivity.STATUS_CODE);
+                discoverFilterTitle.setText(MainActivity.STATUS_RUNNING + " Series");
+                break;
+            case R.id.ended:
+                adapter.filter(MainActivity.STATUS_ENDED, MainActivity.STATUS_CODE);
+                discoverFilterTitle.setText(MainActivity.STATUS_ENDED + " Series");
             default:
                 break;
         }
+        discoverRecyclerView.smoothScrollToPosition(0);
         return false;
+    }
+
+    private void radioCheckChange(MenuItem item){
+        if (item.isCheckable()){
+            item.setChecked(!item.isChecked());
+        }
     }
 }

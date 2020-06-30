@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tvtracker.DTO.Models.TvShow;
+import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.R;
 import com.squareup.picasso.Picasso;
 
@@ -25,6 +26,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.TvShow
 
 
     private List<TvShow> tvShows = new ArrayList<>();
+    private List<TvShow> filteredTvShows = new ArrayList<>();
     private OnItemClickListener listener;
 
 
@@ -53,6 +55,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.TvShow
 
     public void setTvShows(List<TvShow> tvShows) {
         this.tvShows = tvShows;
+        filteredTvShows.addAll(this.tvShows);
         notifyDataSetChanged();
     }
 
@@ -71,6 +74,24 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.TvShow
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
 
+    }
+
+    public void filter(String charText, int type){
+        tvShows.clear();
+        if (type == MainActivity.NETWORKS_CODE) {
+            for (TvShow tvShow : filteredTvShows) {
+                if (tvShow.getTvShowNetwork().contains(charText)) {
+                    tvShows.add(tvShow);
+                }
+            }
+        }else if(type == MainActivity.STATUS_CODE){
+            for (TvShow tvShow : filteredTvShows) {
+                if (tvShow.getTvShowStatus().contains(charText)) {
+                  tvShows.add(tvShow);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     class TvShowViewHolder extends RecyclerView.ViewHolder {

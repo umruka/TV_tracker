@@ -86,4 +86,6 @@ public class TvShowEpisode {
     public void setWatched(boolean watched) {
         this.watched = watched;
     }
+
+
 }

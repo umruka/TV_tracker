@@ -12,6 +12,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.example.tvtracker.MainActivity;
-import com.example.tvtracker.DTO.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
 import com.example.tvtracker.DTO.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.R;
 import com.example.tvtracker.UI.SeasonEpisodes.SeasonEpisodesViewModel;
@@ -93,7 +93,7 @@ public class WatchlistFragment extends Fragment {
 
                         if(tvShowFull.getNextWatched() != null) {
                             int id = tvShowFull.getNextWatched().getId();
-                            UpdateTvShowEpisodeWatchedFlagParams params = new UpdateTvShowEpisodeWatchedFlagParams(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_YES);
+                            Pair<Integer, Boolean> params = new Pair<>(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_YES);
                             seasonEpisodesViewModel.setWatchedFlag(params);
                             watchlistViewModel.fetchWatchlistData();
                         }

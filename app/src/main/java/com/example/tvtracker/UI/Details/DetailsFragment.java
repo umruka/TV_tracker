@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Html;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.tvtracker.DTO.Models.TvShowEpisode;
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.DTO.Models.Basic.Resource;
 import com.example.tvtracker.DTO.Models.Basic.Status;
@@ -33,6 +35,9 @@ import com.example.tvtracker.DTO.Models.TvShow;
 import com.example.tvtracker.DTO.Models.TvShowSeason;
 import com.example.tvtracker.R;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.OnItemClickListener, View.OnClickListener {
@@ -156,7 +161,7 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
             }
 
         });
-        detailsSeasonsAdapter.setOnItemClickListener(this::onItemClick);
+        detailsSeasonsAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -173,18 +178,38 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
     }
 
     @Override
+    public void onCheckBoxClick(TvShowSeason season, boolean isCheckboxChecked) {
+//        int id = episode.getId();
+//        boolean isWatched = episode.isWatched();
+//        UpdateTvShowEpisodeWatchedFlagParams params;
+//        if(!isWatched) {
+//            params = new UpdateTvShowEpisodeWatchedFlagParams(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_YES);
+//        }else{
+//            params = new UpdateTvShowEpisodeWatchedFlagParams(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_NO);
+//        }
+//        seasonEpisodesViewModel.setWatchedFlag(params);
+//        seasonEpisodesViewModel.getSeasonEpisodes(mTvShowId, mSeasonNumber);
+        List<Integer> ids = new ArrayList<>();
+        for (TvShowEpisode episode : season.getEpisodes()){
+        ids.add(episode.getId());
+        }
+        Pair<List<Integer>, Boolean> params = new Pair<>(ids, isCheckboxChecked);
+        detailsViewModel.setWatchedFlag(params);
+    }
+
+    @Override
     public void onClick(View view) {
-        UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(mId, false);
+        Pair<Integer, Boolean> params;
         int tag = (Integer) view.getTag();
         switch (tag) {
             case R.drawable.ic_check_black_24dp: {
-                params.setFlag(MainActivity.TVSHOW_WATCHING_FLAG_NO);
+                params = new Pair<>(mId, MainActivity.TVSHOW_WATCHING_FLAG_NO);
                 detailsViewModel.setTvShowWatchedFlag(params);
                 setImage(false);
                 break;
             }
             case R.drawable.ic_close_black_24dp: {
-                params.setFlag(MainActivity.TVSHOW_WATCHING_FLAG_YES);
+                params = new Pair<>(mId, MainActivity.TVSHOW_WATCHING_FLAG_YES);
                 detailsViewModel.setTvShowWatchedFlag(params);
                 setImage(true);
             }
@@ -207,10 +232,10 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
             case android.R.id.home:
                 NavController navHostController = Navigation.findNavController(getView());
                 navHostController.popBackStack();
-                return true;
+                break;
             default:
-                return false;
         }
+        return false;
     }
 
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/mostPopular"
+            android:title="Most Popular"
+            android:titleCondensed="Most Popular"
+            android:checked="true"
+            />
+        <item
+            android:id="@+id/netflix"
+            android:title="Netflix"
+            android:titleCondensed="Netflix"
+            />
+        <item
+        android:id="@+id/thecw"
+        android:title="The CW"
+        android:titleCondensed="The CW"
+        />
+
+        <item
+            android:id="@+id/hbo"
+            android:title="HBO"
+            android:titleCondensed="HBO"
+            />
+
+        <item
+            android:id="@+id/amc"
+            android:title="AMC"
+            android:titleCondensed="AMC"
+            />
+
+        <item
+            android:id="@+id/fox"
+            android:title="FOX"
+            android:titleCondensed="FOX"
+            />
+
+
+
+
+    </group>
+</menu>

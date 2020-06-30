@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +27,6 @@ import com.example.tvtracker.DTO.Models.Basic.Resource;
 import com.example.tvtracker.DTO.Models.Basic.MultiTaskHandler;
 import com.example.tvtracker.DTO.Models.CalendarTvShowEpisode;
 import com.example.tvtracker.DTO.Models.DateHelper;
-import com.example.tvtracker.DTO.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
 import com.example.tvtracker.DTO.Models.QueryModels.TvShowFull;
 import com.example.tvtracker.DTO.Models.TvShow;
 import com.example.tvtracker.DTO.Models.TvShowEpisode;
@@ -61,7 +61,7 @@ public class AppRepository {
     private MutableLiveData<List<CalendarTvShowEpisode>> calendarListObservable;
     private MutableLiveData<TvShowSeason> seasonEpisodesListObservable;
     private MutableLiveData<Boolean> syncState;
-    private MutableLiveData<List<TvShow>> allSearchTvShows;
+    private MutableLiveData<List<TvShow>> searchTvShowsListObservable;
 
     private final MultiTaskHandler handler;
 
@@ -73,7 +73,7 @@ public class AppRepository {
         calendarListObservable = new MutableLiveData<>();
         seasonEpisodesListObservable = new MutableLiveData<>();
         syncState = new MutableLiveData<>();
-        allSearchTvShows = new MutableLiveData<>();
+        searchTvShowsListObservable = new MutableLiveData<>();
 
         if(!MainActivity.TEST_MODE) {
             handler = new MultiTaskHandler(MainActivity.TV_SHOW_MOST_POPULAR_PAGES_COUNT) {
@@ -98,8 +98,8 @@ public class AppRepository {
     public LiveData<Boolean> getSyncState() {
         return syncState;
     }
-    public LiveData<List<TvShow>> getAllSearchTvShows() {
-        return allSearchTvShows;
+    public LiveData<List<TvShow>> getSearchTvShowsListObservable() {
+        return searchTvShowsListObservable;
     }
 
     public boolean isNetworkConnected() {
@@ -187,7 +187,9 @@ public class AppRepository {
                     List<TvShowGenre> genres = appDao.getTvShowGenresById(id);
                     List<TvShowPicture> pictures = appDao.getTvShowPicturesByTvShowId(id);
                     TvShowFull tvShowFull = new TvShowFull(tvShow, episodes, genres, pictures);
-                    tvShowFullList.add(tvShowFull);
+                    if (!(tvShowFull.getTvShow().getTvShowStatus().contains(MainActivity.STATUS_ENDED) && tvShowFull.getNextWatched() == null)) {
+                        tvShowFullList.add(tvShowFull);
+                    }
                 }
 //                Collections.sort(tvShowFullList, new Comparator<TvShowFull>() {
 //                    @Override
@@ -338,7 +340,7 @@ public class AppRepository {
 
         int id = tvShow.getTvShowId();
         List<TvShowEpisode> episodes = tvShowFull.getTvShowEpisodes();
-//                /*
+
         Collections.sort(episodes, new Comparator<TvShowEpisode>() {
             @Override
             public int compare(TvShowEpisode ep1, TvShowEpisode ep2) {
@@ -352,6 +354,7 @@ public class AppRepository {
                 return 0;
             }
         });
+
         for(TvShowEpisode episode : episodes){
             String shortDate = episode.getEpisodeAirDate();
             if(shortDate.matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}")) {
@@ -391,13 +394,6 @@ public class AppRepository {
                 }
             }
         }
-
-
-//        TvShowGenre testGenre = new TvShowGenre(35624, "TestGenre");
-//        TvShowPicture testPicture = new TvShowPicture(35624, "empty path");
-
-//        genres.add(testGenre);s
-//        pictures.add(testPicture);
 
         if(dbGenres.size() == 0) {
             appDao.insertAllTvShowGenres(genres);
@@ -473,28 +469,41 @@ public class AppRepository {
         }.execute(tvShow);
     }
 
-    public void setTvShowWatchingFlag(UpdateTvShowWatchingFlagParams params) {
+    public void setTvShowWatchingFlag(Pair<Integer, Boolean> params) {
         new AsyncTask<Void,Void, Void>(){
             @Override
             protected Void doInBackground(Void... voids) {
-                int id = params.getId();
-                boolean flag = params.getFlag();
+                int id = params.first;
+                boolean flag = params.second;
                 appDao.updateTvShowWatchingFlag(id, flag);
                 return null;
             }
         }.execute();
     }
-    public void setTvShowEpisodeIsWatchedFlag(UpdateTvShowEpisodeWatchedFlagParams params) {
+    public void setTvShowEpisodeIsWatchedFlag(Pair<Integer, Boolean> params) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                int id = params.getId();
-                boolean flag = params.getFlag();
+                int id = params.first;
+                boolean flag = params.second;
                 appDao.updateTvShowEpisodeWatchedFlag(id, flag);
                 return null;
             }
         }.execute();
     }
+
+    public void setTvShowAllSeasonWatched(Pair<List<Integer>, Boolean> params) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                List<Integer> ids = params.first;
+                boolean flag = params.second;
+                appDao.updateTvShowAllSeasonWatched(ids, flag);
+                return null;
+            }
+        }.execute();
+    }
+
     //-------------------------------------------------
 
 
@@ -527,13 +536,13 @@ public class AppRepository {
             TvShow tvShow = new TvShow(jsonTvShow.getId(), jsonTvShow.getName(), jsonTvShow.getStartDate(), jsonTvShow.getEndDate(), jsonTvShow.getCountry(), jsonTvShow.getNetwork(), jsonTvShow.getStatus(), jsonTvShow.getImageThumbnailPath());
             searchedTvShows.add(tvShow);
         }
-        allSearchTvShows.setValue(searchedTvShows);
+        searchTvShowsListObservable.setValue(searchedTvShows);
     }
 
     //Help Functions
     public void clearSearchedTvShows() {
         List<TvShow> emptyTvShows = new ArrayList<>();
-        allSearchTvShows.setValue(emptyTvShows);
+        searchTvShowsListObservable.setValue(emptyTvShows);
     }
 
     private List<TvShow> toTvShowArray(JsonTvShowBasicRoot root) {

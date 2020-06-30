@@ -10,17 +10,28 @@
     android:layout_marginBottom="8dp"
     app:cardBackgroundColor="#E0E0E0">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="0px"
             android:layout_height="match_parent"
+            android:layout_weight="3.5"
             >
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pilot"
-            android:maxLines="2"
+            android:maxLines="3"
             android:textAppearance="?textAppearanceBody1"
             />
 
@@ -44,24 +55,21 @@
                 android:text="01-01-01"
                 android:textAppearance="?textAppearanceOverline"
                 />
-
-            <androidx.appcompat.widget.AppCompatImageView
+        </RelativeLayout>
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/watched_flag"
-                android:layout_width="40dp"
+                android:layout_width="0px"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
+                android:layout_marginStart="6dp"
+                android:layout_weight="0.5"
                 />
-
-            <View
-                style="@style/Divider"
-                android:layout_below="@id/watched_flag"/>
-
-
-        </RelativeLayout>
-
-
-
-
+    </LinearLayout>
+    <View
+        style="@style/Divider"
+        android:layout_marginTop="8dp"
+        />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

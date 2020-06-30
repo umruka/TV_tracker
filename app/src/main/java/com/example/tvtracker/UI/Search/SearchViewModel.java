@@ -1,4 +1,4 @@
-package com.example.tvtracker.UI.Discover;
+package com.example.tvtracker.UI.Search;
 
 import android.app.Application;
 import android.util.Pair;
@@ -6,37 +6,26 @@ import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 
-import com.example.tvtracker.MainActivity;
-import com.example.tvtracker.DTO.Models.Basic.Resource;
-import com.example.tvtracker.DTO.Models.TvShow;
-import com.example.tvtracker.Repository.AppRepository;
 import com.example.tvtracker.DTO.Models.Params.UpdateTvShowWatchingFlagParams;
+import com.example.tvtracker.DTO.Models.TvShow;
+import com.example.tvtracker.MainActivity;
+import com.example.tvtracker.Repository.AppRepository;
 
 import java.util.List;
 
 
-public class DiscoverViewModel extends AndroidViewModel {
+public class SearchViewModel extends AndroidViewModel {
     private AppRepository repository;
-    private MediatorLiveData<Resource<List<TvShow>>> discoverListObservable = new MediatorLiveData<>();
     private final LiveData<List<TvShow>> discoverList;
+    private List<TvShow> defaultSearchList;
     private LiveData<List<TvShow>> allSearchWordTvShows;
 
-    public DiscoverViewModel(@NonNull Application application) {
+    public SearchViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
-/*
-        discoverListObservable.addSource(repository.getDiscoverListObservable(), new Observer<Resource<List<TvShow>>>() {
-            @Override
-            public void onChanged(Resource<List<TvShow>> tvShows) {
-                discoverListObservable.setValue(tvShows);
-            }
-        });
- */
-            discoverList = repository.fetchDiscover2();
+        discoverList = repository.fetchDiscover2();
         allSearchWordTvShows = repository.getSearchTvShowsListObservable();
-
 
         if(MainActivity.TEST_MODE) {
             repository.fetchTestDetails();
@@ -48,11 +37,21 @@ public class DiscoverViewModel extends AndroidViewModel {
     }
 
 
+    public LiveData<List<TvShow>> getAllSearchWordTvShows() {
+        return allSearchWordTvShows;
+    }
 
     public void updateTvShowBasicWatchingFlag(Pair<Integer, Boolean> params) {
         repository.setTvShowWatchingFlag(params);
     }
 
+    public void setDefaultSearchList() {
+        defaultSearchList.addAll(discoverList.getValue());
+    }
+
+    public List<TvShow> getDefaultSearchList() {
+        return defaultSearchList;
+    }
 
     public void searchWord(String searchWord, int pageNum) {
         repository.searchTvShow(searchWord, pageNum);

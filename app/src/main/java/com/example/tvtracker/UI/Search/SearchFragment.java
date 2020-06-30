@@ -3,6 +3,7 @@ package com.example.tvtracker.UI.Search;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,24 +20,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.example.tvtracker.DTO.Models.KeyboardHelper;
 import com.example.tvtracker.MainActivity;
 import com.example.tvtracker.DTO.Models.TvShow;
 import com.example.tvtracker.R;
-import com.example.tvtracker.UI.Discover.DiscoverViewModel;
 
 import java.util.List;
 
 public class SearchFragment extends Fragment {
 
-    private DiscoverViewModel discoverViewModel;
-
+    private SearchViewModel searchViewModel;
+    private Activity activity;
     private RecyclerView searchFragmentRecyclerView;
+    private ImageView searchFragmentImageViewIcon;
     private EditText searchFragmentEditText;
-
-    public static SearchFragment newInstance() {
-        return new SearchFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -45,6 +44,8 @@ public class SearchFragment extends Fragment {
         searchFragmentRecyclerView = view.findViewById(R.id.search_recycler_view);
         searchFragmentRecyclerView.setHasFixedSize(true);
         searchFragmentEditText = view.findViewById(R.id.search_edit_text);
+        searchFragmentImageViewIcon = view.findViewById(R.id.search_image_view_icon);
+        searchFragmentImageViewIcon.setImageResource(R.drawable.ic_search_black);
 
         setHasOptionsMenu(true);
         return view;
@@ -53,24 +54,32 @@ public class SearchFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
+        activity = getActivity();
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
-        final SearchAdapter adapter = new SearchAdapter();
+        final SearchAdapter adapterSearch = new SearchAdapter();
+        searchFragmentRecyclerView.setAdapter(adapterSearch);
 
-        searchFragmentRecyclerView.setAdapter(adapter);
-        discoverViewModel.getAllSearchWordTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
+        searchViewModel.getDiscoverList().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
             @Override
             public void onChanged(List<TvShow> tvShows) {
-                adapter.setTvShows(tvShows);
+             adapterSearch.setTvShows(tvShows);
             }
         });
 
-        adapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+        searchViewModel.getAllSearchWordTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
+            @Override
+            public void onChanged(List<TvShow> tvShows) {
+                adapterSearch.setTvShows(tvShows);
+            }
+        });
+
+        adapterSearch.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(TvShow tvShow) {
 
                 int id = tvShow.getTvShowId();
-                discoverViewModel.fetchDetailsForWatchlist(id);
+                searchViewModel.fetchDetailsForWatchlist(id);
                 NavController navHostController = Navigation.findNavController(getView());
                 if(navHostController.getCurrentDestination().getId() == R.id.fragment_search){
                     Bundle bundle = new Bundle();
@@ -79,19 +88,6 @@ public class SearchFragment extends Fragment {
                 }
 
             }
-
-//            @Override
-//            public void onButtonClick(TvShow tvShow) {
-//                discoverViewModel.insertOrUpdate(tvShow);
-//                int id = tvShow.getTvShowId();
-//                discoverViewModel.addTvShowToDb(tvShow);
-//                UpdateTvShowWatchingFlagParams params = new UpdateTvShowWatchingFlagParams(id, TVSHOW_WATCHING_FLAG_YES);
-//                discoverViewModel.updateTvShowBasicWatchingFlag(params);
-//                discoverViewModel.fetchDetailsForWatchlist(id);
-//                discoverViewModel.syncTvShowDetailsFromApi(id);
-//
-//                Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
-//            }
         });
 
 
@@ -103,15 +99,16 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                searchFragmentRecyclerView.setAdapter(adapterSearch);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
             if(editable.toString().equals("")){
-                discoverViewModel.clearSearchedTvShows();
+                searchViewModel.clearSearchedTvShows();
+                adapterSearch.notifyDataSetChanged();
             }else{
-                discoverViewModel.searchWord(editable.toString(),1);
+                searchViewModel.searchWord(editable.toString(),1);
             }
             }
         });
@@ -128,10 +125,11 @@ public class SearchFragment extends Fragment {
             case android.R.id.home:
                 NavController navHostController = Navigation.findNavController(getView());
                 navHostController.popBackStack();
-                return true;
+                KeyboardHelper.hideKeyboard(activity);
+                break;
             default:
-                return false;
         }
+        return false;
     }
 
 

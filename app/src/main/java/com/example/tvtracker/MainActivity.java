@@ -1,7 +1,11 @@
 package com.example.tvtracker;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.Toolbar;
 
@@ -23,6 +27,28 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
 
     public static final boolean TEST_MODE =  false;
 
+    public static final String NETWORK_DEFAULT = "";
+    public static final String NETWORK_CW = "The CW";
+    public static final String NETWORK_NETFLIX = "Netflix";
+    public static final String NETWORK_HBO = "HBO";
+    public static final String NETWORK_AMC = "AMC";
+    public static final String NETWORK_FOX = "FOX";
+
+
+//    public static final String GENRE_ACTION = "Action";
+//    public static final String GENRE_DRAMA = "Drama";
+//    public static final String GENRE_COMEDY = "Comedy";
+//    public static final String GENRE_SCIFI = "SciFi";
+//    public static final String GENRE_ADVENTURE = "Adventure";
+//    public static final String GENRE_FANTASY = "Fantasy";
+//    public static final String GENRE_SUPERHERO = "Superhero";
+
+    public static final String STATUS_RUNNING = "Running";
+    public static final String STATUS_ENDED = "Ended";
+
+
+    public static final int NETWORKS_CODE = 3;
+    public static final int STATUS_CODE = 4;
 
     public static final boolean TVSHOW_WATCHING_FLAG_YES = true;
     public static final boolean TVSHOW_WATCHING_FLAG_NO = false;
@@ -90,4 +116,6 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
                 navigationView.setVisibility(View.VISIBLE);
         }
     }
+
+
 }

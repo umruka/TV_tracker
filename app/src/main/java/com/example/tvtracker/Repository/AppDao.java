@@ -89,6 +89,10 @@ public interface AppDao {
     @Query("UPDATE tv_show_episode_table SET tv_show_is_watched=:isWatched WHERE id IN (:id)")
     void updateTvShowEpisodeWatchedFlag(int id, boolean isWatched);
 
+    @Query("UPDATE tv_show_episode_table SET tv_show_is_watched=:flag WHERE id IN (:ids)")
+    void updateTvShowAllSeasonWatched(List<Integer> ids, boolean flag);
+
+
     @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id IN (:tvShowId)")
     List<TvShowEpisode> getTvShowEpisodesById(int tvShowId);
 

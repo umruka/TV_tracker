@@ -9,16 +9,21 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.example.tvtracker.DTO.Models.StringHelper;
 import com.example.tvtracker.MainActivity;
-import com.example.tvtracker.DTO.Models.Params.UpdateTvShowEpisodeWatchedFlagParams;
 import com.example.tvtracker.DTO.Models.TvShowEpisode;
 import com.example.tvtracker.DTO.Models.TvShowSeason;
 import com.example.tvtracker.R;
@@ -30,13 +35,10 @@ public class SeasonEpisodesFragment extends Fragment implements SeasonEpisodesAd
     private int mTvShowId;
     private int mSeasonNumber;
 
-
+    private TextView progressText;
     private ProgressBar progressBar;
     private RecyclerView episodeList;
 
-    public static SeasonEpisodesFragment newInstance() {
-        return new SeasonEpisodesFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -45,6 +47,8 @@ public class SeasonEpisodesFragment extends Fragment implements SeasonEpisodesAd
         progressBar = view.findViewById(R.id.season_progress);
         episodeList = view.findViewById(R.id.episode_recyclerView);
         episodeList.setLayoutManager(new LinearLayoutManager(activity));
+        progressText = view.findViewById(R.id.season_progress_text);
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -64,27 +68,45 @@ public class SeasonEpisodesFragment extends Fragment implements SeasonEpisodesAd
             seasonEpisodesViewModel.getSeasonEpisodes(mTvShowId, mSeasonNumber);
             seasonEpisodesViewModel.getSeasonObservable().observe(getViewLifecycleOwner(), new Observer<TvShowSeason>() {
                         @Override
-                        public void onChanged(TvShowSeason tvShowSeasonResource) {
-                                seasonEpisodesAdapter.setEpisodes(tvShowSeasonResource.getEpisodes());
-                                progressBar.setMax(seasonEpisodesViewModel.getSeasonEpisodesCount());
-                                progressBar.setProgress(seasonEpisodesViewModel.getSeasonProgres());
+                        public void onChanged(TvShowSeason tvShowSeason) {
+                                seasonEpisodesAdapter.setEpisodes(tvShowSeason.getEpisodes());
+                                 int seasonProgress = tvShowSeason.getSeasonProgress();
+                                 int seasonEpisodesCount = tvShowSeason.getEpisodes().size();
+                                progressBar.setMax(seasonEpisodesCount);
+                                progressBar.setProgress(seasonProgress);
+
+
+                                progressText.setText(StringHelper.addZero(seasonProgress) +  "/" + StringHelper.addZero(seasonEpisodesCount));
+
                             }
                     });
                     seasonEpisodesAdapter.setOnItemClickListener(this);
     }
 
     @Override
-    public void onItemClick(int position, TvShowEpisode episode) {
+    public void onItemClick(TvShowEpisode episode) {
         int id = episode.getId();
         boolean isWatched = episode.isWatched();
-        UpdateTvShowEpisodeWatchedFlagParams params;
+        Pair<Integer, Boolean> params;
         if(!isWatched) {
-            params = new UpdateTvShowEpisodeWatchedFlagParams(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_YES);
+            params = new Pair<>(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_YES);
         }else{
-            params = new UpdateTvShowEpisodeWatchedFlagParams(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_NO);
+            params = new Pair<>(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_NO);
         }
         seasonEpisodesViewModel.setWatchedFlag(params);
         seasonEpisodesViewModel.getSeasonEpisodes(mTvShowId, mSeasonNumber);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavController navHostController = Navigation.findNavController(getView());
+                navHostController.popBackStack();
+                break;
+            default:
+        }
+        return false;
     }
 
 }

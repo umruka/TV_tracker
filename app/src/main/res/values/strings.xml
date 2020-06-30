@@ -17,7 +17,7 @@
 
 
     <string name="details_seasonNumber">Season %1$d</string>
-    <string name="details_seasonProgress">%1$d / %2$d</string>
+    <string name="details_seasonProgress">%1$s / %2$s</string>
     <string name="details_expand_desc_more">Read more</string>
     <string name="details_expand_desc_less">Read less</string>
 

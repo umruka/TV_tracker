@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tvtracker.DTO.Models.DateHelper;
 import com.example.tvtracker.DTO.Models.QueryModels.TvShowFull;
+import com.example.tvtracker.DTO.Models.StringHelper;
 import com.example.tvtracker.DTO.Models.TvShow;
 import com.example.tvtracker.DTO.Models.TvShowEpisode;
 import com.example.tvtracker.R;
@@ -70,13 +71,9 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
             holder.textViewEpisodeReleaseDate.setText("no episodes avaible");
         }else if(!tvShows.get(position).getTvShowState()) {
             TvShowEpisode tvShowEpisode = tvShows.get(position).getNextWatched();
-            holder.textViewEpisodeName.setText(tvShowEpisode.getSeasonNum() + "x" + tvShowEpisode.getEpisodeNum()  + " " + tvShowEpisode.getEpisodeName());
+            holder.textViewEpisodeName.setText(StringHelper.addZero(tvShowEpisode.getSeasonNum()) + "x" + StringHelper.addZero(tvShowEpisode.getEpisodeNum())  + " " + tvShowEpisode.getEpisodeName());
             holder.textViewEpisodeReleaseDate.setText(DateHelper.toDateString(tvShowEpisode.getEpisodeAirDate()));
 //        }
-        } else if(currentTvShow.getTvShowStatus().equals("Ended")) {
-            holder.textViewEpisodeName.setText("Series finished");
-            holder.textViewEpisodeReleaseDate.setText("");
-
         }else {
             holder.textViewEpisodeName.setText("No more released episodes");
             holder.textViewEpisodeReleaseDate.setText("");
