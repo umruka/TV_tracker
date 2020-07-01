@@ -20,8 +20,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tvtracker.MainActivity;
-import com.example.tvtracker.DTO.Models.TvShow;
+import com.example.tvtracker.UI.MainActivity;
+import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
 
 import java.util.List;
@@ -33,44 +33,47 @@ public class DiscoverFragment extends Fragment implements DiscoverAdapter.OnItem
     private RecyclerView discoverRecyclerView;
     private TextView discoverFilterTitle;
     private NavController navController;
-    private DiscoverAdapter adapter;
+    private DiscoverAdapter discoverAdapter;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.activity = getActivity();
+        discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
+        discoverAdapter = new DiscoverAdapter();
+        discoverAdapter.setOnItemClickListener(this);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.discover_fragment, container, false);
         setHasOptionsMenu(true);
-
         discoverRecyclerView = view.findViewById(R.id.discover_recycler_view);
         discoverRecyclerView.setHasFixedSize(true);
         discoverRecyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
-
         discoverFilterTitle = view.findViewById(R.id.discover_text_view_filter_name);
-
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
-        this.activity = getActivity();
         navController = Navigation.findNavController(getView());
-        adapter = new DiscoverAdapter();
-        discoverRecyclerView.setAdapter(adapter);
-        discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
-        discoverViewModel.getDiscoverList().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
+        discoverRecyclerView.setAdapter(discoverAdapter);
+        discoverViewModel.getDiscoverListObservable().observe(getViewLifecycleOwner(), new Observer<List<TvShow>>() {
                     @Override
                     public void onChanged(List<TvShow> tvShows) {
-                        adapter.setTvShows(tvShows);
+                        discoverAdapter.setTvShows(tvShows);
                     }
                 }
         );
-        adapter.setOnItemClickListener(this);
     }
 
     @Override
     public void onItemClick(TvShow tvShow) {
-
         if (navController.getCurrentDestination().getId() == R.id.navigation_discover) {
             Bundle bundle = new Bundle();
             bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(tvShow.getTvShowId()));
@@ -92,57 +95,53 @@ public class DiscoverFragment extends Fragment implements DiscoverAdapter.OnItem
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        radioCheckChange(item);
+        if (item.isCheckable()) {
+            item.setChecked(!item.isChecked());
+        }
         switch (item.getItemId()) {
             case R.id.menu_fragment_search:
                 if (navController.getCurrentDestination().getId() == R.id.navigation_discover) {
                     navController.navigate(R.id.action_navigation_discover_to_search_fragment);
                 }
                 break;
-             //Networks
-            case R.id.mostPopular:
-                adapter.filter(MainActivity.NETWORK_DEFAULT, MainActivity.NETWORKS_CODE);
+            case R.id.menu_filter_mostPopular:
+                discoverAdapter.filter(MainActivity.NETWORK_DEFAULT, MainActivity.NETWORKS_CODE);
                 discoverFilterTitle.setText("Most Popular");
                 break;
+            //Networks
             case R.id.netflix:
-                adapter.filter(MainActivity.NETWORK_NETFLIX, MainActivity.NETWORKS_CODE);
+                discoverAdapter.filter(MainActivity.NETWORK_NETFLIX, MainActivity.NETWORKS_CODE);
                 discoverFilterTitle.setText(MainActivity.NETWORK_NETFLIX);
                 break;
             case R.id.thecw:
-                 adapter.filter(MainActivity.NETWORK_CW, MainActivity.NETWORKS_CODE);
-                 discoverFilterTitle.setText(MainActivity.NETWORK_CW);
+                discoverAdapter.filter(MainActivity.NETWORK_CW, MainActivity.NETWORKS_CODE);
+                discoverFilterTitle.setText(MainActivity.NETWORK_CW);
                 break;
             case R.id.hbo:
-                adapter.filter(MainActivity.NETWORK_HBO, MainActivity.NETWORKS_CODE);
+                discoverAdapter.filter(MainActivity.NETWORK_HBO, MainActivity.NETWORKS_CODE);
                 discoverFilterTitle.setText(MainActivity.NETWORK_HBO);
                 break;
             case R.id.amc:
-                adapter.filter(MainActivity.NETWORK_AMC, MainActivity.NETWORKS_CODE);
+                discoverAdapter.filter(MainActivity.NETWORK_AMC, MainActivity.NETWORKS_CODE);
                 discoverFilterTitle.setText(MainActivity.NETWORK_AMC);
                 break;
             case R.id.fox:
-                adapter.filter(MainActivity.NETWORK_FOX, MainActivity.NETWORKS_CODE);
+                discoverAdapter.filter(MainActivity.NETWORK_FOX, MainActivity.NETWORKS_CODE);
                 discoverFilterTitle.setText(MainActivity.NETWORK_FOX);
                 break;
 
-             //Statuses
+            //Statuses
             case R.id.running:
-                adapter.filter(MainActivity.STATUS_RUNNING, MainActivity.STATUS_CODE);
+                discoverAdapter.filter(MainActivity.STATUS_RUNNING, MainActivity.STATUS_CODE);
                 discoverFilterTitle.setText(MainActivity.STATUS_RUNNING + " Series");
                 break;
             case R.id.ended:
-                adapter.filter(MainActivity.STATUS_ENDED, MainActivity.STATUS_CODE);
+                discoverAdapter.filter(MainActivity.STATUS_ENDED, MainActivity.STATUS_CODE);
                 discoverFilterTitle.setText(MainActivity.STATUS_ENDED + " Series");
             default:
                 break;
         }
         discoverRecyclerView.smoothScrollToPosition(0);
         return false;
-    }
-
-    private void radioCheckChange(MenuItem item){
-        if (item.isCheckable()){
-            item.setChecked(!item.isChecked());
-        }
     }
 }

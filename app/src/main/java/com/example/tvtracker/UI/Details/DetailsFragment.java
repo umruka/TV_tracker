@@ -25,14 +25,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.tvtracker.DTO.Models.TvShowEpisode;
-import com.example.tvtracker.MainActivity;
-import com.example.tvtracker.DTO.Models.Basic.Resource;
-import com.example.tvtracker.DTO.Models.Basic.Status;
-import com.example.tvtracker.DTO.Models.Params.UpdateTvShowWatchingFlagParams;
-import com.example.tvtracker.DTO.Models.QueryModels.TvShowFull;
-import com.example.tvtracker.DTO.Models.TvShow;
-import com.example.tvtracker.DTO.Models.TvShowSeason;
+import com.example.tvtracker.Models.TvShowFull;
+import com.example.tvtracker.Helpers.StringHelper;
+import com.example.tvtracker.Models.TvShowEpisode;
+import com.example.tvtracker.Helpers.TvShowHelper;
+import com.example.tvtracker.UI.MainActivity;
+import com.example.tvtracker.Repository.AppRepoHelpClasses.Resource;
+import com.example.tvtracker.Repository.AppRepoHelpClasses.Status;
+import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.TvShowSeason;
 import com.example.tvtracker.R;
 import com.squareup.picasso.Picasso;
 
@@ -45,11 +46,13 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
 
     private Activity activity;
     private DetailsViewModel detailsViewModel;
-    private int mId;
+    private int tvShowId;
+
+    private DetailsSeasonsAdapter detailsSeasonsAdapter;
+    private DetailsPicturesViewPagerAdapter detailsPicturesViewPagerAdapter;
 
     private NestedScrollView dataView;
     private RelativeLayout syncView;
-
     private TextView textViewName;
     private TextView textViewStatus;
     private TextView textViewDescription;
@@ -64,6 +67,18 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
     private ViewPager imagesViewPager;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.activity = getActivity();
+        detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
+        detailsSeasonsAdapter = new DetailsSeasonsAdapter();
+        detailsPicturesViewPagerAdapter = new DetailsPicturesViewPagerAdapter();
+        detailsPicturesViewPagerAdapter.setContext(getContext());
+        tvShowId = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
+        detailsSeasonsAdapter.setOnItemClickListener(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -71,7 +86,6 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
         setHasOptionsMenu(true);
         syncView = view.findViewById(R.id.details_sync_layout);
         dataView = view.findViewById(R.id.details_nested_scroll_view);
-
         textViewName = view.findViewById(R.id.details_text_view_tv_show_name);
         textViewStatus = view.findViewById(R.id.details_text_view_tv_show_status);
         textViewDescription = view.findViewById(R.id.details_text_view_tv_show_description);
@@ -82,48 +96,43 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
         textViewCountry = view.findViewById(R.id.details_text_view_tv_show_country);
         textViewNetwork = view.findViewById(R.id.details_text_view_tv_show_network);
         imageViewShowState = view.findViewById(R.id.details_text_view_tv_show_state);
-        imageViewShowState.setOnClickListener(this::onClick);
+        imageViewShowState.setOnClickListener(this);
         imagesViewPager = view.findViewById(R.id.details_view_pager_tv_show_images);
         recyclerViewSeasons = view.findViewById(R.id.details_recycler_view_tv_show_seasons);
         recyclerViewSeasons.setLayoutManager(new LinearLayoutManager(activity));
-
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.activity = getActivity();
 
-        DetailsSeasonsAdapter detailsSeasonsAdapter = new DetailsSeasonsAdapter();
-
-        detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
-
+        detailsViewModel.setTvShowId(tvShowId);
         recyclerViewSeasons.setAdapter(detailsSeasonsAdapter);
-
-        DetailsPicturesViewPagerAdapter viewPagerAdapter = new DetailsPicturesViewPagerAdapter();
-        viewPagerAdapter.setContext(getContext());
-        imagesViewPager.setAdapter(viewPagerAdapter);
-
-        mId = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
-
-        detailsViewModel.setTvShowId(mId);
+        imagesViewPager.setAdapter(detailsPicturesViewPagerAdapter);
         detailsViewModel.getDetailsObservable().observe(getViewLifecycleOwner(), new Observer<Resource<TvShowFull>>() {
             @Override
-            public void onChanged(Resource<TvShowFull> tvShowTestResource) {
-                if (tvShowTestResource.status == Status.LOADING) {
+            public void onChanged(Resource<TvShowFull> tvShowFullResource) {
+                if (tvShowFullResource.status == Status.LOADING) {
                     dataView.setVisibility(View.GONE);
                     syncView.setVisibility(View.VISIBLE);
                 }
-                if (tvShowTestResource.data != null && tvShowTestResource.status != Status.LOADING && tvShowTestResource.data.getTvShow() != null) {
+                if (tvShowFullResource.data != null && tvShowFullResource.status != Status.LOADING) {
                     syncView.setVisibility(View.GONE);
                     dataView.setVisibility(View.VISIBLE);
 
-                    TvShowFull tvShowFull = tvShowTestResource.data;
-                    TvShow tvShow = tvShowFull.getTvShow();
+                    TvShowFull tvShowFull = tvShowFullResource.data;
+                    TvShow tvShow = tvShowFull.tvShow;
+
+                    Picasso.get()
+                            .load(tvShow.getTvShowImagePath())
+                            .fit()
+                            .into(imageViewImagePath);
 
                     textViewName.setText(tvShow.getTvShowName());
                     textViewStatus.setText(tvShow.getTvShowStatus());
+                    setImage(TvShowHelper.getTvShowWatchlistState(tvShowFull.tvShow));
+
                     textViewDescription.setText(Html.fromHtml(tvShow.getTvShowDesc()));
                     textViewExpandDesc.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -138,30 +147,23 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
                         }
                     });
 
-                    textViewGenre.setText(detailsViewModel.getGenresString());
-                    textViewRating.setText(detailsViewModel.getTvShowRatingString(tvShow.getTvShowRating()));
-
-                    Picasso.get()
-                            .load(tvShow.getTvShowImagePath())
-                            .fit()
-                            .into(imageViewImagePath);
-
+                    textViewRating.setText(StringHelper.getTvShowRatingString(tvShow.getTvShowRating()));
+                    textViewGenre.setText(StringHelper.getGenresString(tvShowFull.genres));
                     textViewCountry.setText(tvShow.getTvShowCountry());
                     textViewNetwork.setText(tvShow.getTvShowNetwork());
-                    if (tvShowFull.getTvShowPictures().size() == 0) {
+
+                    if (tvShowFull.pictures.size() == 0) {
                         imagesViewPager.setVisibility(View.GONE);
                     } else {
-                        viewPagerAdapter.setPictures(tvShowFull.getTvShowPictures());
+                        detailsPicturesViewPagerAdapter.setPictures(tvShowFull.pictures);
                     }
-                    if (tvShowTestResource.data.getTvShowEpisodes() != null) {
-                        detailsSeasonsAdapter.setEpisodes(tvShowFull.getTvShowSeasons());
+                    if (tvShowFullResource.data.episodes != null) {
+                        detailsSeasonsAdapter.setEpisodes(TvShowHelper.getTvShowSeasons(tvShowFull.episodes));
                     }
-                    setImage(detailsViewModel.getShowState());
                 }
             }
 
         });
-        detailsSeasonsAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -179,22 +181,12 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
 
     @Override
     public void onCheckBoxClick(TvShowSeason season, boolean isCheckboxChecked) {
-//        int id = episode.getId();
-//        boolean isWatched = episode.isWatched();
-//        UpdateTvShowEpisodeWatchedFlagParams params;
-//        if(!isWatched) {
-//            params = new UpdateTvShowEpisodeWatchedFlagParams(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_YES);
-//        }else{
-//            params = new UpdateTvShowEpisodeWatchedFlagParams(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_NO);
-//        }
-//        seasonEpisodesViewModel.setWatchedFlag(params);
-//        seasonEpisodesViewModel.getSeasonEpisodes(mTvShowId, mSeasonNumber);
         List<Integer> ids = new ArrayList<>();
-        for (TvShowEpisode episode : season.getEpisodes()){
-        ids.add(episode.getId());
+        for (TvShowEpisode episode : season.getEpisodes()) {
+            ids.add(episode.getId());
         }
         Pair<List<Integer>, Boolean> params = new Pair<>(ids, isCheckboxChecked);
-        detailsViewModel.setWatchedFlag(params);
+        detailsViewModel.changeAllSeasonsWatchedFlag(params);
     }
 
     @Override
@@ -203,14 +195,14 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
         int tag = (Integer) view.getTag();
         switch (tag) {
             case R.drawable.ic_check_black_24dp: {
-                params = new Pair<>(mId, MainActivity.TVSHOW_WATCHING_FLAG_NO);
-                detailsViewModel.setTvShowWatchedFlag(params);
+                params = new Pair<>(tvShowId, MainActivity.TVSHOW_WATCHING_FLAG_NO);
+                detailsViewModel.changeTvShowWatchedFlag(params);
                 setImage(false);
                 break;
             }
             case R.drawable.ic_close_black_24dp: {
-                params = new Pair<>(mId, MainActivity.TVSHOW_WATCHING_FLAG_YES);
-                detailsViewModel.setTvShowWatchedFlag(params);
+                params = new Pair<>(tvShowId, MainActivity.TVSHOW_WATCHING_FLAG_YES);
+                detailsViewModel.changeTvShowWatchedFlag(params);
                 setImage(true);
             }
         }

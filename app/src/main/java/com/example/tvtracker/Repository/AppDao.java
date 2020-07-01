@@ -7,11 +7,12 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.example.tvtracker.DTO.Models.QueryModels.fromDbCall;
-import com.example.tvtracker.DTO.Models.TvShow;
-import com.example.tvtracker.DTO.Models.TvShowEpisode;
-import com.example.tvtracker.DTO.Models.TvShowGenre;
-import com.example.tvtracker.DTO.Models.TvShowPicture;
+import com.example.tvtracker.Models.CalendarTvShowEpisode;
+import com.example.tvtracker.Models.TvShowFull;
+import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.TvShowEpisode;
+import com.example.tvtracker.Models.TvShowGenre;
+import com.example.tvtracker.Models.TvShowPicture;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public interface AppDao {
     @Query("DELETE FROM tv_show_table")
     void deleteAllTvShows();
 
-    @Query("DELETE FROM tv_show_table WHERE tv_show_id IN (:id)")
+    @Query("DELETE FROM tv_show_table WHERE tv_show_api_id IN (:id)")
     void deleteTvShowById(int id);
 
 
@@ -61,8 +62,6 @@ public interface AppDao {
     LiveData<List<TvShow>> getAllTvShows();
 
     //Watchlist
-    @Query("SELECT * FROM tv_show_table WHERE tv_show_flag=:flag")
-    List<TvShow> getWatchlistTvShows(boolean flag);
 
     @Query("SELECT * FROM tv_show_table WHERE tv_show_flag=:flag")
     List<TvShow> getWatchlistListTvShows(String flag);
@@ -75,7 +74,7 @@ public interface AppDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertAllTvShowPictures(List<TvShowPicture> pictures);
 
-    @Query("SELECT * FROM tv_show_picture_table WHERE tv_show_id IN (:tvShowId)")
+    @Query("SELECT * FROM tv_show_picture_table WHERE picture_tv_show_id IN (:tvShowId)")
     List<TvShowPicture>  getTvShowPicturesByTvShowId(int tvShowId);
 
 
@@ -86,21 +85,21 @@ public interface AppDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertAllTvShowEpisodes(List<TvShowEpisode> episodes);
 
-    @Query("UPDATE tv_show_episode_table SET tv_show_is_watched=:isWatched WHERE id IN (:id)")
+    @Query("UPDATE tv_show_episode_table SET episode_is_watched=:isWatched WHERE id IN (:id)")
     void updateTvShowEpisodeWatchedFlag(int id, boolean isWatched);
 
-    @Query("UPDATE tv_show_episode_table SET tv_show_is_watched=:flag WHERE id IN (:ids)")
+    @Query("UPDATE tv_show_episode_table SET episode_is_watched=:flag WHERE id IN (:ids)")
     void updateTvShowAllSeasonWatched(List<Integer> ids, boolean flag);
 
 
-    @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id IN (:tvShowId)")
+    @Query("SELECT * FROM tv_show_episode_table WHERE episode_tv_show_id IN (:tvShowId)")
     List<TvShowEpisode> getTvShowEpisodesById(int tvShowId);
 
 
-    @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id IN (:tvShowId) AND tv_show_season IN(:seasonNum)")
+    @Query("SELECT * FROM tv_show_episode_table WHERE episode_tv_show_id IN (:tvShowId) AND episode_season IN(:seasonNum)")
     List<TvShowEpisode> getTvShowEpisodesByIdAndSeasonNum(int tvShowId, int seasonNum);
 
-    @Query("SELECT MAX(tv_show_season) FROM tv_show_episode_table WHERE tv_show_id IN(:tvShowId)")
+    @Query("SELECT MAX(episode_season) FROM tv_show_episode_table WHERE episode_tv_show_id IN(:tvShowId)")
     int getMaxSeasonByTvShowId(int tvShowId);
 
     //TvShowGenre
@@ -112,22 +111,32 @@ public interface AppDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertAllTvShowGenres(List<TvShowGenre> genres);
 
-    @Query("SELECT * FROM tv_show_genre_table WHERE tv_show_id IN (:tvShowId)")
+    @Query("SELECT * FROM tv_show_genre_table WHERE genre_tv_show_id IN (:tvShowId)")
     List<TvShowGenre> getTvShowGenresById(int tvShowId);
 
 
     //DetailsFragment
-    @Transaction
-    @Query("SELECT * FROM tv_show_table WHERE tv_show_id IN (:tvShowId)")
-    List<fromDbCall> getTvShowWithPicturesAndEpisodesById(int tvShowId);
 
     //@Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id=:id AND date(tv_show_air_date)>=date('now','-1 month') AND date(tv_show_air_date) <= date('now', '+14 days') ORDER BY date(tv_show_air_date) ASC")
-    @Query("SELECT * FROM tv_show_episode_table WHERE tv_show_id=:id AND date(tv_show_air_date)>=date('now') AND date(tv_show_air_date) <= date('now', '+14 days') ORDER BY date(tv_show_air_date) ASC")
+    @Query("SELECT * FROM tv_show_episode_table WHERE episode_tv_show_id=:id AND date(episode_air_date)>=date('now') AND date(episode_air_date) <= date('now', '+14 days') ORDER BY date(episode_air_date) ASC")
     List<TvShowEpisode> getUpcomingTvShowEpisodes(int id);
 
     //tryout
-    @Query("SELECT MAX(tv_show_air_date) FROM tv_show_episode_table WHERE tv_show_id=:id")
+    @Query("SELECT MAX(episode_air_date) FROM tv_show_episode_table WHERE episode_tv_show_id=:id")
     String getDateForTheLastEpisodeOfTvShowAired(int id);
 
+    @Transaction
+    @Query("SELECT * FROM tv_show_table WHERE tv_show_flag=:flag")
+    List<TvShowFull> getWatchlistTvShowsFull(boolean flag);
+
+    @Query("SELECT * FROM tv_show_table WHERE tv_show_flag=:flag")
+    List<TvShow> getWatchlistTvShows(boolean flag);
+
+    @Transaction
+    @Query("SELECT * FROM tv_show_table, tv_show_episode_table WHERE tv_show_flag=:flag AND date(episode_air_date)>=date('now') AND date(episode_air_date) <= date('now', '+14 days') ORDER BY date(episode_air_date) ASC")
+    List<CalendarTvShowEpisode> getCalendarEntries(boolean flag);
+
+    @Query("SELECT * FROM tv_show_table WHERE tv_show_api_id=:id")
+    TvShowFull getTvShowFullById(int id);
 
 }

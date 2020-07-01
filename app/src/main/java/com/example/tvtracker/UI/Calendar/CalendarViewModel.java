@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
-import com.example.tvtracker.DTO.Models.CalendarTvShowEpisode;
+import com.example.tvtracker.Models.CalendarTvShowEpisode;
 import com.example.tvtracker.Repository.AppRepository;
 
 import java.util.List;
@@ -28,11 +28,11 @@ public class CalendarViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<List<CalendarTvShowEpisode>> getCalendarListObservable() {
+    LiveData<List<CalendarTvShowEpisode>> getCalendarListObservable() {
         return calendarListObservable;
     }
 
-    public void fetchCalendarData() {
+    void fetchCalendarData() {
         repository.fetchCalendar();
     }
 

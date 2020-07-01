@@ -1,8 +1,8 @@
 package com.example.tvtracker.Repository.Api;
 
-import com.example.tvtracker.DTO.JsonModels.JsonTvShowSearchRoot;
-import com.example.tvtracker.DTO.JsonModels.TvShowBasicInfo.JsonTvShowBasicRoot;
-import com.example.tvtracker.DTO.JsonModels.TvShowDetails.JsonTvShowFullRoot;
+import com.example.tvtracker.Repository.Api.ApiModels.JsonTvShowSearchRoot;
+import com.example.tvtracker.Repository.Api.ApiModels.TvShowBasicInfo.JsonTvShowBasicRoot;
+import com.example.tvtracker.Repository.Api.ApiModels.TvShowDetails.JsonTvShowFullRoot;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

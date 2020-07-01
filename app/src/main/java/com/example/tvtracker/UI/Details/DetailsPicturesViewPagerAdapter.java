@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.example.tvtracker.DTO.Models.TvShowPicture;
+import com.example.tvtracker.Models.TvShowPicture;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class DetailsPicturesViewPagerAdapter extends PagerAdapter {
         ImageView imageView = new ImageView(context);
         TvShowPicture currentTvShowPicture = pictures.get(position);
         Picasso.get()
-                .load(currentTvShowPicture.getTvShowPicturePath())
+                .load(currentTvShowPicture.getPictureImagePath())
                 .fit()
 //                .centerCrop()
                 .into(imageView);

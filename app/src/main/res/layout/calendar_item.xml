@@ -22,6 +22,7 @@
                 android:id="@+id/calendar_image"
                 android:layout_width="96dp"
                 android:layout_height="112dp"
+                android:background="@drawable/image_border"
                 />
 
             <RelativeLayout

@@ -4,12 +4,6 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/mostPopular"
-            android:title="Most Popular"
-            android:titleCondensed="Most Popular"
-            android:checked="true"
-            />
-        <item
             android:id="@+id/netflix"
             android:title="Netflix"
             android:titleCondensed="Netflix"

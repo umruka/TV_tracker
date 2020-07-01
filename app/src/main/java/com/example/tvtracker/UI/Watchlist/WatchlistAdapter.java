@@ -10,11 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tvtracker.DTO.Models.DateHelper;
-import com.example.tvtracker.DTO.Models.QueryModels.TvShowFull;
-import com.example.tvtracker.DTO.Models.StringHelper;
-import com.example.tvtracker.DTO.Models.TvShow;
-import com.example.tvtracker.DTO.Models.TvShowEpisode;
+import com.example.tvtracker.Helpers.DateHelper;
+import com.example.tvtracker.Models.TvShowFull;
+import com.example.tvtracker.Helpers.StringHelper;
+import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.TvShowEpisode;
+import com.example.tvtracker.Helpers.TvShowHelper;
 import com.example.tvtracker.R;
 import com.squareup.picasso.Picasso;
 
@@ -26,13 +27,11 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
     public interface OnItemClickListener {
     void onItemClick(TvShowFull tvShowFull);
-    void onButtonClick(TvShowFull tvShowFull);
+    void onButtonClick(TvShowFull tvShowFull, int position);
     }
-
 
     private List<TvShowFull> tvShows = new ArrayList<>();
     private OnItemClickListener listener;
-
 
     @NonNull
     @Override
@@ -45,7 +44,9 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
 
     @Override
     public void onBindViewHolder(@NonNull TvShowCombinedViewHolder holder, int position) {
-        TvShow currentTvShow = tvShows.get(position).getTvShow();
+        TvShow currentTvShow = tvShows.get(position).tvShow;
+        int watched = TvShowHelper.getEpisodeProgress(tvShows.get(position).episodes);
+        int progressMax = tvShows.get(position).episodes.size();
 
         Picasso.get()
                 .load(currentTvShow.getTvShowImagePath())
@@ -53,38 +54,31 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
                 .placeholder(R.drawable.image_loading_placeholder)
                 .fit()
                 .into(holder.textViewTvShowImageThumbnail);
-//        holder.textViewTvShowId.setText(Integer.toString(currentTvShow.getTvShowId()));
+
+        holder.textViewProgress.setText(progressMax - watched  + " remaining");
         holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
         holder.textViewTvShowCountry.setText(currentTvShow.getTvShowCountry());
         holder.textViewTvShowNetwork.setText(currentTvShow.getTvShowNetwork());
-        int progressMax = tvShows.get(position).getTvShowEpisodes().size();
-        int watched = tvShows.get(position).getEpisodeProgress();
+        holder.imageViewEpisodeWatched.setImageResource(R.drawable.ic_check_black_24dp);
 
-        holder.textViewTvShowEpisodeProgress.setMax(progressMax);
-
-        holder.textViewTvShowEpisodeProgress.setProgress(watched);
-
-        holder.textViewProgress.setText(progressMax - watched  + " remaining");
-
-        if(tvShows.get(position).getTvShowEpisodes().size() == 0){
+        if(tvShows.get(position).episodes.size() == 0){
             holder.textViewEpisodeName.setText("no episodes avaible");
             holder.textViewEpisodeReleaseDate.setText("no episodes avaible");
-        }else if(!tvShows.get(position).getTvShowState()) {
-            TvShowEpisode tvShowEpisode = tvShows.get(position).getNextWatched();
-            holder.textViewEpisodeName.setText(StringHelper.addZero(tvShowEpisode.getSeasonNum()) + "x" + StringHelper.addZero(tvShowEpisode.getEpisodeNum())  + " " + tvShowEpisode.getEpisodeName());
-            holder.textViewEpisodeReleaseDate.setText(DateHelper.toDateString(tvShowEpisode.getEpisodeAirDate()));
+        }else if(!TvShowHelper.getTvShowState(tvShows.get(position).episodes)) {
+            TvShowEpisode tvShowEpisode = TvShowHelper.getNextWatched(tvShows.get(position).episodes);
+            holder.textViewEpisodeName.setText(StringHelper.addZero(tvShowEpisode.getEpisodeSeasonNum()) + "x" + StringHelper.addZero(tvShowEpisode.getEpisodeNum())  + " " + tvShowEpisode.getEpisodeName());
+            holder.textViewEpisodeReleaseDate.setText(DateHelper.getDateString(tvShowEpisode.getEpisodeAirDate()));
 //        }
         }else {
             holder.textViewEpisodeName.setText("No more released episodes");
             holder.textViewEpisodeReleaseDate.setText("");
         }
-        holder.textViewEpisodeWatched.setImageResource(R.drawable.ic_check_black_24dp);
+        holder.textViewTvShowEpisodeProgress.setProgress(watched);
+        holder.textViewTvShowEpisodeProgress.setMax(progressMax);
 
     }
 
-
-
-    public void setTvShows(List<TvShowFull> tvShows) {
+    void setTvShows(List<TvShowFull> tvShows) {
         this.tvShows = tvShows;
         notifyDataSetChanged();
     }
@@ -110,26 +104,21 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
         private TextView textViewTvShowNetwork;
         private ProgressBar textViewTvShowEpisodeProgress;
         private TextView textViewProgress;
-
         private TextView textViewEpisodeName;
         private TextView textViewEpisodeReleaseDate;
-        private ImageView textViewEpisodeWatched;
+        private ImageView imageViewEpisodeWatched;
 
         private TvShowCombinedViewHolder(View itemView) {
             super(itemView);
             textViewTvShowImageThumbnail = itemView.findViewById(R.id.watchlist_image_thumbnail);
-            textViewTvShowName = itemView.findViewById(R.id.watchlist_tv_show_name);
-//            textViewTvShowId = itemView.findViewById(R.id.text_view_watchlist_tv_show_id);
-            textViewTvShowEpisodeProgress = itemView.findViewById(R.id.watchlist_episode_progress);
             textViewProgress = itemView.findViewById(R.id.watchlist_episode_progress_text);
-
-
             textViewTvShowCountry = itemView.findViewById(R.id.watchlist_tv_show_country);
             textViewTvShowNetwork = itemView.findViewById(R.id.text_view_watchlist_tv_show_network);
-
+            imageViewEpisodeWatched = itemView.findViewById(R.id.episode_watch_button);
+            textViewTvShowName = itemView.findViewById(R.id.watchlist_tv_show_name);
             textViewEpisodeName = itemView.findViewById(R.id.watchlist_episode_name);
             textViewEpisodeReleaseDate = itemView.findViewById(R.id.watchlist_episode_release_date);
-            textViewEpisodeWatched = itemView.findViewById(R.id.episode_watch_button);
+            textViewTvShowEpisodeProgress = itemView.findViewById(R.id.watchlist_episode_progress);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -141,12 +130,12 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSh
                 }
             });
 
-            textViewEpisodeWatched.setOnClickListener(new View.OnClickListener() {
+            imageViewEpisodeWatched.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if(listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onButtonClick(tvShows.get(position));
+                        listener.onButtonClick(tvShows.get(position), position);
                     }
                 }
             });

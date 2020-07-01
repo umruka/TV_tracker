@@ -11,12 +11,12 @@
         app:showAsAction="always"
         />
 
-    <item
-        android:id="@+id/filters"
-        android:icon="@drawable/ic_filter_list_black_32dp"
-        android:title="Filters"
-        app:showAsAction="always"
-        />
+<!--    <item-->
+<!--        android:id="@+id/filters"-->
+<!--        android:icon="@drawable/ic_filter_list_black_32dp"-->
+<!--        android:title="Filters"-->
+<!--        app:showAsAction="always"-->
+<!--        />-->
 
     <item
         android:id="@+id/settings"

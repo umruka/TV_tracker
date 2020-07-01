@@ -65,7 +65,9 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/watchlist_image_thumbnail"
             android:layout_width="96dp"
-            android:layout_height="112dp" />
+            android:layout_height="112dp"
+            android:background="@drawable/image_border"
+            />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/episode_watch_button"

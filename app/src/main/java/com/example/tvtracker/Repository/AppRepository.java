@@ -13,27 +13,27 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.tvtracker.Models.TvShowFull;
+import com.example.tvtracker.Helpers.TvShowHelper;
 import com.example.tvtracker.Repository.Api.ApiBuilder;
 import com.example.tvtracker.Repository.Api.ApiService;
-import com.example.tvtracker.DTO.JsonModels.JsonTvShowSearchRoot;
-import com.example.tvtracker.DTO.JsonModels.TvShowBasicInfo.JsonTvShow;
-import com.example.tvtracker.DTO.JsonModels.TvShowBasicInfo.JsonTvShowBasicRoot;
-import com.example.tvtracker.DTO.JsonModels.TvShowDetails.JsonEpisode;
-import com.example.tvtracker.DTO.JsonModels.TvShowDetails.JsonTvShowFull;
-import com.example.tvtracker.DTO.JsonModels.TvShowDetails.JsonTvShowFullRoot;
-import com.example.tvtracker.MainActivity;
-import com.example.tvtracker.DTO.Models.Basic.NetworkBoundResource;
-import com.example.tvtracker.DTO.Models.Basic.Resource;
-import com.example.tvtracker.DTO.Models.Basic.MultiTaskHandler;
-import com.example.tvtracker.DTO.Models.CalendarTvShowEpisode;
-import com.example.tvtracker.DTO.Models.DateHelper;
-import com.example.tvtracker.DTO.Models.QueryModels.TvShowFull;
-import com.example.tvtracker.DTO.Models.TvShow;
-import com.example.tvtracker.DTO.Models.TvShowEpisode;
-import com.example.tvtracker.DTO.Models.TvShowGenre;
-import com.example.tvtracker.DTO.Models.TvShowPicture;
-import com.example.tvtracker.DTO.Models.Params.UpdateTvShowWatchingFlagParams;
-import com.example.tvtracker.DTO.Models.TvShowSeason;
+import com.example.tvtracker.Repository.Api.ApiModels.JsonTvShowSearchRoot;
+import com.example.tvtracker.Repository.Api.ApiModels.TvShowBasicInfo.JsonTvShow;
+import com.example.tvtracker.Repository.Api.ApiModels.TvShowBasicInfo.JsonTvShowBasicRoot;
+import com.example.tvtracker.Repository.Api.ApiModels.TvShowDetails.JsonEpisode;
+import com.example.tvtracker.Repository.Api.ApiModels.TvShowDetails.JsonTvShowFull;
+import com.example.tvtracker.Repository.Api.ApiModels.TvShowDetails.JsonTvShowFullRoot;
+import com.example.tvtracker.UI.MainActivity;
+import com.example.tvtracker.Repository.AppRepoHelpClasses.NetworkBoundResource;
+import com.example.tvtracker.Repository.AppRepoHelpClasses.Resource;
+import com.example.tvtracker.Repository.AppRepoHelpClasses.MultiTaskHandler;
+import com.example.tvtracker.Models.CalendarTvShowEpisode;
+import com.example.tvtracker.Helpers.DateHelper;
+import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.TvShowEpisode;
+import com.example.tvtracker.Models.TvShowGenre;
+import com.example.tvtracker.Models.TvShowPicture;
+import com.example.tvtracker.Models.TvShowSeason;
 import com.example.tvtracker.R;
 import com.google.gson.Gson;
 
@@ -60,6 +60,7 @@ public class AppRepository {
     private MutableLiveData<List<TvShowFull>> watchlistListObservable;
     private MutableLiveData<List<CalendarTvShowEpisode>> calendarListObservable;
     private MutableLiveData<TvShowSeason> seasonEpisodesListObservable;
+    private MutableLiveData<List<String>> statisticsTvShowsListObservable;
     private MutableLiveData<Boolean> syncState;
     private MutableLiveData<List<TvShow>> searchTvShowsListObservable;
 
@@ -72,6 +73,7 @@ public class AppRepository {
         watchlistListObservable = new MutableLiveData<>();
         calendarListObservable = new MutableLiveData<>();
         seasonEpisodesListObservable = new MutableLiveData<>();
+        statisticsTvShowsListObservable = new MutableLiveData<>();
         syncState = new MutableLiveData<>();
         searchTvShowsListObservable = new MutableLiveData<>();
 
@@ -101,6 +103,11 @@ public class AppRepository {
     public LiveData<List<TvShow>> getSearchTvShowsListObservable() {
         return searchTvShowsListObservable;
     }
+
+    public LiveData<List<String>> getStatisticsTvShowsListObservable() {
+        return statisticsTvShowsListObservable;
+    }
+
 
     public boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -174,23 +181,63 @@ public class AppRepository {
 
 
 
+    public void fetchStatistics() {
+        Log.d("", "load all tv shows from db");
+        new AsyncTask<Void, Void, List<String>>() {
+            @Override
+            protected List<String> doInBackground(Void... voids) {
+                List<TvShowFull> TvShowFulls =  appDao.getWatchlistTvShowsFull(MainActivity.TVSHOW_WATCHING_FLAG_YES);
+                List<String> dataForStatistics = new ArrayList<>();
+                int showsWithNextEpisodesCounter = 0;
+                int showsNotEndedCounter = 0;
+                int episodesCounter = 0;
+                int episodeProgressCounter = 0;
+                for (TvShowFull tvShowFull : TvShowFulls) {
+                    if (TvShowHelper.getNextWatched(tvShowFull.episodes) != null) {
+                        showsWithNextEpisodesCounter++;
+                    }
+                    if (tvShowFull.tvShow.getTvShowStatus() != MainActivity.STATUS_ENDED) {
+                        showsNotEndedCounter++;
+                    }
+                    episodesCounter += tvShowFull.episodes.size();
+                    episodeProgressCounter += TvShowHelper.getEpisodeProgress(tvShowFull.episodes);
+                }
+                String showsCount = String.valueOf(TvShowFulls.size());
+                String showsWithNextEpisodesCount = String.valueOf(showsWithNextEpisodesCounter);
+                String showsNotEndedCount = String.valueOf(showsNotEndedCounter);
+                String episodesCount = String.valueOf(episodesCounter);
+                String episodeProgressCount = String.valueOf(episodeProgressCounter);
+
+                dataForStatistics.add(showsCount);
+                dataForStatistics.add(showsWithNextEpisodesCount);
+                dataForStatistics.add(showsNotEndedCount);
+                dataForStatistics.add(episodesCount);
+                dataForStatistics.add(episodeProgressCount);
+
+                return dataForStatistics;
+            }
+
+            @Override
+            protected void onPostExecute(List<String> strings) {
+                    statisticsTvShowsListObservable.postValue(strings);
+            }
+        }.execute();
+    }
+
     public void fetchWatchlist() {
         Log.d("", "load all tv shows from db");
         new AsyncTask<Void, Void, List<TvShowFull>>() {
             @Override
             protected List<TvShowFull> doInBackground(Void... voids) {
-                List<TvShowFull> tvShowFullList = new ArrayList<>();
-                List<TvShow> list = appDao.getWatchlistTvShows(MainActivity.TVSHOW_WATCHING_FLAG_YES);
-                for(TvShow tvShow : list) {
-                    int id = tvShow.getTvShowId();
-                    List<TvShowEpisode> episodes = appDao.getTvShowEpisodesById(id);
-                    List<TvShowGenre> genres = appDao.getTvShowGenresById(id);
-                    List<TvShowPicture> pictures = appDao.getTvShowPicturesByTvShowId(id);
-                    TvShowFull tvShowFull = new TvShowFull(tvShow, episodes, genres, pictures);
-                    if (!(tvShowFull.getTvShow().getTvShowStatus().contains(MainActivity.STATUS_ENDED) && tvShowFull.getNextWatched() == null)) {
-                        tvShowFullList.add(tvShowFull);
+                List<TvShowFull> TvShowFulls =  appDao.getWatchlistTvShowsFull(MainActivity.TVSHOW_WATCHING_FLAG_YES);
+
+                for (int i = 0; i < TvShowFulls.size(); i++) {
+                    TvShowFull item = TvShowFulls.get(i);
+                    if ((item.tvShow.getTvShowStatus().contains(MainActivity.STATUS_ENDED) && TvShowHelper.getNextWatched(item.episodes) == null)) {
+                        TvShowFulls.remove(i);
                     }
                 }
+
 //                Collections.sort(tvShowFullList, new Comparator<TvShowFull>() {
 //                    @Override
 //                    public int compare(TvShowFull tvShowFull, TvShowFull t1) {
@@ -200,13 +247,13 @@ public class AppRepository {
 //                        return 0;
 //                    }
 //                }
-                return tvShowFullList;
+                return TvShowFulls;
             }
 
             @Override
-            protected void onPostExecute(List<TvShowFull> tvShows) {
-                if((tvShows != null) && tvShows.size()>0) {
-                    watchlistListObservable.postValue(tvShows);
+            protected void onPostExecute(List<TvShowFull> TvShowFulls) {
+                if((TvShowFulls != null) && TvShowFulls.size()>0) {
+                    watchlistListObservable.postValue(TvShowFulls);
                 }
             }
         }.execute();
@@ -216,25 +263,14 @@ public class AppRepository {
         new AsyncTask<Void, Void, List<CalendarTvShowEpisode>>(){
             @Override
             protected List<CalendarTvShowEpisode> doInBackground(Void... voids) {
-                List<CalendarTvShowEpisode> tvShowFullList = new ArrayList<>();
-                List<TvShow> list = appDao.getWatchlistTvShows(MainActivity.TVSHOW_WATCHING_FLAG_YES);
-                for(TvShow tvShow : list) {
-                    int id = tvShow.getTvShowId();
-                    List<TvShowEpisode> episodes = appDao.getUpcomingTvShowEpisodes(id);
-//                    List<TvShowEpisode> episodes = appDao.getTvShowEpisodesById(id);
-                    for (int i = 0; i < episodes.size(); i++) {
-                        CalendarTvShowEpisode calendarTvShowEpisode = new CalendarTvShowEpisode(tvShow.getTvShowName(), tvShow.getTvShowImagePath(), episodes.get(i));
-                        tvShowFullList.add(calendarTvShowEpisode);
-                    }
-
-                }
-                return tvShowFullList;
+                List<CalendarTvShowEpisode> calendarTvShowEpisodes = appDao.getCalendarEntries(MainActivity.TVSHOW_WATCHING_FLAG_YES);
+                 return calendarTvShowEpisodes;
             }
 
             @Override
-            protected void onPostExecute(List<CalendarTvShowEpisode> tvShowFulls) {
-                if(tvShowFulls != null){
-                    calendarListObservable.postValue(tvShowFulls);
+            protected void onPostExecute(List<CalendarTvShowEpisode> calendarTvShowEpisodes) {
+                if(calendarTvShowEpisodes != null){
+                    calendarListObservable.postValue(calendarTvShowEpisodes);
                 }
             }
         }.execute();
@@ -254,10 +290,12 @@ public class AppRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable TvShowFull data) {
-                if(isNetworkConnected()) {
-                    return true;
+                if(!isNetworkConnected()) {
+                    return false;
+
                 }
-                return false;
+                return true;
+
             }
 
             @NonNull
@@ -268,11 +306,7 @@ public class AppRepository {
                 new AsyncTask<Void, Void, TvShowFull>() {
                     @Override
                     protected TvShowFull doInBackground(Void... voids) {
-                        TvShow tvShow = appDao.getTvShowByApiId(id);
-                        List<TvShowEpisode> episodes = appDao.getTvShowEpisodesById(id);
-                        List<TvShowGenre> genres = appDao.getTvShowGenresById(id);
-                        List<TvShowPicture> pictures = appDao.getTvShowPicturesByTvShowId(id);
-                        TvShowFull tvShowFull = new TvShowFull(tvShow, episodes, genres, pictures);
+                        TvShowFull tvShowFull = appDao.getTvShowFullById(id);
                         return tvShowFull;
                     }
 
@@ -336,19 +370,19 @@ public class AppRepository {
     private void detailsToDb(JsonTvShowFullRoot item){
         Log.d("", "add details to db");
         TvShowFull tvShowFull = jsonToModel(item);
-        TvShow tvShow = tvShowFull.getTvShow();
+        TvShow tvShow = tvShowFull.tvShow;
 
         int id = tvShow.getTvShowId();
-        List<TvShowEpisode> episodes = tvShowFull.getTvShowEpisodes();
+        List<TvShowEpisode> episodes = tvShowFull.episodes;
 
         Collections.sort(episodes, new Comparator<TvShowEpisode>() {
             @Override
             public int compare(TvShowEpisode ep1, TvShowEpisode ep2) {
-                if (ep1.getSeasonNum() == ep2.getSeasonNum()) {
+                if (ep1.getEpisodeSeasonNum() == ep2.getEpisodeSeasonNum()) {
                     return 0;
-                } else if (ep1.getSeasonNum() > ep2.getSeasonNum()) {
+                } else if (ep1.getEpisodeSeasonNum() > ep2.getEpisodeSeasonNum()) {
                     return 1;
-                } else if (ep1.getSeasonNum() < ep2.getSeasonNum()) {
+                } else if (ep1.getEpisodeSeasonNum() < ep2.getEpisodeSeasonNum()) {
                     return -1;
                 }
                 return 0;
@@ -363,8 +397,8 @@ public class AppRepository {
                 episode.setEpisodeAirDate("");
             }
         }
-        List<TvShowGenre> genres = tvShowFull.getTvShowGenres();
-        List<TvShowPicture> pictures = tvShowFull.getTvShowPictures();
+        List<TvShowGenre> genres = tvShowFull.genres;
+        List<TvShowPicture> pictures = tvShowFull.pictures;
 
         List<TvShowEpisode> dbEpisodes = new ArrayList<>();
         List<TvShowGenre> dbGenres = new ArrayList<>();
@@ -595,8 +629,12 @@ public class AppRepository {
         for(String picture : pictures) {
             tvShowPictures.add(new TvShowPicture(id, picture));
         }
-
-        return new TvShowFull(tvShow, tvShowEpisodes, tvShowGenres, tvShowPictures);
+        TvShowFull full = new TvShowFull();
+        full.tvShow = tvShow;
+        full.episodes = tvShowEpisodes;
+        full.pictures = tvShowPictures;
+        full.genres = tvShowGenres;
+        return full;
 
 
     }

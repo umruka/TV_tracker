@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
-import com.example.tvtracker.DTO.Models.TvShowSeason;
+import com.example.tvtracker.Models.TvShowSeason;
 import com.example.tvtracker.Repository.AppRepository;
 
 public class SeasonEpisodesViewModel extends AndroidViewModel {
@@ -26,19 +26,20 @@ public class SeasonEpisodesViewModel extends AndroidViewModel {
                 seasonObservable.setValue(tvShowSeason);
             }
         });
-//        season2 = Transformations.switchMap(seasonParams, data -> repository.fetchSeasons2(seasonParams.getValue().getId(), seasonParams.getValue().getSeasonNum()));
-
     }
 
-    public LiveData<TvShowSeason> getSeasonObservable() {
+    LiveData<TvShowSeason> getSeasonObservable() {
         return seasonObservable;
     }
 
 
-    public void getSeasonEpisodes(int id, int seasonNum){
+    void getSeasonEpisodes(int id, int seasonNum) {
         repository.fetchTvShowEpisodesBySeason(id, seasonNum);
     }
 
-    public void setWatchedFlag(Pair<Integer, Boolean> params) { repository.setTvShowEpisodeIsWatchedFlag(params); }
+    void changeEpisodeWatchedFlag(Pair<Integer, Boolean> params) {
+        repository.setTvShowEpisodeIsWatchedFlag(params);
+    }
+
 
 }

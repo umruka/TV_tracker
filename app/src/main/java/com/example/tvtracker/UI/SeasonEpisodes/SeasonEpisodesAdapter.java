@@ -4,15 +4,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tvtracker.DTO.Models.DateHelper;
-import com.example.tvtracker.DTO.Models.StringHelper;
-import com.example.tvtracker.DTO.Models.TvShowEpisode;
+import com.example.tvtracker.Helpers.DateHelper;
+import com.example.tvtracker.Helpers.StringHelper;
+import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.R;
 
 import java.util.ArrayList;
@@ -43,13 +42,13 @@ public class SeasonEpisodesAdapter extends RecyclerView.Adapter<SeasonEpisodesAd
     public void onBindViewHolder(@NonNull EpisodeViewHolder holder, int position) {
         TvShowEpisode currentTvShowEpisode = episodes.get(position);
         holder.textViewName.setText(currentTvShowEpisode.getEpisodeName());
-        holder.textViewEpisodeAndSeasonNum.setText("S" + StringHelper.addZero(currentTvShowEpisode.getSeasonNum()) + "E" + StringHelper.addZero(currentTvShowEpisode.getEpisodeNum()));
-        holder.textViewAirDate.setText(DateHelper.toDateString(currentTvShowEpisode.getEpisodeAirDate()));
-        boolean episodeState = currentTvShowEpisode.isWatched();
+        holder.textViewEpisodeAndSeasonNum.setText("S" + StringHelper.addZero(currentTvShowEpisode.getEpisodeSeasonNum()) + "E" + StringHelper.addZero(currentTvShowEpisode.getEpisodeNum()));
+        holder.textViewAirDate.setText(DateHelper.getDateString(currentTvShowEpisode.getEpisodeAirDate()));
+        boolean episodeState = currentTvShowEpisode.isEpisodeWatched();
         if (episodeState) {
-            holder.checkBox.setChecked(true);
+            holder.checkBoxWatchedFlag.setChecked(true);
         } else {
-            holder.checkBox.setChecked(false);
+            holder.checkBoxWatchedFlag.setChecked(false);
         }
     }
 
@@ -77,7 +76,7 @@ public class SeasonEpisodesAdapter extends RecyclerView.Adapter<SeasonEpisodesAd
         private TextView textViewName;
         private TextView textViewEpisodeAndSeasonNum;
         private TextView textViewAirDate;
-        private CheckBox checkBox;
+        private CheckBox checkBoxWatchedFlag;
 
         private EpisodeViewHolder(View itemView) {
             super(itemView);
@@ -85,7 +84,7 @@ public class SeasonEpisodesAdapter extends RecyclerView.Adapter<SeasonEpisodesAd
             textViewName = itemView.findViewById(R.id.name);
             textViewEpisodeAndSeasonNum = itemView.findViewById(R.id.episodeAndSeasonNum);
             textViewAirDate = itemView.findViewById(R.id.air_date);
-            checkBox = itemView.findViewById(R.id.watched_flag);
+            checkBoxWatchedFlag = itemView.findViewById(R.id.watched_flag);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,7 +96,7 @@ public class SeasonEpisodesAdapter extends RecyclerView.Adapter<SeasonEpisodesAd
 
                 }
             });
-            checkBox.setOnClickListener(new View.OnClickListener() {
+            checkBoxWatchedFlag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();

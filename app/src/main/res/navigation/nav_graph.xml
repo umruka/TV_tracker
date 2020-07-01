@@ -6,10 +6,10 @@
     app:startDestination="@id/navigation_watchlist">
 
     <fragment
-        android:id="@+id/navigation_profile"
-        android:name="com.example.tvtracker.UI.Profile.ProfileFragment"
+        android:id="@+id/navigation_statistics"
+        android:name="com.example.tvtracker.UI.Statistics.StatisticsFragment"
         android:label="profile_fragment"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/statistic_fragment" />
     <fragment
         android:id="@+id/navigation_watchlist"
         android:name="com.example.tvtracker.UI.Watchlist.WatchlistFragment"

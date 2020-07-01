@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tvtracker.DTO.Models.TvShow;
+import com.example.tvtracker.Models.TvShow;
 import com.example.tvtracker.R;
 import com.squareup.picasso.Picasso;
 
@@ -39,26 +39,26 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchTvSh
     @Override
     public void onBindViewHolder(@NonNull SearchTvShowViewHolder holder, int position) {
         TvShow currentTvShow = tvShows.get(position);
-            Picasso.get()
-                    .load(currentTvShow.getTvShowImagePath())
-                    .error(R.drawable.image_error_placeholder)
-                    .placeholder(R.drawable.image_loading_placeholder)
-                    .fit()
-                    .into(holder.imageViewTvShowImage);
-            holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
-            holder.textViewTvShowStatus.setText(String.valueOf(currentTvShow.getTvShowStatus()));
-            holder.textViewTvShowCountry.setText(String.valueOf(currentTvShow.getTvShowCountry()));
-            holder.textViewTvShowNetwork.setText(String.valueOf(currentTvShow.getTvShowNetwork()));
+        Picasso.get()
+                .load(currentTvShow.getTvShowImagePath())
+                .error(R.drawable.image_error_placeholder)
+                .placeholder(R.drawable.image_loading_placeholder)
+                .fit()
+                .into(holder.imageViewTvShowImage);
+        holder.textViewTvShowName.setText(currentTvShow.getTvShowName());
+        holder.textViewTvShowStatus.setText(currentTvShow.getTvShowStatus());
+        holder.textViewTvShowCountry.setText(currentTvShow.getTvShowCountry());
+        holder.textViewTvShowNetwork.setText(currentTvShow.getTvShowNetwork());
     }
 
-    public void setTvShows(List<TvShow> tvShows) {
+    void setTvShows(List<TvShow> tvShows) {
         this.tvShows = tvShows;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        if(tvShows != null) {
+        if (tvShows != null) {
             return tvShows.size();
         }
         return 0;
@@ -94,15 +94,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchTvSh
                 }
             });
 
-//            imageViewTvShowImage.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    int position = getAdapterPosition();
-//                    if (listener != null && position != RecyclerView.NO_POSITION) {
-//                        listener.onButtonClick(tvShows.get(position));
-//                    }
-//                }
-//            });
         }
 
     }

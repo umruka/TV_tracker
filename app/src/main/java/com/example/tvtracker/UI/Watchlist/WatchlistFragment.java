@@ -21,36 +21,38 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.example.tvtracker.MainActivity;
-import com.example.tvtracker.DTO.Models.QueryModels.TvShowFull;
+import com.example.tvtracker.Models.TvShowFull;
+import com.example.tvtracker.Helpers.TvShowHelper;
+import com.example.tvtracker.UI.MainActivity;
 import com.example.tvtracker.R;
-import com.example.tvtracker.UI.SeasonEpisodes.SeasonEpisodesViewModel;
 
 import java.util.List;
 
-public class WatchlistFragment extends Fragment {
+public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnItemClickListener {
 
 
     private WatchlistViewModel watchlistViewModel;
-    private SeasonEpisodesViewModel seasonEpisodesViewModel;
-
+    private WatchlistAdapter watchlistAdapter;
     private RecyclerView recyclerView;
     private RelativeLayout emptyLayout;
 
     private NavController navController;
 
-    public static WatchlistFragment newInstance() {
-        return new WatchlistFragment();
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        watchlistAdapter = new WatchlistAdapter();
+        watchlistViewModel = new ViewModelProvider(this).get(WatchlistViewModel.class);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.watchlist_fragment, container, false);
-        recyclerView = view.findViewById(R.id.watchlist_recycler_view);
-        emptyLayout = view.findViewById(R.id.emptystatelayout);
         setHasOptionsMenu(true);
-
+        recyclerView = view.findViewById(R.id.watchlist_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        emptyLayout = view.findViewById(R.id.emptystatelayout);
         return view;
     }
 
@@ -58,48 +60,42 @@ public class WatchlistFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         navController = Navigation.findNavController(getView());
-        recyclerView.setHasFixedSize(true);
-        final WatchlistAdapter adapter = new WatchlistAdapter();
-        recyclerView.setAdapter(adapter);
-        seasonEpisodesViewModel = new ViewModelProvider(this).get(SeasonEpisodesViewModel.class);
-        watchlistViewModel = new ViewModelProvider(this).get(WatchlistViewModel.class);
-
+        recyclerView.setAdapter(watchlistAdapter);
+        watchlistViewModel.fetchWatchlistData();
         watchlistViewModel.getWatchlistListObservable().observe(getViewLifecycleOwner(), new Observer<List<TvShowFull>>() {
                     @Override
-                    public void onChanged(List<TvShowFull> tvShowFulls) {
-                        adapter.setTvShows(tvShowFulls);
-                        if(adapter.getItemCount() == 0){
+                    public void onChanged(List<TvShowFull> TvShowFulls) {
+                        watchlistAdapter.setTvShows(TvShowFulls);
+                        if(watchlistAdapter.getItemCount() == 0){
                             emptyLayout.setVisibility(View.VISIBLE);
-                        }else if(adapter.getItemCount() != 0){
+                        }else if(watchlistAdapter.getItemCount() != 0){
                             emptyLayout.setVisibility(View.GONE);
                         }
                     }
                 });
-                watchlistViewModel.fetchWatchlistData();
 
-                adapter.setOnItemClickListener(new WatchlistAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(TvShowFull tvShowFull) {
-                        if (navController.getCurrentDestination().getId() == R.id.navigation_watchlist) {
-                            Bundle bundle = new Bundle();
-                            int id = tvShowFull.getTvShow().getTvShowId();
-                            bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(id));
-                            navController.navigate(R.id.action_navigation_watchlist_to_details_fragment, bundle);
-                        }
-                    }
+        watchlistAdapter.setOnItemClickListener(this);
+    }
 
-                    @Override
-                    public void onButtonClick(TvShowFull tvShowFull) {
+    @Override
+    public void onItemClick(TvShowFull tvShowFull) {
+        if (navController.getCurrentDestination().getId() == R.id.navigation_watchlist) {
+            Bundle bundle = new Bundle();
+            int id = tvShowFull.tvShow.getTvShowId();
+            bundle.putString(MainActivity.TVSHOW_ID, String.valueOf(id));
+            navController.navigate(R.id.action_navigation_watchlist_to_details_fragment, bundle);
+        }
+    }
 
-                        if(tvShowFull.getNextWatched() != null) {
-                            int id = tvShowFull.getNextWatched().getId();
-                            Pair<Integer, Boolean> params = new Pair<>(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_YES);
-                            seasonEpisodesViewModel.setWatchedFlag(params);
-                            watchlistViewModel.fetchWatchlistData();
-                        }
-                    }
-                }
-    );
+    @Override
+    public void onButtonClick(TvShowFull tvShowFull, int position) {
+
+        if(TvShowHelper.getNextWatched(tvShowFull.episodes) != null) {
+            int id = TvShowHelper.getNextWatched(tvShowFull.episodes).getId();
+            Pair<Integer, Boolean> params = new Pair<>(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_YES);
+            watchlistViewModel.changeEpisodeWatchedFlag(params);
+            watchlistViewModel.fetchWatchlistData();
+        }
     }
 
     @Override

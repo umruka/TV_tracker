@@ -10,9 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tvtracker.DTO.Models.CalendarTvShowEpisode;
-import com.example.tvtracker.DTO.Models.DateHelper;
-import com.example.tvtracker.DTO.Models.TvShowEpisode;
+import com.example.tvtracker.Models.CalendarTvShowEpisode;
+import com.example.tvtracker.Helpers.DateHelper;
+import com.example.tvtracker.Models.TvShow;
+import com.example.tvtracker.Models.TvShowEpisode;
 import com.example.tvtracker.R;
 import com.squareup.picasso.Picasso;
 
@@ -25,9 +26,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
         void onItemClick(CalendarTvShowEpisode calendarTvShowEpisode);
     }
 
-    private List<CalendarTvShowEpisode> calendarTvShowEpisodes = new ArrayList<>();
+    private List<CalendarTvShowEpisode> episodes = new ArrayList<>();
     private OnItemClickListener listener;
-
 
     @NonNull
     @Override
@@ -40,34 +40,35 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
 
     @Override
     public void onBindViewHolder(@NonNull TvShowPictureViewHolder holder, int position) {
-        CalendarTvShowEpisode currentTvShowEpisode = calendarTvShowEpisodes.get(position);
-
+        Context context = holder.itemView.getContext();
+        CalendarTvShowEpisode currentTvShowEpisode = episodes.get(position);
         Picasso.get()
-                .load(currentTvShowEpisode.getTvShowImageThumbnail())
+                .load(currentTvShowEpisode.tvShow.getTvShowImagePath())
+                .placeholder(R.drawable.image_loading_placeholder)
+                .error(R.drawable.image_error_placeholder)
                 .fit()
                 .into(holder.imageViewImage);
 
-        Context context = holder.itemView.getContext();
-        TvShowEpisode episode = currentTvShowEpisode.getTvShowEpisode();
-
-        holder.textViewName.setText(currentTvShowEpisode.getTvShowName());
+        TvShow tvShow =  currentTvShowEpisode.tvShow;
+        TvShowEpisode episode = currentTvShowEpisode.episode;
+        holder.textViewName.setText(tvShow.getTvShowName());
         holder.textViewEpisodeNum.setText(context.getString(R.string.calendar_episode, episode.getEpisodeNum()));
-        holder.textViewSeasonNum.setText(context.getString(R.string.calendar_season, episode.getSeasonNum()));
-        holder.textViewAirDate.setText(DateHelper.toDateString(episode.getEpisodeAirDate()));
+        holder.textViewSeasonNum.setText(context.getString(R.string.calendar_season, episode.getEpisodeSeasonNum()));
+        holder.textViewAirDate.setText(DateHelper.getDateString(episode.getEpisodeAirDate()));
         holder.textViewDaysLeft.setText(DateHelper.daysDifferenceFromCurrentDate(episode.getEpisodeAirDate()));
 
     }
 
 
-    public void setTvShows(List<CalendarTvShowEpisode> tvShowPictures) {
-        this.calendarTvShowEpisodes = tvShowPictures;
+    public void setTvShows(List<CalendarTvShowEpisode> episodes) {
+        this.episodes = episodes;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        if (calendarTvShowEpisodes != null) {
-            return calendarTvShowEpisodes.size();
+        if (episodes != null) {
+            return episodes.size();
         }
         return 0;
     }
@@ -101,7 +102,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(calendarTvShowEpisodes.get(position));
+                        listener.onItemClick(episodes.get(position));
                     }
                 }
             });

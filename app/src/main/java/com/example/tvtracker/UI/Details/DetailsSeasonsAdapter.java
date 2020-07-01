@@ -1,7 +1,6 @@
 package com.example.tvtracker.UI.Details;
 
 import android.content.Context;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tvtracker.DTO.Models.StringHelper;
-import com.example.tvtracker.DTO.Models.TvShowSeason;
-import com.example.tvtracker.MainActivity;
+import com.example.tvtracker.Helpers.StringHelper;
+import com.example.tvtracker.Helpers.TvShowHelper;
+import com.example.tvtracker.Models.TvShowSeason;
 import com.example.tvtracker.R;
 
 
@@ -25,15 +24,15 @@ public class DetailsSeasonsAdapter extends RecyclerView.Adapter<DetailsSeasonsAd
 
     public interface OnItemClickListener {
         void onItemClick(TvShowSeason season);
+
         void onCheckBoxClick(TvShowSeason season, boolean isCheckBoxChecked);
     }
 
     private List<TvShowSeason> seasons = new ArrayList<>();
-    private List<Integer> seasonCurrentProgressList = new ArrayList<>();
-    private List<Integer> seasonMaxProgressList = new ArrayList<>();
+    private List<Integer> currentProgressList = new ArrayList<>();
+    private List<Integer> maxProgressList = new ArrayList<>();
     private Context context;
     private OnItemClickListener listener;
-
 
 
     @NonNull
@@ -47,33 +46,29 @@ public class DetailsSeasonsAdapter extends RecyclerView.Adapter<DetailsSeasonsAd
 
     @Override
     public void onBindViewHolder(@NonNull SeasonsViewHolder holder, int position) {
+
         this.context = holder.itemView.getContext();
         TvShowSeason currentTvShowSeason = seasons.get(position);
 
-        int seasonCurrentProgress = currentTvShowSeason.getSeasonProgress();
+        int seasonCurrentProgress = TvShowHelper.getEpisodeProgress(currentTvShowSeason.getEpisodes());
         int seasonMaxProgress = currentTvShowSeason.getEpisodes().size();
+        currentProgressList.add(seasonCurrentProgress);
+        maxProgressList.add(seasonMaxProgress);
 
-        seasonCurrentProgressList.add(seasonCurrentProgress);
-        seasonMaxProgressList.add(seasonMaxProgress);
-
-        holder.progressBar.setMax(seasonMaxProgress);
-        holder.progressBar.setProgress(seasonCurrentProgress);
         if (seasonCurrentProgress == seasonMaxProgress) {
-            holder.checkBox.setChecked(true);
-        }else{
-            holder.checkBox.setChecked(false);
+            holder.checkBoxSeason.setChecked(true);
+        } else {
+            holder.checkBoxSeason.setChecked(false);
         }
-        holder.textView.setText(context.getString(R.string.details_seasonNumber,currentTvShowSeason.getSeasonNum()));
-        holder.progressTextView.setText(context.getString(R.string.details_seasonProgress, StringHelper.addZero(seasonCurrentProgress), StringHelper.addZero(seasonMaxProgress)));
+        holder.textViewSeasonNumber.setText(context.getString(R.string.details_seasonNumber, currentTvShowSeason.getSeasonNum()));
+        holder.progressBarSeason.setProgress(seasonCurrentProgress);
+        holder.progressBarSeason.setMax(seasonMaxProgress);
+        holder.textViewProgressText.setText(context.getString(R.string.details_seasonProgress, StringHelper.addZero(seasonCurrentProgress), StringHelper.addZero(seasonMaxProgress)));
     }
 
     public void setEpisodes(List<TvShowSeason> pictures) {
         this.seasons = pictures;
         notifyDataSetChanged();
-    }
-
-    public List<TvShowSeason> getTvEpisodesShown() {
-        return seasons;
     }
 
     @Override
@@ -91,18 +86,18 @@ public class DetailsSeasonsAdapter extends RecyclerView.Adapter<DetailsSeasonsAd
 
     class SeasonsViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView textView;
-        private CheckBox checkBox;
-        private ProgressBar progressBar;
-        private TextView progressTextView;
+        private TextView textViewSeasonNumber;
+        private CheckBox checkBoxSeason;
+        private ProgressBar progressBarSeason;
+        private TextView textViewProgressText;
 
         private SeasonsViewHolder(View itemView) {
             super(itemView);
 
-            textView = itemView.findViewById(R.id.seasonNumber);
-            progressBar = itemView.findViewById(R.id.seasonProgress);
-            progressTextView = itemView.findViewById(R.id.seasonProgressText);
-            checkBox = itemView.findViewById(R.id.seasonCheckBox);
+            textViewSeasonNumber = itemView.findViewById(R.id.seasonNumber);
+            progressBarSeason = itemView.findViewById(R.id.seasonProgress);
+            textViewProgressText = itemView.findViewById(R.id.seasonProgressText);
+            checkBoxSeason = itemView.findViewById(R.id.seasonCheckBox);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,28 +109,27 @@ public class DetailsSeasonsAdapter extends RecyclerView.Adapter<DetailsSeasonsAd
                 }
             });
 
-            checkBox.setOnClickListener(new View.OnClickListener() {
+            checkBoxSeason.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION) {
                         int seasonCurrentProgress = 0;
-                        int seasonMaxProgress = seasonMaxProgressList.get(position);
+                        int seasonMaxProgress = maxProgressList.get(position);
 
-                        if(checkBox.isChecked()) {
-                            progressBar.setProgress(seasonMaxProgress);
-                            seasonCurrentProgressList.set(position, seasonMaxProgress);
-
-                        }else{
-                            seasonCurrentProgressList.set(position, seasonCurrentProgress);
-                            progressBar.setProgress(seasonCurrentProgress);
+                        if (checkBoxSeason.isChecked()) {
+                            progressBarSeason.setProgress(seasonMaxProgress);
+                            currentProgressList.set(position, seasonMaxProgress);
+                        } else {
+                            currentProgressList.set(position, seasonCurrentProgress);
+                            progressBarSeason.setProgress(seasonCurrentProgress);
                         }
 
                         //update value
-                        seasonCurrentProgress = seasonCurrentProgressList.get(position);
+                        seasonCurrentProgress = currentProgressList.get(position);
 
-                        progressTextView.setText(context.getString(R.string.details_seasonProgress, StringHelper.addZero(seasonCurrentProgress), StringHelper.addZero(seasonMaxProgress)));
-                        listener.onCheckBoxClick(seasons.get(position), checkBox.isChecked());
+                        textViewProgressText.setText(context.getString(R.string.details_seasonProgress, StringHelper.addZero(seasonCurrentProgress), StringHelper.addZero(seasonMaxProgress)));
+                        listener.onCheckBoxClick(seasons.get(position), checkBoxSeason.isChecked());
                     }
                 }
             });

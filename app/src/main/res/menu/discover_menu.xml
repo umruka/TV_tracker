@@ -17,6 +17,10 @@
         android:title="Filters"
         app:showAsAction="ifRoom">
         <menu>
+            <item
+                android:id="@+id/menu_filter_mostPopular"
+                android:title="Most Popular"
+                />
         <item
             android:id="@+id/menu_filters_networks"
             android:title="Networks"
@@ -25,7 +29,7 @@
         </item>
             <item
                 android:id="@+id/menu_filters_statuses"
-                android:title="Genres"
+                android:title="Statuses"
                 >
                 <menu></menu>
             </item>

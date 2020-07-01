@@ -22,18 +22,21 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.tvtracker.DTO.Models.StringHelper;
-import com.example.tvtracker.MainActivity;
-import com.example.tvtracker.DTO.Models.TvShowEpisode;
-import com.example.tvtracker.DTO.Models.TvShowSeason;
+import com.example.tvtracker.Helpers.StringHelper;
+import com.example.tvtracker.Helpers.TvShowHelper;
+import com.example.tvtracker.UI.MainActivity;
+import com.example.tvtracker.Models.TvShowEpisode;
+import com.example.tvtracker.Models.TvShowSeason;
 import com.example.tvtracker.R;
 
 public class SeasonEpisodesFragment extends Fragment implements SeasonEpisodesAdapter.OnItemClickListener {
 
     private Activity activity;
     private SeasonEpisodesViewModel seasonEpisodesViewModel;
-    private int mTvShowId;
-    private int mSeasonNumber;
+    private SeasonEpisodesAdapter seasonEpisodesAdapter;
+
+    private int tvShowId;
+    private int seasonNumber;
 
     private TextView progressText;
     private ProgressBar progressBar;
@@ -41,60 +44,60 @@ public class SeasonEpisodesFragment extends Fragment implements SeasonEpisodesAd
 
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.activity = getActivity();
+        seasonEpisodesViewModel = new ViewModelProvider(this).get(SeasonEpisodesViewModel.class);
+        seasonEpisodesAdapter = new SeasonEpisodesAdapter();
+        seasonEpisodesAdapter.setOnItemClickListener(this);
+
+        tvShowId = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
+        seasonNumber = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_SEASON_NUM));
+        seasonEpisodesViewModel.getSeasonEpisodes(tvShowId, seasonNumber);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View  view = inflater.inflate(R.layout.episodes_fragment, container, false);
+        setHasOptionsMenu(true);
         progressBar = view.findViewById(R.id.season_progress);
         episodeList = view.findViewById(R.id.episode_recyclerView);
         episodeList.setLayoutManager(new LinearLayoutManager(activity));
         progressText = view.findViewById(R.id.season_progress_text);
-        setHasOptionsMenu(true);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.activity = getActivity();
 
-        SeasonEpisodesAdapter seasonEpisodesAdapter = new SeasonEpisodesAdapter();
-
-
-        seasonEpisodesViewModel = new ViewModelProvider(this).get(SeasonEpisodesViewModel.class);
-        // TODO: Use the ViewModel
             episodeList.setAdapter(seasonEpisodesAdapter);
-            mTvShowId   = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_ID));
-            mSeasonNumber  = Integer.parseInt(getArguments().getString(MainActivity.TVSHOW_SEASON_NUM));
-            seasonEpisodesViewModel.getSeasonEpisodes(mTvShowId, mSeasonNumber);
             seasonEpisodesViewModel.getSeasonObservable().observe(getViewLifecycleOwner(), new Observer<TvShowSeason>() {
                         @Override
                         public void onChanged(TvShowSeason tvShowSeason) {
                                 seasonEpisodesAdapter.setEpisodes(tvShowSeason.getEpisodes());
-                                 int seasonProgress = tvShowSeason.getSeasonProgress();
+                                 int seasonProgress = TvShowHelper.getEpisodeProgress(tvShowSeason.getEpisodes());
                                  int seasonEpisodesCount = tvShowSeason.getEpisodes().size();
-                                progressBar.setMax(seasonEpisodesCount);
                                 progressBar.setProgress(seasonProgress);
-
-
+                                progressBar.setMax(seasonEpisodesCount);
                                 progressText.setText(StringHelper.addZero(seasonProgress) +  "/" + StringHelper.addZero(seasonEpisodesCount));
-
                             }
                     });
-                    seasonEpisodesAdapter.setOnItemClickListener(this);
     }
 
     @Override
     public void onItemClick(TvShowEpisode episode) {
         int id = episode.getId();
-        boolean isWatched = episode.isWatched();
+        boolean isWatched = episode.isEpisodeWatched();
         Pair<Integer, Boolean> params;
         if(!isWatched) {
             params = new Pair<>(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_YES);
         }else{
             params = new Pair<>(id, MainActivity.TVSHOW_WATCHED_EPISODE_FLAG_NO);
         }
-        seasonEpisodesViewModel.setWatchedFlag(params);
-        seasonEpisodesViewModel.getSeasonEpisodes(mTvShowId, mSeasonNumber);
+        seasonEpisodesViewModel.changeEpisodeWatchedFlag(params);
+        seasonEpisodesViewModel.getSeasonEpisodes(tvShowId, seasonNumber);
     }
 
     @Override
