@@ -47,17 +47,19 @@
                     android:background="@drawable/image_border"
                     />
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/details_text_view_tv_show_state"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_above="@id/details_text_view_tv_show_description"
+                    android:layout_marginBottom="16dp"
+                    android:text="Add to Watchlist"
+                    android:buttonTint="@color/colorAccent"
                     android:layout_toEndOf="@id/details_image_view_image_thumbnail"
-                    android:layout_below="@id/details_text_view_tv_show_status"
                     />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/details_text_view_tv_show_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,7 +71,7 @@
                     android:text="name"
                     android:textAppearance="?textAppearanceHeadline5" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/details_text_view_tv_show_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -82,7 +84,7 @@
                     android:text="status"
                     android:textAppearance="?textAppearanceSubtitle1" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/details_text_view_tv_show_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -93,7 +95,7 @@
                     android:text="description"
                     android:textAppearance="?textAppearanceBody2" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/details_text_view_expand_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -118,7 +120,7 @@
                     android:orientation="vertical"
                     >
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/details_text_view_tv_show_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -126,7 +128,7 @@
                         android:textAppearance="?textAppearanceBody2" />
 
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rating"
@@ -134,7 +136,7 @@
                         />
 
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/details_text_view_tv_show_genre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -144,14 +146,30 @@
                         android:textAppearance="?textAppearanceBody2"
                         />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="genres"
                         android:textAppearance="?textAppearanceOverline"
                         />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/details_text_view_tv_show_runtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="60"
+                        android:textAppearance="?textAppearanceBody2"
+                        />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="runtime"
+                        android:textAppearance="?textAppearanceOverline"
+                        />
+
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/details_text_view_tv_show_country"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -159,14 +177,14 @@
                         android:text="country"
                         android:textAppearance="?textAppearanceBody2" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Country"
                         android:textAppearance="?textAppearanceOverline"
                         />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/details_text_view_tv_show_network"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -174,7 +192,7 @@
                         android:layout_marginTop="8dp"
                         android:textAppearance="?textAppearanceBody2" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Network"
@@ -211,7 +229,7 @@
                     style="@style/Divider"
                     android:layout_below="@id/details_view_pager_tv_show_images" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/details_text_view_seasons"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

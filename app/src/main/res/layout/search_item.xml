@@ -24,7 +24,7 @@
             android:layout_toEndOf="@id/search_image_view_image_thumbnail"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/search_text_view_tv_show_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,14 +36,14 @@
                 android:textAppearance="?textAppearanceBody2" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name"
                 android:textAppearance="?textAppearanceOverline" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/search_text_view_tv_show_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,13 +51,13 @@
                 android:text="status"
                 android:textAppearance="?textAppearanceBody2" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="status"
                 android:textAppearance="?textAppearanceOverline" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/search_text_view_tv_show_country"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,13 +65,13 @@
                 android:text="country"
                 android:textAppearance="?textAppearanceBody2" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Country"
                 android:textAppearance="?textAppearanceOverline" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/search_text_view_tv_show_network"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                 android:text="network"
                 android:textAppearance="?textAppearanceBody2" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Network"

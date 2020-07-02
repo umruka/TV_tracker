@@ -108,8 +108,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_toEndOf="@id/watchlist_image_thumbnail"
-            android:ellipsize="end"
-            android:maxLines="1"
+            android:singleLine="true"
             android:text="Episode name"
             android:textColor="@android:color/black" />
 
