@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.watermelon.Helpers.StringHelper;
-import com.watermelon.Helpers.TvShowHelper;
+import com.watermelon.Helpers.TvSeriesHelper;
 import com.watermelon.Models.TvSeriesSeason;
 import com.watermelon.R;
 
@@ -50,7 +50,7 @@ public class DetailsSeasonsAdapter extends RecyclerView.Adapter<DetailsSeasonsAd
         this.context = holder.itemView.getContext();
         TvSeriesSeason currentTvSeriesSeason = seasons.get(position);
 
-        int seasonCurrentProgress = TvShowHelper.getEpisodeProgress(currentTvSeriesSeason.getEpisodes());
+        int seasonCurrentProgress = TvSeriesHelper.getEpisodeProgress(currentTvSeriesSeason.getEpisodes());
         int seasonMaxProgress = currentTvSeriesSeason.getEpisodes().size();
         currentProgressList.add(seasonCurrentProgress);
         maxProgressList.add(seasonMaxProgress);

@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchTvShowViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchTvSeriesViewHolder> {
 
     public interface OnItemClickListener {
         void onItemClick(TvSeries tvSeries);
@@ -29,26 +29,26 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchTvSh
 
     @NonNull
     @Override
-    public SearchTvShowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchTvSeriesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.search_item, parent, false);
 
-        return new SearchTvShowViewHolder(itemView);
+        return new SearchTvSeriesViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchTvShowViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SearchTvSeriesViewHolder holder, int position) {
         TvSeries currentTvSeries = tvSeries.get(position);
         Picasso.get()
-                .load(currentTvSeries.getTvShowImagePath())
+                .load(currentTvSeries.getTvSeriesImagePath())
                 .error(R.drawable.image_error_placeholder)
                 .placeholder(R.drawable.image_loading_placeholder)
                 .fit()
-                .into(holder.imageViewTvShowImage);
-        holder.textViewTvShowName.setText(currentTvSeries.getTvShowName());
-        holder.textViewTvShowStatus.setText(currentTvSeries.getTvShowStatus());
-        holder.textViewTvShowCountry.setText(currentTvSeries.getTvShowCountry());
-        holder.textViewTvShowNetwork.setText(currentTvSeries.getTvShowNetwork());
+                .into(holder.imageViewTvSeriesImage);
+        holder.textViewTvSeriesName.setText(currentTvSeries.getTvSeriesName());
+        holder.textViewTvSeriesStatus.setText(currentTvSeries.getTvSeriesStatus());
+        holder.textViewTvSeriesCountry.setText(currentTvSeries.getTvSeriesCountry());
+        holder.textViewTvSeriesNetwork.setText(currentTvSeries.getTvSeriesNetwork());
     }
 
     void setTvSeries(List<TvSeries> tvSeries) {
@@ -69,20 +69,20 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchTvSh
 
     }
 
-    class SearchTvShowViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageViewTvShowImage;
-        private TextView textViewTvShowName;
-        private TextView textViewTvShowStatus;
-        private TextView textViewTvShowCountry;
-        private TextView textViewTvShowNetwork;
+    class SearchTvSeriesViewHolder extends RecyclerView.ViewHolder {
+        private ImageView imageViewTvSeriesImage;
+        private TextView textViewTvSeriesName;
+        private TextView textViewTvSeriesStatus;
+        private TextView textViewTvSeriesCountry;
+        private TextView textViewTvSeriesNetwork;
 
-        private SearchTvShowViewHolder(View itemView) {
+        private SearchTvSeriesViewHolder(View itemView) {
             super(itemView);
-            imageViewTvShowImage = itemView.findViewById(R.id.search_image_view_image_thumbnail);
-            textViewTvShowName = itemView.findViewById(R.id.search_text_view_tv_show_name);
-            textViewTvShowStatus = itemView.findViewById(R.id.search_text_view_tv_show_status);
-            textViewTvShowCountry = itemView.findViewById(R.id.search_text_view_tv_show_country);
-            textViewTvShowNetwork = itemView.findViewById(R.id.search_text_view_tv_show_network);
+            imageViewTvSeriesImage = itemView.findViewById(R.id.search_image_view_image_thumbnail);
+            textViewTvSeriesName = itemView.findViewById(R.id.search_text_view_tv_series_name);
+            textViewTvSeriesStatus = itemView.findViewById(R.id.search_text_view_tv_series_status);
+            textViewTvSeriesCountry = itemView.findViewById(R.id.search_text_view_tv_series_country);
+            textViewTvSeriesNetwork = itemView.findViewById(R.id.search_text_view_tv_series_network);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
@@ -15,239 +14,222 @@
         android:id="@+id/details_sync_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <ProgressBar
             android:id="@+id/sync_activity_progress_bar"
             style="?android:attr/progressBarStyleLarge"
-            android:progressDrawable="@drawable/circular_progress_bar"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            />
+            android:layout_height="wrap_content"
+            android:progressDrawable="@drawable/circular_progress_bar" />
     </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/details_nested_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
-            <RelativeLayout
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/details_linear_layout_tv_series_info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/details_image_view_image_thumbnail"
-                    android:layout_width="164dp"
-                    android:layout_height="164dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/image_border"
-                    />
-
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/details_text_view_tv_show_state"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_above="@id/details_text_view_tv_show_description"
-                    android:layout_marginBottom="16dp"
-                    android:text="Add to Watchlist"
-                    android:buttonTint="@color/colorAccent"
-                    android:layout_toEndOf="@id/details_image_view_image_thumbnail"
-                    />
+                android:layout_height="match_parent"
+                android:layout_below="@id/details_text_view_expand_description"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/details_text_view_tv_show_name"
+                    android:id="@+id/details_text_view_tv_series_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/details_image_view_image_thumbnail"
-                    android:layout_marginStart="16dp"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:layout_marginTop="8dp"
-                    android:text="name"
-                    android:textAppearance="?textAppearanceHeadline5" />
+                    android:text="rating"
+                    android:textAppearance="?textAppearanceBody2" />
+
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/details_text_view_tv_show_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/details_image_view_image_thumbnail"
-                    android:layout_below="@id/details_text_view_tv_show_name"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="status"
-                    android:textAppearance="?textAppearanceSubtitle1" />
+                    android:text="Rating"
+                    android:textAppearance="?textAppearanceOverline" />
+
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/details_text_view_tv_show_description"
-                    android:layout_width="match_parent"
+                    android:id="@+id/details_text_view_tv_series_genre"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/details_image_view_image_thumbnail"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
                     android:maxLines="3"
-                    android:text="description"
+                    android:text="genre"
                     android:textAppearance="?textAppearanceBody2" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/details_text_view_expand_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Read more"
-                    android:layout_below="@id/details_text_view_tv_show_description"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    />
-
-                <View
-                    style="@style/Divider"
-                    android:layout_below="@id/details_text_view_expand_description"/>
-
-                <LinearLayout
-                    android:id="@+id/details_linear_layout_tv_show_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_below="@id/details_text_view_expand_description"
-                    android:orientation="vertical"
-                    >
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/details_text_view_tv_show_rating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="rating"
-                        android:textAppearance="?textAppearanceBody2" />
-
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rating"
-                        android:textAppearance="?textAppearanceOverline"
-                        />
-
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/details_text_view_tv_show_genre"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="genre"
-                        android:maxLines="3"
-                        android:textAppearance="?textAppearanceBody2"
-                        />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="genres"
-                        android:textAppearance="?textAppearanceOverline"
-                        />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/details_text_view_tv_show_runtime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="60"
-                        android:textAppearance="?textAppearanceBody2"
-                        />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="runtime"
-                        android:textAppearance="?textAppearanceOverline"
-                        />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/details_text_view_tv_show_country"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="country"
-                        android:textAppearance="?textAppearanceBody2" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Country"
-                        android:textAppearance="?textAppearanceOverline"
-                        />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/details_text_view_tv_show_network"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="network"
-                        android:layout_marginTop="8dp"
-                        android:textAppearance="?textAppearanceBody2" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Network"
-                        android:textAppearance="?textAppearanceOverline"
-                        />
-
-
-                </LinearLayout>
-
-                <View
-                    style="@style/Divider"
-                    android:layout_below="@id/details_linear_layout_tv_show_info"/>
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/details_view_pager_tv_show_images"
-                    android:layout_width="match_parent"
-                    android:layout_height="224dp"
-                    android:layout_below="@id/details_linear_layout_tv_show_info"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="16dp">
-
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/details_view_pager_tab_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_gravity="bottom"
-                        app:tabBackground="@drawable/tab_selector"
-                        app:tabGravity="center"
-                        app:tabIndicatorHeight="0dp" />
-
-                </androidx.viewpager.widget.ViewPager>
-
-                <View
-                    style="@style/Divider"
-                    android:layout_below="@id/details_view_pager_tv_show_images" />
+                    android:text="genres"
+                    android:textAppearance="?textAppearanceOverline" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/details_text_view_seasons"
+                    android:id="@+id/details_text_view_tv_series_runtime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/details_view_pager_tv_show_images"
-                    android:textAppearance="?textAppearanceHeadline6"
                     android:layout_marginTop="8dp"
-                    android:text="Seasons"/>
+                    android:text="60"
+                    android:textAppearance="?textAppearanceBody2" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/details_recycler_view_tv_show_seasons"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="runtime"
+                    android:textAppearance="?textAppearanceOverline" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/details_text_view_tv_series_country"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_below="@id/details_text_view_seasons"/>
+                    android:text="country"
+                    android:textAppearance="?textAppearanceBody2" />
 
-            </RelativeLayout>
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Country"
+                    android:textAppearance="?textAppearanceOverline" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/details_text_view_tv_series_network"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="network"
+                    android:textAppearance="?textAppearanceBody2" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Network"
+                    android:textAppearance="?textAppearanceOverline" />
 
 
+            </LinearLayout>
+
+            <View
+                style="@style/Divider"
+                android:layout_below="@id/details_text_view_expand_description" />
+
+            <View
+                style="@style/Divider"
+                android:layout_below="@id/details_linear_layout_tv_series_info" />
+
+            <View
+                style="@style/Divider"
+                android:layout_below="@id/details_view_pager_tv_series_images" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/details_image_view_image_thumbnail"
+                android:layout_width="164dp"
+                android:layout_height="164dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/image_border" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/details_recycler_view_tv_series_seasons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_text_view_seasons"
+                android:layout_marginTop="8dp" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/details_view_pager_tv_series_images"
+                android:layout_width="match_parent"
+                android:layout_height="224dp"
+                android:layout_below="@id/details_linear_layout_tv_series_info"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/details_view_pager_tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom"
+                    app:tabBackground="@drawable/dot_tab_selector"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp" />
+
+            </androidx.viewpager.widget.ViewPager>
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/details_text_view_tv_series_state"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_above="@id/details_text_view_tv_series_description"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_toEndOf="@id/details_image_view_image_thumbnail"
+                android:buttonTint="@color/colorAccent"
+                android:text="Add to Watchlist" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/details_text_view_tv_series_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/details_image_view_image_thumbnail"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="name"
+                android:textAppearance="?textAppearanceHeadline5" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/details_text_view_tv_series_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_text_view_tv_series_name"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_toEndOf="@id/details_image_view_image_thumbnail"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="status"
+                android:textAppearance="?textAppearanceSubtitle1" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/details_text_view_tv_series_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_image_view_image_thumbnail"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:maxLines="3"
+                android:text="description"
+                android:textAppearance="?textAppearanceBody2" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/details_text_view_expand_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_text_view_tv_series_description"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="Read more" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/details_text_view_seasons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_view_pager_tv_series_images"
+                android:layout_marginTop="8dp"
+                android:text="Seasons"
+                android:textAppearance="?textAppearanceHeadline6" />
+
+        </RelativeLayout>
 
 
     </androidx.core.widget.NestedScrollView>

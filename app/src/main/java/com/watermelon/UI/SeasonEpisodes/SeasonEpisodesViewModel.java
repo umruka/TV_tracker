@@ -27,7 +27,7 @@ public class SeasonEpisodesViewModel extends AndroidViewModel {
 
 
     void getSeasonEpisodes(int id, int seasonNum) {
-        repository.fetchTvShowEpisodesBySeason(id, seasonNum);
+        repository.fetchTvSeriesEpisodesBySeason(id, seasonNum);
     }
 
     void changeEpisodeWatchedFlag(Pair<Integer, Boolean> params) {

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.watermelon.Models.CalendarTvShowEpisode;
+import com.watermelon.Models.TvSeriesCalendarEpisode;
 import com.watermelon.Helpers.DateHelper;
 import com.watermelon.Models.TvSeries;
 import com.watermelon.Models.TvSeriesEpisode;
@@ -20,38 +20,38 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShowPictureViewHolder> {
+public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvSeriesPictureViewHolder> {
 
     public interface OnItemClickListener {
-        void onItemClick(CalendarTvShowEpisode calendarTvShowEpisode);
+        void onItemClick(TvSeriesCalendarEpisode tvSeriesCalendarEpisode);
     }
 
-    private List<CalendarTvShowEpisode> episodes = new ArrayList<>();
+    private List<TvSeriesCalendarEpisode> episodes = new ArrayList<>();
     private OnItemClickListener listener;
 
     @NonNull
     @Override
-    public TvShowPictureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TvSeriesPictureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.calendar_item, parent, false);
 
-        return new TvShowPictureViewHolder(itemView);
+        return new TvSeriesPictureViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TvShowPictureViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TvSeriesPictureViewHolder holder, int position) {
         Context context = holder.itemView.getContext();
-        CalendarTvShowEpisode currentTvShowEpisode = episodes.get(position);
+        TvSeriesCalendarEpisode currentTvSeriesEpisode = episodes.get(position);
         Picasso.get()
-                .load(currentTvShowEpisode.tvSeries.getTvShowImagePath())
+                .load(currentTvSeriesEpisode.tvSeries.getTvSeriesImagePath())
                 .placeholder(R.drawable.image_loading_placeholder)
                 .error(R.drawable.image_error_placeholder)
                 .fit()
                 .into(holder.imageViewImage);
 
-        TvSeries tvSeries =  currentTvShowEpisode.tvSeries;
-        TvSeriesEpisode episode = currentTvShowEpisode.episode;
-        holder.textViewName.setText(tvSeries.getTvShowName());
+        TvSeries tvSeries =  currentTvSeriesEpisode.tvSeries;
+        TvSeriesEpisode episode = currentTvSeriesEpisode.episode;
+        holder.textViewName.setText(tvSeries.getTvSeriesName());
         holder.textViewEpisodeNum.setText(context.getString(R.string.calendar_episode, episode.getEpisodeNum()));
         holder.textViewSeasonNum.setText(context.getString(R.string.calendar_season, episode.getEpisodeSeasonNum()));
         holder.textViewAirDate.setText(DateHelper.getDateString(episode.getEpisodeAirDate()));
@@ -60,7 +60,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
     }
 
 
-    public void setTvShows(List<CalendarTvShowEpisode> episodes) {
+    void setTvSeries(List<TvSeriesCalendarEpisode> episodes) {
         this.episodes = episodes;
         notifyDataSetChanged();
     }
@@ -79,7 +79,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
     }
 
 
-    class TvShowPictureViewHolder extends RecyclerView.ViewHolder {
+    class TvSeriesPictureViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageViewImage;
         private TextView textViewName;
@@ -88,7 +88,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvShow
         private TextView textViewAirDate;
         private TextView textViewDaysLeft;
 
-        private TvShowPictureViewHolder(View itemView) {
+        private TvSeriesPictureViewHolder(View itemView) {
             super(itemView);
             imageViewImage = itemView.findViewById(R.id.calendar_image);
             textViewName = itemView.findViewById(R.id.calendar_name);

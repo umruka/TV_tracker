@@ -6,8 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
 import com.watermelon.Repository.AppRepository;
 
@@ -20,7 +18,7 @@ public class StatisticsViewModel extends AndroidViewModel {
     public StatisticsViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
-        statisticsListObservable = repository.getStatisticsTvShowsListObservable();
+        statisticsListObservable = repository.getStatisticsTvSeriesListObservable();
     }
     LiveData<List<String>> getStatisticsListObservable() {
         return statisticsListObservable;

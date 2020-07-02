@@ -82,6 +82,6 @@ public class DateHelper {
                 return days + " days " + hours + hoursText + mins + minutesText + secs;
             }
         }
-            return hours + hours + mins + minutesText + secs;
+            return hours + hoursText + mins + minutesText;
         }
     }

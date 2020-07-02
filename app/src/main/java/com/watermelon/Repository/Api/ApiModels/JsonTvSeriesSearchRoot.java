@@ -1,12 +1,12 @@
 package com.watermelon.Repository.Api.ApiModels;
 
-import com.watermelon.Repository.Api.ApiModels.TvShowBasicInfo.JsonTvShow;
+import com.watermelon.Repository.Api.ApiModels.TvSeriesBasicInfo.JsonTvSeries;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class JsonTvShowSearchRoot {
+public class JsonTvSeriesSearchRoot {
 
         @SerializedName("total")
         @Expose
@@ -19,7 +19,7 @@ public class JsonTvShowSearchRoot {
         private Integer pages;
         @SerializedName("tv_shows")
         @Expose
-        private List<JsonTvShow> tvShows = null;
+        private List<JsonTvSeries> tvShows = null;
 
         public String getTotal() {
             return total;
@@ -45,11 +45,11 @@ public class JsonTvShowSearchRoot {
             this.pages = pages;
         }
 
-        public List<JsonTvShow> getTvShows() {
+        public List<JsonTvSeries> getTvShows() {
             return tvShows;
         }
 
-        public void setTvShows(List<JsonTvShow> tvShows) {
+        public void setTvShows(List<JsonTvSeries> tvShows) {
             this.tvShows = tvShows;
         }
 

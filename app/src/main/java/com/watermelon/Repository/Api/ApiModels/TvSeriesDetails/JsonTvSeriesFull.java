@@ -1,9 +1,9 @@
-package com.watermelon.Repository.Api.ApiModels.TvShowDetails;
+package com.watermelon.Repository.Api.ApiModels.TvSeriesDetails;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-public class JsonTvShowFull {
+public class JsonTvSeriesFull {
 
         @SerializedName("id")
         @Expose

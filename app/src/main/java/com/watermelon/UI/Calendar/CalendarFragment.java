@@ -19,8 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.watermelon.Models.TvSeriesCalendarEpisode;
 import com.watermelon.UI.WatermelonMainActivity;
-import com.watermelon.Models.CalendarTvShowEpisode;
 import com.watermelon.R;
 
 import java.util.List;
@@ -60,11 +60,11 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
 
         calendarRecyclerView.setAdapter(calendarAdapter);
 
-        calendarViewModel.getCalendarListObservable().observe(getViewLifecycleOwner(), new Observer<List<CalendarTvShowEpisode>>() {
+        calendarViewModel.getCalendarListObservable().observe(getViewLifecycleOwner(), new Observer<List<TvSeriesCalendarEpisode>>() {
             @Override
-            public void onChanged(List<CalendarTvShowEpisode> tvShowFulls) {
-                if (tvShowFulls != null) {
-                    calendarAdapter.setTvShows(tvShowFulls);
+            public void onChanged(List<TvSeriesCalendarEpisode> tvSeriesFulls) {
+                if (tvSeriesFulls != null) {
+                    calendarAdapter.setTvSeries(tvSeriesFulls);
                     if (calendarAdapter.getItemCount() == 0) {
                         calendarEmptyStateLayout.setVisibility(View.VISIBLE);
                     } else if (calendarAdapter.getItemCount() != 0) {
@@ -77,12 +77,12 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
     }
 
     @Override
-    public void onItemClick(CalendarTvShowEpisode calendarTvShowEpisode) {
+    public void onItemClick(TvSeriesCalendarEpisode tvSeriesCalendarEpisode) {
         NavController navHostController = Navigation.findNavController(getView());
         if (navHostController.getCurrentDestination().getId() == R.id.navigation_calendar) {
             Bundle bundle = new Bundle();
-            int id = calendarTvShowEpisode.tvSeries.getTvShowId();
-            bundle.putString(WatermelonMainActivity.TVSHOW_ID, String.valueOf(id));
+            int id = tvSeriesCalendarEpisode.tvSeries.getTvSeriesId();
+            bundle.putString(WatermelonMainActivity.TVSERIES_ID, String.valueOf(id));
             navHostController.navigate(R.id.action_navigation_calendar_to_fragment_details, bundle);
         }
     }

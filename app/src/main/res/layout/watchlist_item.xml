@@ -32,7 +32,7 @@
                 android:textSize="12sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/watchlist_tv_show_country"
+                android:id="@+id/watchlist_tv_series_country"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -41,7 +41,7 @@
                 android:textSize="12sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_watchlist_tv_show_network"
+                android:id="@+id/text_view_watchlist_tv_series_network"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -66,8 +66,7 @@
             android:id="@+id/watchlist_image_thumbnail"
             android:layout_width="96dp"
             android:layout_height="112dp"
-            android:background="@drawable/image_border"
-            />
+            android:background="@drawable/image_border" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/episode_watch_button"
@@ -87,7 +86,7 @@
             android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/watchlist_tv_show_name"
+            android:id="@+id/watchlist_tv_series_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/first_row"
@@ -104,7 +103,7 @@
             android:id="@+id/watchlist_episode_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/watchlist_tv_show_name"
+            android:layout_below="@id/watchlist_tv_series_name"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_toEndOf="@id/watchlist_image_thumbnail"

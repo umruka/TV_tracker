@@ -18,17 +18,17 @@ import java.util.List;
 public class DetailsViewModel extends AndroidViewModel {
     private AppRepository repository;
     private final LiveData<Resource<TvSeriesFull>> detailsObservable;
-    private MutableLiveData tvShowId = new MutableLiveData();
+    private MutableLiveData tvSeriesId = new MutableLiveData();
 
     public DetailsViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
-        detailsObservable = Transformations.switchMap(tvShowId, id -> repository.fetchTvSeriesDetails((Integer) tvShowId.getValue()));
+        detailsObservable = Transformations.switchMap(tvSeriesId, id -> repository.fetchTvSeriesDetails((Integer) tvSeriesId.getValue()));
 
     }
 
-    void setTvShowId(int id) {
-        tvShowId.setValue(id);
+    void setTvSeriesId(int id) {
+        tvSeriesId.setValue(id);
     }
 
     LiveData<Resource<TvSeriesFull>> getDetailsObservable() {
@@ -36,10 +36,10 @@ public class DetailsViewModel extends AndroidViewModel {
     }
 
     void changeAllSeasonsWatchedFlag(Pair<List<Integer>, Boolean> params) {
-        repository.setTvShowAllSeasonWatched(params);
+        repository.setTvSeriesAllSeasonWatched(params);
     }
 
-    void changeTvShowWatchedFlag(Pair<Integer, Boolean> params) {
+    void changeTvSeriesWatchedFlag(Pair<Integer, Boolean> params) {
         repository.setTvSeriesWatchedFlag(params);
     }
 

@@ -7,14 +7,14 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tv_series_episode_table", foreignKeys = @ForeignKey(entity = TvSeries.class,
         parentColumns = "tv_series_api_id",
-        childColumns = "episode_tv_show_id",
+        childColumns = "episode_tv_series_id",
         onDelete = ForeignKey.CASCADE))
 public class TvSeriesEpisode {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int id;
-    @ColumnInfo(name = "episode_tv_show_id")
-    private int episodeTvShowId;
+    @ColumnInfo(name = "episode_tv_series_id")
+    private int episodeTvSeriesId;
     @ColumnInfo(name = "episode_season")
     private int episodeSeasonNum;
     @ColumnInfo(name = "episode_number")
@@ -26,8 +26,8 @@ public class TvSeriesEpisode {
     @ColumnInfo(name = "episode_is_watched")
     private boolean episodeWatched;
 
-    public TvSeriesEpisode(int episodeTvShowId, int episodeSeasonNum, int episodeNum, String episodeName, String episodeAirDate) {
-        this.episodeTvShowId = episodeTvShowId;
+    public TvSeriesEpisode(int episodeTvSeriesId, int episodeSeasonNum, int episodeNum, String episodeName, String episodeAirDate) {
+        this.episodeTvSeriesId = episodeTvSeriesId;
         this.episodeSeasonNum = episodeSeasonNum;
         this.episodeNum = episodeNum;
         this.episodeName = episodeName;
@@ -43,12 +43,12 @@ public class TvSeriesEpisode {
         this.id = id;
     }
 
-    public int getEpisodeTvShowId() {
-        return episodeTvShowId;
+    public int getEpisodeTvSeriesId() {
+        return episodeTvSeriesId;
     }
 
-    public void setEpisodeTvShowId(int episodeTvShowId) {
-        this.episodeTvShowId = episodeTvShowId;
+    public void setEpisodeTvSeriesId(int episodeTvSeriesId) {
+        this.episodeTvSeriesId = episodeTvSeriesId;
     }
 
     public int getEpisodeSeasonNum() {

@@ -1,8 +1,8 @@
 package com.watermelon.Repository.Api;
 
-import com.watermelon.Repository.Api.ApiModels.JsonTvShowSearchRoot;
-import com.watermelon.Repository.Api.ApiModels.TvShowBasicInfo.JsonTvShowBasicRoot;
-import com.watermelon.Repository.Api.ApiModels.TvShowDetails.JsonTvShowFullRoot;
+import com.watermelon.Repository.Api.ApiModels.JsonTvSeriesSearchRoot;
+import com.watermelon.Repository.Api.ApiModels.TvSeriesBasicInfo.JsonTvSeriesBasicRoot;
+import com.watermelon.Repository.Api.ApiModels.TvSeriesDetails.JsonTvSeriesFullRoot;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -11,11 +11,11 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     @GET("most-popular")
-    Call<JsonTvShowBasicRoot> getTvShowsBasic(@Query("page") int page);
+    Call<JsonTvSeriesBasicRoot> getTvSeriesBasic(@Query("page") int page);
 
     @GET("show-details")
-    Call<JsonTvShowFullRoot> getTvShowDetailed(@Query("q") int tvShowId);
+    Call<JsonTvSeriesFullRoot> getTvSeriesDetailed(@Query("q") int tvSeriesId);
 
     @GET("search")
-    Call<JsonTvShowSearchRoot> getTvShowSearch(@Query("q") String searchShow, @Query("page") int pageNum);
+    Call<JsonTvSeriesSearchRoot> getTvSeriesSearch(@Query("q") String searchSeries, @Query("page") int pageNum);
 }

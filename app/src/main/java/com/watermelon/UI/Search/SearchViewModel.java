@@ -16,12 +16,12 @@ import java.util.List;
 public class SearchViewModel extends AndroidViewModel {
     private AppRepository repository;
     private final LiveData<List<TvSeries>> discoverList;
-    private final LiveData<List<TvSeries>> allSearchWordTvShows;
+    private final LiveData<List<TvSeries>> allSearchWordTvSeries;
 
     public SearchViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
-        allSearchWordTvShows = repository.getSearchTvShowsListObservable();
+        allSearchWordTvSeries = repository.getSearchTvSeriesListObservable();
         discoverList = repository.getDiscoverListObservable();
         if (WatermelonMainActivity.TEST_MODE) {
             repository.fetchTestDetailsFromOffline();
@@ -32,8 +32,8 @@ public class SearchViewModel extends AndroidViewModel {
         return discoverList;
     }
 
-    LiveData<List<TvSeries>> getAllSearchWordTvShows() {
-        return allSearchWordTvShows;
+    LiveData<List<TvSeries>> getAllSearchWordTvSeries() {
+        return allSearchWordTvSeries;
     }
 
     void searchTvSeriesData(String searchWord) {
@@ -45,7 +45,7 @@ public class SearchViewModel extends AndroidViewModel {
     }
 
     void fetchTvSeriesDetails(int id) {
-        repository.fetchTvShowDetailsFromSearch(id);
+        repository.fetchTvSeriesDetailsFromSearch(id);
     }
 
 

@@ -76,7 +76,7 @@ public class DiscoverFragment extends Fragment implements DiscoverAdapter.OnItem
     public void onItemClick(TvSeries tvSeries) {
         if (navController.getCurrentDestination().getId() == R.id.navigation_discover) {
             Bundle bundle = new Bundle();
-            bundle.putString(WatermelonMainActivity.TVSHOW_ID, String.valueOf(tvSeries.getTvShowId()));
+            bundle.putString(WatermelonMainActivity.TVSERIES_ID, String.valueOf(tvSeries.getTvSeriesId()));
             navController.navigate(R.id.action_navigation_discover_to_details_fragment, bundle);
         }
     }

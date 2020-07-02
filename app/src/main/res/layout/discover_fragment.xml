@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.Discover.DiscoverFragment">
 
-    
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/discover_linear_layout"

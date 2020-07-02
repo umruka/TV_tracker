@@ -56,7 +56,7 @@ public class SearchFragment extends Fragment implements SearchAdapter.OnItemClic
         searchFragmentRecyclerView.setHasFixedSize(true);
         searchFragmentEditText = view.findViewById(R.id.search_edit_text);
         searchFragmentImageViewIcon = view.findViewById(R.id.search_image_view_icon);
-        searchFragmentImageViewIcon.setImageResource(R.drawable.ic_search_black);
+        searchFragmentImageViewIcon.setImageResource(R.drawable.ic_search);
 
         return view;
     }
@@ -72,7 +72,7 @@ public class SearchFragment extends Fragment implements SearchAdapter.OnItemClic
              adapterSearch.setTvSeries(tvSeries);
             }
         });
-        searchViewModel.getAllSearchWordTvShows().observe(getViewLifecycleOwner(), new Observer<List<TvSeries>>() {
+        searchViewModel.getAllSearchWordTvSeries().observe(getViewLifecycleOwner(), new Observer<List<TvSeries>>() {
             @Override
             public void onChanged(List<TvSeries> tvSeries) {
                 adapterSearch.setTvSeries(tvSeries);
@@ -85,12 +85,12 @@ public class SearchFragment extends Fragment implements SearchAdapter.OnItemClic
 
     @Override
     public void onItemClick(TvSeries tvSeries) {
-        int id = tvSeries.getTvShowId();
+        int id = tvSeries.getTvSeriesId();
         searchViewModel.fetchTvSeriesDetails(id);
         NavController navHostController = Navigation.findNavController(getView());
         if(navHostController.getCurrentDestination().getId() == R.id.fragment_search){
             Bundle bundle = new Bundle();
-            bundle.putString(WatermelonMainActivity.TVSHOW_ID, String.valueOf(id));
+            bundle.putString(WatermelonMainActivity.TVSERIES_ID, String.valueOf(id));
             navHostController.navigate(R.id.action_searchFragment_to_details_fragment, bundle);
         }
     }

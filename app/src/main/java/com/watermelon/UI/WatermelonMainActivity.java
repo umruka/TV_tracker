@@ -31,13 +31,13 @@ public class WatermelonMainActivity extends AppCompatActivity implements NavCont
     public static final int NETWORKS_CODE = 3;
     public static final int STATUS_CODE = 4;
 
-    public static final boolean TVSHOW_WATCHED_FLAG_YES = true;
-    public static final boolean TVSHOW_WATCHED_FLAG_NO = false;
-    public static final boolean TVSHOW_WATCHED_EPISODE_FLAG_YES = true;
-    public static final boolean TVSHOW_WATCHED_EPISODE_FLAG_NO = false;
-    public static final String TVSHOW_ID = "tv_show_id";
-    public static final String TVSHOW_SEASON_NUM = "tv_show_season_number";
-    public static final int TV_SHOW_MOST_POPULAR_PAGES_COUNT = 5;
+    public static final boolean TVSERIES_WATCHED_FLAG_YES = true;
+    public static final boolean TVSERIES_WATCHED_FLAG_NO = false;
+    public static final boolean TVSERIES_WATCHED_EPISODE_FLAG_YES = true;
+    public static final boolean TVSERIES_WATCHED_EPISODE_FLAG_NO = false;
+    public static final String TVSERIES_ID = "tv_series_id";
+    public static final String TVSERIES_SEASON_NUM = "tv_series_season_number";
+    public static final int TV_SERIES_MOST_POPULAR_PAGES_COUNT = 5;
 
     private BottomNavigationView navigationView;
 

@@ -17,7 +17,7 @@ public class StringHelper {
         return genresString;
     }
 
-    public static String getTvShowRatingString(String rating)  {
+    public static String getTvSeriesRatingString(String rating)  {
         return rating.length() >= 5 ?  rating.substring(0, 4) : rating;
     }
 

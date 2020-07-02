@@ -1,10 +1,10 @@
-package com.watermelon.Repository.Api.ApiModels.TvShowBasicInfo;
+package com.watermelon.Repository.Api.ApiModels.TvSeriesBasicInfo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class JsonTvShow {
+public class JsonTvSeries {
     @SerializedName("id")
     @Expose
     private Integer id;

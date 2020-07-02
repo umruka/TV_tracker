@@ -8,19 +8,19 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tv_series_genre_table", foreignKeys = @ForeignKey(entity = TvSeries.class,
         parentColumns = "tv_series_api_id",
-        childColumns = "genre_tv_show_id",
+        childColumns = "genre_tv_series_id",
         onDelete = ForeignKey.CASCADE))
 public class TvSeriesGenre {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int id;
-    @ColumnInfo(name = "genre_tv_show_id")
-    private int genreTvShowId;
+    @ColumnInfo(name = "genre_tv_series_id")
+    private int genreTvSeriesId;
     @ColumnInfo(name = "genre_name")
     private String genreName;
 
-    public TvSeriesGenre(int genreTvShowId, String genreName) {
-        this.genreTvShowId = genreTvShowId;
+    public TvSeriesGenre(int genreTvSeriesId, String genreName) {
+        this.genreTvSeriesId = genreTvSeriesId;
         this.genreName = genreName;
     }
 
@@ -32,12 +32,12 @@ public class TvSeriesGenre {
         this.id = id;
     }
 
-    public int getGenreTvShowId() {
-        return genreTvShowId;
+    public int getGenreTvSeriesId() {
+        return genreTvSeriesId;
     }
 
-    public void setGenreTvShowId(int genreTvShowId) {
-        this.genreTvShowId = genreTvShowId;
+    public void setGenreTvSeriesId(int genreTvSeriesId) {
+        this.genreTvSeriesId = genreTvSeriesId;
     }
 
     public String getGenreName() {

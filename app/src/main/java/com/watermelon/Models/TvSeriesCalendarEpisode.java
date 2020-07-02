@@ -2,7 +2,7 @@ package com.watermelon.Models;
 
 import androidx.room.Embedded;
 
-public class CalendarTvShowEpisode {
+public class TvSeriesCalendarEpisode {
 
     @Embedded
     public TvSeries tvSeries;

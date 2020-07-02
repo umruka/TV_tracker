@@ -9,13 +9,13 @@ public class TvSeriesFull {
     @Embedded
     public TvSeries tvSeries;
 
-    @Relation(parentColumn = "tv_series_api_id", entityColumn = "genre_tv_show_id", entity = TvSeriesGenre.class)
+    @Relation(parentColumn = "tv_series_api_id", entityColumn = "genre_tv_series_id", entity = TvSeriesGenre.class)
     public List<TvSeriesGenre> genres;
 
-    @Relation(parentColumn = "tv_series_api_id", entityColumn = "episode_tv_show_id", entity = TvSeriesEpisode.class)
+    @Relation(parentColumn = "tv_series_api_id", entityColumn = "episode_tv_series_id", entity = TvSeriesEpisode.class)
     public List<TvSeriesEpisode> episodes;
 
-    @Relation(parentColumn = "tv_series_api_id", entityColumn = "picture_tv_show_id", entity = TvSeriesPicture.class)
+    @Relation(parentColumn = "tv_series_api_id", entityColumn = "picture_tv_series_id", entity = TvSeriesPicture.class)
     public List<TvSeriesPicture> pictures;
 
 

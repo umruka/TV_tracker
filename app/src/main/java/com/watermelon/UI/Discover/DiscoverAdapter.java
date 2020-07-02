@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.TvShowViewHolder> {
+public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.TvSeriesViewHolder> {
 
     public interface OnItemClickListener {
         void onItemClick(TvSeries tvSeries);
@@ -30,23 +30,23 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.TvShow
 
     @NonNull
     @Override
-    public TvShowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TvSeriesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.discover_item, parent, false);
 
-        return new TvShowViewHolder(itemView);
+        return new TvSeriesViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TvShowViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TvSeriesViewHolder holder, int position) {
         TvSeries currentTvSeries = tvSeries.get(position);
         Picasso.get()
-                .load(currentTvSeries.getTvShowImagePath())
+                .load(currentTvSeries.getTvSeriesImagePath())
                 .error(R.drawable.image_error_placeholder)
                 .placeholder(R.drawable.image_loading_placeholder)
                 .fit()
                 .into(holder.imageViewImage);
-        holder.textViewName.setText(currentTvSeries.getTvShowName());
+        holder.textViewName.setText(currentTvSeries.getTvSeriesName());
     }
 
     void setTvSeries(List<TvSeries> tvSeries) {
@@ -72,13 +72,13 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.TvShow
         tvSeries.clear();
         if (type == WatermelonMainActivity.NETWORKS_CODE) {
             for (TvSeries tvSeries : filteredTvSeries) {
-                if (tvSeries.getTvShowNetwork().contains(charText)) {
+                if (tvSeries.getTvSeriesNetwork().contains(charText)) {
                     this.tvSeries.add(tvSeries);
                 }
             }
         } else if (type == WatermelonMainActivity.STATUS_CODE) {
             for (TvSeries tvSeries : filteredTvSeries) {
-                if (tvSeries.getTvShowStatus().contains(charText)) {
+                if (tvSeries.getTvSeriesStatus().contains(charText)) {
                     this.tvSeries.add(tvSeries);
                 }
             }
@@ -86,13 +86,13 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.TvShow
         notifyDataSetChanged();
     }
 
-    class TvShowViewHolder extends RecyclerView.ViewHolder {
+    class TvSeriesViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewName;
         private ImageView imageViewImage;
 
-        private TvShowViewHolder(View itemView) {
+        private TvSeriesViewHolder(View itemView) {
             super(itemView);
-            textViewName = itemView.findViewById(R.id.text_view_tvshow_name);
+            textViewName = itemView.findViewById(R.id.text_view_tv_series_name);
             imageViewImage = itemView.findViewById(R.id.text_view_discover_image_thumbnail);
 
             itemView.setOnClickListener(new View.OnClickListener() {

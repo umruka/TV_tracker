@@ -12,7 +12,7 @@
     <string name="calendar_season">Season: %1$d</string>
 
 
-
+    <string name="details_runtime">%1$s minutes</string>
     <string name="details_seasonNumber">Season %1$d</string>
     <string name="details_seasonProgress">%1$s / %2$s</string>
     <string name="details_expand_desc_more">Read more</string>
@@ -21,7 +21,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="mostPopularTvShowsOffline">mostPopularData.json</string>
+    <string name="mostPopularTvSeriesOffline">mostPopularData.json</string>
     <string name="gameOfThronesDetails">gameOfThrones.json</string>
     <string name="theFlashDetails">theFlash.json</string>
     <string name="theWalkingDeadDetails">theWalkingDead.json</string>

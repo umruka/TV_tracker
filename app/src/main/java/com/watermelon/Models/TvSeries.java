@@ -13,47 +13,47 @@ public class TvSeries {
     private int id;
 
     @ColumnInfo(name = "tv_series_api_id")
-    private int tvShowId;
+    private int tvSeriesId;
     @ColumnInfo(name = "tv_series_name")
-    private String tvShowName;
+    private String tvSeriesName;
     @ColumnInfo(name = "tv_series_status")
-    private String tvShowStatus;
+    private String tvSeriesStatus;
     @ColumnInfo(name = "tv_series_start_date")
-    private String tvShowStartDate;
+    private String tvSeriesStartDate;
     @ColumnInfo(name = "tv_series_end_date")
-    private String tvShowEndDate;
+    private String tvSeriesEndDate;
     @ColumnInfo(name = "tv_series_country")
-    private String tvShowCountry;
+    private String tvSeriesCountry;
     @ColumnInfo(name = "tv_series_network")
-    private String tvShowNetwork;
+    private String tvSeriesNetwork;
     @ColumnInfo(name = "tv_series_image_path")
-    private String tvShowImagePath;
+    private String tvSeriesImagePath;
     @ColumnInfo(name = "tv_series_runtime")
-    private String tvShowRuntime;
+    private String tvSeriesRuntime;
     @ColumnInfo(name = "tv_series_description")
-    private String tvShowDesc;
+    private String tvSeriesDesc;
     @ColumnInfo(name = "tv_series_youtube_link")
-    private String tvShowYoutubeLink;
+    private String tvSeriesYoutubeLink;
     @ColumnInfo(name = "tv_series_rating")
-    private String tvShowRating;
+    private String tvSeriesRating;
     @ColumnInfo(name = "tv_series_flag")
-    private boolean tvShowWatchingFlag;
+    private boolean tvSeriesWatchingFlag;
 
 
-    public TvSeries(int tvShowId, String tvShowName, String tvShowStartDate, String tvShowEndDate, String tvShowCountry, String tvShowNetwork, String tvShowStatus, String tvShowImagePath) {
-        this.tvShowId = tvShowId;
-        this.tvShowName = tvShowName;
-        this.tvShowStartDate = tvShowStartDate;
-        this.tvShowEndDate = tvShowEndDate;
-        this.tvShowCountry = tvShowCountry;
-        this.tvShowNetwork = tvShowNetwork;
-        this.tvShowStatus = tvShowStatus;
-        this.tvShowImagePath = tvShowImagePath;
-        this.tvShowRuntime = "";
-        this.tvShowDesc = "";
-        this.tvShowYoutubeLink = "";
-        this.tvShowRating = "";
-        this.tvShowWatchingFlag = false;
+    public TvSeries(int tvSeriesId, String tvSeriesName, String tvSeriesStartDate, String tvSeriesEndDate, String tvSeriesCountry, String tvSeriesNetwork, String tvSeriesStatus, String tvSeriesImagePath) {
+        this.tvSeriesId = tvSeriesId;
+        this.tvSeriesName = tvSeriesName;
+        this.tvSeriesStartDate = tvSeriesStartDate;
+        this.tvSeriesEndDate = tvSeriesEndDate;
+        this.tvSeriesCountry = tvSeriesCountry;
+        this.tvSeriesNetwork = tvSeriesNetwork;
+        this.tvSeriesStatus = tvSeriesStatus;
+        this.tvSeriesImagePath = tvSeriesImagePath;
+        this.tvSeriesRuntime = "";
+        this.tvSeriesDesc = "";
+        this.tvSeriesYoutubeLink = "";
+        this.tvSeriesRating = "";
+        this.tvSeriesWatchingFlag = false;
     }
 
     public int getId() {
@@ -64,108 +64,108 @@ public class TvSeries {
         this.id = id;
     }
 
-    public boolean isTvShowWatchingFlag() {
-        return tvShowWatchingFlag;
+    public boolean isTvSeriesWatchingFlag() {
+        return tvSeriesWatchingFlag;
     }
 
-    public int getTvShowId() {
-        return tvShowId;
+    public int getTvSeriesId() {
+        return tvSeriesId;
     }
 
-    public void setTvShowId(int tvShowId) {
-        this.tvShowId = tvShowId;
+    public void setTvSeriesId(int tvSeriesId) {
+        this.tvSeriesId = tvSeriesId;
     }
 
-    public String getTvShowName() {
-        return tvShowName;
+    public String getTvSeriesName() {
+        return tvSeriesName;
     }
 
-    public void setTvShowName(String tvShowName) {
-        this.tvShowName = tvShowName;
+    public void setTvSeriesName(String tvSeriesName) {
+        this.tvSeriesName = tvSeriesName;
     }
 
-    public String getTvShowStatus() {
-        return tvShowStatus;
+    public String getTvSeriesStatus() {
+        return tvSeriesStatus;
     }
 
-    public void setTvShowStatus(String tvShowStatus) {
-        this.tvShowStatus = tvShowStatus;
+    public void setTvSeriesStatus(String tvSeriesStatus) {
+        this.tvSeriesStatus = tvSeriesStatus;
     }
 
-    public String getTvShowStartDate() {
-        return tvShowStartDate;
+    public String getTvSeriesStartDate() {
+        return tvSeriesStartDate;
     }
 
-    public void setTvShowStartDate(String tvShowStartDate) {
-        this.tvShowStartDate = tvShowStartDate;
+    public void setTvSeriesStartDate(String tvSeriesStartDate) {
+        this.tvSeriesStartDate = tvSeriesStartDate;
     }
 
-    public String getTvShowEndDate() {
-        return tvShowEndDate;
+    public String getTvSeriesEndDate() {
+        return tvSeriesEndDate;
     }
 
-    public void setTvShowEndDate(String tvShowEndDate) {
-        this.tvShowEndDate = tvShowEndDate;
+    public void setTvSeriesEndDate(String tvSeriesEndDate) {
+        this.tvSeriesEndDate = tvSeriesEndDate;
     }
 
-    public String getTvShowCountry() {
-        return tvShowCountry;
+    public String getTvSeriesCountry() {
+        return tvSeriesCountry;
     }
 
-    public void setTvShowCountry(String tvShowCountry) {
-        this.tvShowCountry = tvShowCountry;
+    public void setTvSeriesCountry(String tvSeriesCountry) {
+        this.tvSeriesCountry = tvSeriesCountry;
     }
 
-    public String getTvShowRuntime() {
-        return tvShowRuntime;
+    public String getTvSeriesRuntime() {
+        return tvSeriesRuntime;
     }
 
-    public void setTvShowRuntime(String tvShowRuntime) {
-        this.tvShowRuntime = tvShowRuntime;
+    public void setTvSeriesRuntime(String tvSeriesRuntime) {
+        this.tvSeriesRuntime = tvSeriesRuntime;
     }
 
-    public String getTvShowNetwork() {
-        return tvShowNetwork;
+    public String getTvSeriesNetwork() {
+        return tvSeriesNetwork;
     }
 
-    public void setTvShowNetwork(String tvShowNetwork) {
-        this.tvShowNetwork = tvShowNetwork;
+    public void setTvSeriesNetwork(String tvSeriesNetwork) {
+        this.tvSeriesNetwork = tvSeriesNetwork;
     }
 
-    public String getTvShowImagePath() {
-        return tvShowImagePath;
+    public String getTvSeriesImagePath() {
+        return tvSeriesImagePath;
     }
 
-    public void setTvShowImagePath(String tvShowImagePath) {
-        this.tvShowImagePath = tvShowImagePath;
+    public void setTvSeriesImagePath(String tvSeriesImagePath) {
+        this.tvSeriesImagePath = tvSeriesImagePath;
     }
 
-    public String getTvShowDesc() {
-        return tvShowDesc;
+    public String getTvSeriesDesc() {
+        return tvSeriesDesc;
     }
 
-    public void setTvShowDesc(String tvShowDesc) {
-        this.tvShowDesc = tvShowDesc;
+    public void setTvSeriesDesc(String tvSeriesDesc) {
+        this.tvSeriesDesc = tvSeriesDesc;
     }
 
-    public String getTvShowYoutubeLink() {
-        return tvShowYoutubeLink;
+    public String getTvSeriesYoutubeLink() {
+        return tvSeriesYoutubeLink;
     }
 
-    public void setTvShowYoutubeLink(String tvShowYoutubeLink) {
-        this.tvShowYoutubeLink = tvShowYoutubeLink;
+    public void setTvSeriesYoutubeLink(String tvSeriesYoutubeLink) {
+        this.tvSeriesYoutubeLink = tvSeriesYoutubeLink;
     }
 
-    public String getTvShowRating() {
-        return tvShowRating;
+    public String getTvSeriesRating() {
+        return tvSeriesRating;
     }
 
-    public void setTvShowRating(String tvShowRating) {
-        this.tvShowRating = tvShowRating;
+    public void setTvSeriesRating(String tvSeriesRating) {
+        this.tvSeriesRating = tvSeriesRating;
     }
 
 
-    public void setTvShowWatchingFlag(boolean tvShowWatchingFlag) {
-        this.tvShowWatchingFlag = tvShowWatchingFlag;
+    public void setTvSeriesWatchingFlag(boolean tvSeriesWatchingFlag) {
+        this.tvSeriesWatchingFlag = tvSeriesWatchingFlag;
     }
 }
