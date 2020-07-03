@@ -111,9 +111,10 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnIt
                 if (navController.getCurrentDestination().getId() == R.id.navigation_watchlist) {
                     navController.navigate(R.id.action_navigation_watchlist_to_fragment_search);
                 }
-                return true;
+                break;
             default:
-                return false;
+                break;
         }
+        return false;
     }
 }

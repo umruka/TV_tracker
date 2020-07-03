@@ -28,6 +28,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:text="No TV Series yet"
+            android:textAppearance="?textAppearanceHeadline5"
             android:textSize="18sp"
 
             />
@@ -40,7 +41,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:text="Add TV series from 'Discover' or 'Search'"
-            android:textColor="@android:color/black"
+            android:textAppearance="?textAppearanceSubtitle1"
             android:textSize="14sp" />
     </RelativeLayout>
 

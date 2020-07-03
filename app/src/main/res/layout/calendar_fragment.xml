@@ -26,6 +26,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:text="No recent episodes"
+            android:textAppearance="?textAppearanceHeadline5"
             android:textSize="18sp"
 
             />

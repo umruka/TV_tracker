@@ -30,7 +30,7 @@
                 android:id="@+id/search_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Riverdale, Westworld etc..." />
+                android:hint="Riverdale, Westworld..." />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

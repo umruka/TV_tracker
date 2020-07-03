@@ -115,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/statistics_total_runtime"
             android:layout_centerHorizontal="true"
-            android:text="RUNTIME OF ALL WATCHED EPISODES"
+            android:text="RUNTIME OF ALL EPISODES"
             android:textAppearance="?textAppearanceBody2" />
 
 

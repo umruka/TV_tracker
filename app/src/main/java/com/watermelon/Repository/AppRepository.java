@@ -183,7 +183,7 @@ public class AppRepository {
                 List<TvSeriesFull> tvSeriesFulls = appDao.getStatisticsTvSeriesFull(WatermelonMainActivity.TVSERIES_WATCHED_FLAG_YES);
                 List<String> dataForStatistics = new ArrayList<>();
                 int showsWithNextEpisodesCounter = 0;
-                int showsNotEndedCounter = 0;
+                int showsRunningCounter = 0;
                 int episodesCounter = 0;
                 int episodeProgressCounter = 0;
                 int totalRuntimeCounter = 0;
@@ -193,8 +193,8 @@ public class AppRepository {
                     if (TvSeriesHelper.getNextWatched(episodes) != null) {
                         showsWithNextEpisodesCounter++;
                     }
-                    if (tvSeries.getTvSeriesStatus() != WatermelonMainActivity.STATUS_ENDED) {
-                        showsNotEndedCounter++;
+                    if (tvSeries.getTvSeriesStatus() == WatermelonMainActivity.STATUS_RUNNING) {
+                        showsRunningCounter++;
                     }
                     episodesCounter += episodes.size();
                     episodeProgressCounter += TvSeriesHelper.getEpisodeProgress(episodes);
@@ -202,7 +202,7 @@ public class AppRepository {
                 }
                 String showsCount = String.valueOf(tvSeriesFulls.size());
                 String showsWithNextEpisodesCount = String.valueOf(showsWithNextEpisodesCounter);
-                String showsNotEndedCount = String.valueOf(showsNotEndedCounter);
+                String showsNotEndedCount = String.valueOf(showsRunningCounter);
                 String episodesCount = String.valueOf(episodesCounter);
                 String episodeProgressCount = String.valueOf(episodeProgressCounter);
                 String totalRuntime = String.valueOf(totalRuntimeCounter);

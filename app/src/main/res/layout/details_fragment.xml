@@ -6,8 +6,7 @@
     android:clipToPadding="false"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    android:paddingBottom="8dp"
-    app:cardBackgroundColor="#E0E0E0">
+    android:paddingBottom="8dp">
 
 
     <RelativeLayout
@@ -48,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="rating"
-                    android:textAppearance="?textAppearanceBody2" />
+                    android:textAppearance="?textAppearanceBody1" />
 
 
                 <com.google.android.material.textview.MaterialTextView
@@ -65,7 +64,7 @@
                     android:layout_marginTop="8dp"
                     android:maxLines="3"
                     android:text="genre"
-                    android:textAppearance="?textAppearanceBody2" />
+                    android:textAppearance="?textAppearanceBody1" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
@@ -79,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="60"
-                    android:textAppearance="?textAppearanceBody2" />
+                    android:textAppearance="?textAppearanceBody1" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
@@ -93,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="country"
-                    android:textAppearance="?textAppearanceBody2" />
+                    android:textAppearance="?textAppearanceBody1" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
@@ -107,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="network"
-                    android:textAppearance="?textAppearanceBody2" />
+                    android:textAppearance="?textAppearanceBody1" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
@@ -156,11 +155,10 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/details_view_pager_tab_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="10dp"
                     android:layout_gravity="bottom"
-                    app:tabBackground="@drawable/dot_tab_selector"
-                    app:tabGravity="center"
-                    app:tabIndicatorHeight="0dp" />
+                    style="@style/Widget.MaterialComponents.TabLayout"
+                    app:tabGravity="center" />
 
             </androidx.viewpager.widget.ViewPager>
 
@@ -169,11 +167,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_above="@id/details_text_view_tv_series_description"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="12sp"
                 android:layout_marginBottom="16dp"
                 android:layout_toEndOf="@id/details_image_view_image_thumbnail"
-                android:buttonTint="@color/colorAccent"
-                android:text="Add to Watchlist" />
+                android:textAppearance="?textAppearanceButton"
+                android:text="Watchlist" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/details_text_view_tv_series_name"
@@ -218,6 +216,7 @@
                 android:layout_below="@id/details_text_view_tv_series_description"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
+                android:textAppearance="?textAppearanceCaption"
                 android:text="Read more" />
 
             <com.google.android.material.textview.MaterialTextView

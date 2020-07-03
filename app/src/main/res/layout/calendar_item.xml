@@ -28,7 +28,8 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="name"
-                android:textColor="@android:color/black" />
+                android:textAppearance="?textAppearanceListItem"
+                />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_episodeNum"
@@ -36,7 +37,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/calendar_name"
                 android:layout_marginTop="4dp"
-                android:text="episodeNum" />
+                android:text="episodeNum"
+                android:textAppearance="?textAppearanceCaption"
+                />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_seasonNum"
@@ -44,6 +47,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/calendar_episodeNum"
                 android:layout_marginTop="2dp"
+
+                android:textAppearance="?textAppearanceCaption"
                 android:text="seasonNum" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -51,6 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/calendar_seasonNum"
+                android:textAppearance="?textAppearanceCaption"
                 android:layout_marginTop="2dp"
                 android:text="air_date" />
 
@@ -61,7 +67,8 @@
                 android:layout_below="@id/calendar_air_date"
                 android:layout_marginTop="8dp"
                 android:text="days left"
-                android:textColor="@android:color/black" />
+                android:textAppearance="?textAppearanceListItemSmall"
+                />
 
         </RelativeLayout>
 
@@ -69,7 +76,8 @@
             android:id="@+id/calendar_image"
             android:layout_width="96dp"
             android:layout_height="112dp"
-            android:background="@drawable/image_border" />
+            android:background="@drawable/image_border"
+            />
 
 
     </RelativeLayout>
