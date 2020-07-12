@@ -25,7 +25,7 @@ import android.widget.TextView;
 import com.watermelon.Helpers.StringHelper;
 import com.watermelon.Helpers.TvSeriesHelper;
 import com.watermelon.Models.TvSeriesEpisode;
-import com.watermelon.UI.WatermelonMainActivity;
+import com.watermelon.UI.WatermelonActivity;
 import com.watermelon.Models.TvSeriesSeason;
 import com.watermelon.R;
 
@@ -51,15 +51,15 @@ public class SeasonEpisodesFragment extends Fragment implements SeasonEpisodesAd
         seasonEpisodesAdapter = new SeasonEpisodesAdapter();
         seasonEpisodesAdapter.setOnItemClickListener(this);
 
-        tvSeriesId = Integer.parseInt(getArguments().getString(WatermelonMainActivity.TVSERIES_ID));
-        seasonNumber = Integer.parseInt(getArguments().getString(WatermelonMainActivity.TVSERIES_SEASON_NUM));
+        tvSeriesId = Integer.parseInt(getArguments().getString(WatermelonActivity.TVSERIES_ID));
+        seasonNumber = Integer.parseInt(getArguments().getString(WatermelonActivity.TVSERIES_SEASON_NUM));
         seasonEpisodesViewModel.getSeasonEpisodes(tvSeriesId, seasonNumber);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View  view = inflater.inflate(R.layout.episodes_fragment, container, false);
+        View view = inflater.inflate(R.layout.episodes_fragment, container, false);
         setHasOptionsMenu(true);
         progressBar = view.findViewById(R.id.season_progress);
         episodeList = view.findViewById(R.id.episode_recyclerView);
@@ -72,18 +72,18 @@ public class SeasonEpisodesFragment extends Fragment implements SeasonEpisodesAd
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-            episodeList.setAdapter(seasonEpisodesAdapter);
-            seasonEpisodesViewModel.getSeasonEpisodesObservable().observe(getViewLifecycleOwner(), new Observer<TvSeriesSeason>() {
-                        @Override
-                        public void onChanged(TvSeriesSeason tvSeriesSeason) {
-                                seasonEpisodesAdapter.setEpisodes(tvSeriesSeason.getEpisodes());
-                                 int seasonProgress = TvSeriesHelper.getEpisodeProgress(tvSeriesSeason.getEpisodes());
-                                 int seasonEpisodesCount = tvSeriesSeason.getEpisodes().size();
-                                progressBar.setProgress(seasonProgress);
-                                progressBar.setMax(seasonEpisodesCount);
-                                progressText.setText(StringHelper.addZero(seasonProgress) +  "/" + StringHelper.addZero(seasonEpisodesCount));
-                            }
-                    });
+        episodeList.setAdapter(seasonEpisodesAdapter);
+        seasonEpisodesViewModel.getSeasonEpisodesObservable().observe(getViewLifecycleOwner(), new Observer<TvSeriesSeason>() {
+            @Override
+            public void onChanged(TvSeriesSeason tvSeriesSeason) {
+                seasonEpisodesAdapter.setEpisodes(tvSeriesSeason.getEpisodes());
+                int seasonProgress = TvSeriesHelper.getEpisodeProgress(tvSeriesSeason.getEpisodes());
+                int seasonEpisodesCount = tvSeriesSeason.getEpisodes().size();
+                progressBar.setMax(seasonEpisodesCount);
+                progressBar.setProgress(seasonProgress);
+                progressText.setText(StringHelper.addZero(seasonProgress) + "/" + StringHelper.addZero(seasonEpisodesCount));
+            }
+        });
     }
 
     @Override
@@ -91,10 +91,10 @@ public class SeasonEpisodesFragment extends Fragment implements SeasonEpisodesAd
         int id = episode.getId();
         boolean isWatched = episode.isEpisodeWatched();
         Pair<Integer, Boolean> params;
-        if(!isWatched) {
-            params = new Pair<>(id, WatermelonMainActivity.TVSERIES_WATCHED_EPISODE_FLAG_YES);
-        }else{
-            params = new Pair<>(id, WatermelonMainActivity.TVSERIES_WATCHED_EPISODE_FLAG_NO);
+        if (!isWatched) {
+            params = new Pair<>(id, WatermelonActivity.TVSERIES_WATCHED_EPISODE_FLAG_YES);
+        } else {
+            params = new Pair<>(id, WatermelonActivity.TVSERIES_WATCHED_EPISODE_FLAG_NO);
         }
         seasonEpisodesViewModel.changeEpisodeWatchedFlag(params);
         seasonEpisodesViewModel.getSeasonEpisodes(tvSeriesId, seasonNumber);

@@ -86,8 +86,7 @@
         android:id="@+id/search_image_view_image_thumbnail"
         android:layout_width="96dp"
         android:layout_height="138dp"
-        android:background="@drawable/image_border"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:background="@drawable/image_border" />
 
 
 </RelativeLayout>

@@ -44,9 +44,9 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSe
 
     @Override
     public void onBindViewHolder(@NonNull TvSeriesFullViewHolder holder, int position) {
-        TvSeries currentTvSeries = tvSeries.get(position).tvSeries;
-        int watched = TvSeriesHelper.getEpisodeProgress(tvSeries.get(position).episodes);
-        int progressMax = tvSeries.get(position).episodes.size();
+        TvSeries currentTvSeries = tvSeries.get(position).getTvSeries();
+        int watched = TvSeriesHelper.getEpisodeProgress(tvSeries.get(position).getEpisodes());
+        int progressMax = tvSeries.get(position).getEpisodes().size();
 
         Picasso.get()
                 .load(currentTvSeries.getTvSeriesImagePath())
@@ -61,11 +61,11 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSe
         holder.textViewTvSeriesNetwork.setText(currentTvSeries.getTvSeriesNetwork());
         holder.imageViewEpisodeWatched.setImageResource(R.drawable.ic_check);
 
-        if(tvSeries.get(position).episodes.size() == 0){
+        if(tvSeries.get(position).getEpisodes().size() == 0){
             holder.textViewEpisodeName.setText("no episodes avaible");
             holder.textViewEpisodeReleaseDate.setText("no episodes avaible");
-        }else if(!TvSeriesHelper.getTvSeriesState(tvSeries.get(position).episodes)) {
-            TvSeriesEpisode tvSeriesEpisode = TvSeriesHelper.getNextWatched(tvSeries.get(position).episodes);
+        }else if(!TvSeriesHelper.getTvSeriesState(tvSeries.get(position).getEpisodes())) {
+            TvSeriesEpisode tvSeriesEpisode = TvSeriesHelper.getNextWatched(tvSeries.get(position).getEpisodes());
             holder.textViewEpisodeName.setText(StringHelper.addZero(tvSeriesEpisode.getEpisodeSeasonNum()) + "x" + StringHelper.addZero(tvSeriesEpisode.getEpisodeNum())  + " " + tvSeriesEpisode.getEpisodeName());
             holder.textViewEpisodeReleaseDate.setText(DateHelper.getDateString(tvSeriesEpisode.getEpisodeAirDate()));
 //        }
@@ -73,8 +73,9 @@ public class WatchlistAdapter extends RecyclerView.Adapter<WatchlistAdapter.TvSe
             holder.textViewEpisodeName.setText("No more released episodes");
             holder.textViewEpisodeReleaseDate.setText("");
         }
-        holder.textViewTvSeriesEpisodeProgress.setProgress(watched);
-        holder.textViewTvSeriesEpisodeProgress.setMax(progressMax);
+
+            holder.textViewTvSeriesEpisodeProgress.setMax(progressMax);
+            holder.textViewTvSeriesEpisodeProgress.setProgress(watched);
 
     }
 

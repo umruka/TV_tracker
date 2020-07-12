@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,6 @@ import android.widget.TextView;
 
 import com.watermelon.Helpers.DateHelper;
 import com.watermelon.R;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -37,6 +34,13 @@ public class StatisticsFragment extends Fragment {
     private ProgressBar progressBarShowsWithNextEpisodes;
     private ProgressBar progressBarShowsNotEnded;
     private ProgressBar progressBarEpisodeWatched;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        statisticsViewModel = new ViewModelProvider(this).get(StatisticsViewModel.class);
+        statisticsViewModel.fetchStatisticsData();
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -59,8 +63,6 @@ public class StatisticsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        statisticsViewModel = new ViewModelProvider(this).get(StatisticsViewModel.class);
-        statisticsViewModel.fetchStatisticsData();
         statisticsViewModel.getStatisticsListObservable().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> strings) {
@@ -74,16 +76,16 @@ public class StatisticsFragment extends Fragment {
 
                 textViewShowsCount.setText(showsCount);
                 textViewShowsWithNextEpisodes.setText(showsWithNextEpisodesCount + " with next episodes");
-                progressBarShowsWithNextEpisodes.setProgress(Integer.parseInt(showsWithNextEpisodesCount));
                 progressBarShowsWithNextEpisodes.setMax(Integer.parseInt(showsCount));
+                progressBarShowsWithNextEpisodes.setProgress(Integer.parseInt(showsWithNextEpisodesCount));
                 textViewShowsNotEnded.setText(showsNotEndedCount + " running");
-                progressBarShowsNotEnded.setProgress(Integer.parseInt(showsNotEndedCount));
                 progressBarShowsNotEnded.setMax(Integer.parseInt(showsCount));
+                progressBarShowsNotEnded.setProgress(Integer.parseInt(showsNotEndedCount));
                 textViewEpisodesCount.setText(episodesCount);
                 textViewWatchedEpisodesCount.setText(episodeProgressCount + " episodes watched");
                 progressBarEpisodeWatched.setProgress(Integer.parseInt(episodeProgressCount));
                 progressBarEpisodeWatched.setMax(Integer.parseInt(episodesCount));
-                textViewTotalRuntime.setText(DateHelper.toDays(totalRuntime));
+                textViewTotalRuntime.setText(DateHelper.getDaysString(totalRuntime));
             }
         });
 

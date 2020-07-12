@@ -65,7 +65,6 @@ public class TvSeriesHelper {
                 currentSeasonEpisodes.add(episode);
             }
         }
-        //Last season
         tvSeriesSeasons.add(new TvSeriesSeason(currentSeason, currentSeasonEpisodes));
         return tvSeriesSeasons;
     }

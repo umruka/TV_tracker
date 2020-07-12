@@ -42,15 +42,16 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.TvSeri
     public void onBindViewHolder(@NonNull TvSeriesPictureViewHolder holder, int position) {
         Context context = holder.itemView.getContext();
         TvSeriesCalendarEpisode currentTvSeriesEpisode = episodes.get(position);
+        TvSeries tvSeries =  currentTvSeriesEpisode.getTvSeries();
+        TvSeriesEpisode episode = currentTvSeriesEpisode.getEpisode();
+
         Picasso.get()
-                .load(currentTvSeriesEpisode.tvSeries.getTvSeriesImagePath())
+                .load(tvSeries.getTvSeriesImagePath())
                 .placeholder(R.drawable.image_loading_placeholder)
                 .error(R.drawable.image_error_placeholder)
                 .fit()
                 .into(holder.imageViewImage);
 
-        TvSeries tvSeries =  currentTvSeriesEpisode.tvSeries;
-        TvSeriesEpisode episode = currentTvSeriesEpisode.episode;
         holder.textViewName.setText(tvSeries.getTvSeriesName());
         holder.textViewEpisodeNum.setText(context.getString(R.string.calendar_episode, episode.getEpisodeNum()));
         holder.textViewSeasonNum.setText(context.getString(R.string.calendar_season, episode.getEpisodeSeasonNum()));

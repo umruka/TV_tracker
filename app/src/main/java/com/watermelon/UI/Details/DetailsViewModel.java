@@ -18,11 +18,12 @@ import java.util.List;
 public class DetailsViewModel extends AndroidViewModel {
     private AppRepository repository;
     private final LiveData<Resource<TvSeriesFull>> detailsObservable;
-    private MutableLiveData tvSeriesId = new MutableLiveData();
+    private MutableLiveData tvSeriesId;
 
     public DetailsViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
+        tvSeriesId = new MutableLiveData();
         detailsObservable = Transformations.switchMap(tvSeriesId, id -> repository.fetchTvSeriesDetails((Integer) tvSeriesId.getValue()));
 
     }

@@ -64,7 +64,7 @@ public class DateHelper {
         return false;
     }
 
-    public static String toDays(String runtime) {
+    public static String getDaysString(String runtime) {
         int runtimeDays = Integer.parseInt(runtime);
         String hoursText = " hours ";
         String minutesText =  " minutes ";

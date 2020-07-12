@@ -14,7 +14,7 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-public class WatermelonMainActivity extends AppCompatActivity implements NavController.OnDestinationChangedListener {
+public class WatermelonActivity extends AppCompatActivity implements NavController.OnDestinationChangedListener {
 
     public static final boolean TEST_MODE =  false;
 
@@ -83,6 +83,5 @@ public class WatermelonMainActivity extends AppCompatActivity implements NavCont
                 break;
         }
     }
-
 
 }

@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UI.WatermelonMainActivity"
+            android:name=".UI.WatermelonActivity"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
             android:windowSoftInputMode="adjustPan"/>

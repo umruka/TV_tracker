@@ -25,7 +25,7 @@ import com.watermelon.Repository.Api.ApiModels.JsonTvSeriesSearchRoot;
 import com.watermelon.Repository.Api.ApiModels.TvSeriesBasicInfo.JsonTvSeries;
 import com.watermelon.Repository.Api.ApiModels.TvSeriesBasicInfo.JsonTvSeriesBasicRoot;
 import com.watermelon.Repository.Api.ApiModels.TvSeriesDetails.JsonTvSeriesFullRoot;
-import com.watermelon.UI.WatermelonMainActivity;
+import com.watermelon.UI.WatermelonActivity;
 import com.watermelon.Repository.AppRepoHelpClasses.NetworkBoundResource;
 import com.watermelon.Repository.AppRepoHelpClasses.Resource;
 import com.watermelon.Repository.AppRepoHelpClasses.MultiTaskHandler;
@@ -68,16 +68,16 @@ public class AppRepository {
         context = application.getApplicationContext();
         AppDatabase database = AppDatabase.getInstance(application);
         appDao = database.appDao();
-        watchlistListObservable = appDao.getWatchlistTvSeriesFull(WatermelonMainActivity.TVSERIES_WATCHED_FLAG_YES);
-        calendarListObservable = appDao.getCalendarTvSeries(WatermelonMainActivity.TVSERIES_WATCHED_FLAG_YES);
+        watchlistListObservable = appDao.getWatchlistTvSeriesFull(WatermelonActivity.TVSERIES_WATCHED_FLAG_YES);
+        calendarListObservable = appDao.getCalendarTvSeries(WatermelonActivity.TVSERIES_WATCHED_FLAG_YES);
         discoverListObservable = appDao.getDiscoverTvSeries();
         statisticsTvSeriesListObservable = new MutableLiveData<>();
         seasonEpisodesListObservable = new MutableLiveData<>();
         syncState = new MutableLiveData<>();
         searchTvSeriesListObservable = new MutableLiveData<>();
 
-        if (!WatermelonMainActivity.TEST_MODE) {
-            handler = new MultiTaskHandler(WatermelonMainActivity.TV_SERIES_MOST_POPULAR_PAGES_COUNT) {
+        if (!WatermelonActivity.TEST_MODE) {
+            handler = new MultiTaskHandler(WatermelonActivity.TV_SERIES_MOST_POPULAR_PAGES_COUNT) {
                 @Override
                 protected void onAllTasksCompleted() {
                     syncState.setValue(true);
@@ -118,7 +118,7 @@ public class AppRepository {
     public void initialFetchDataFromApi() {
         if (ConnectivityHelper.isConnectedFast(context)) {
             ApiService apiService = ApiBuilder.getRetrofitInstance().create(ApiService.class);
-            for (int i = 1; i <= WatermelonMainActivity.TV_SERIES_MOST_POPULAR_PAGES_COUNT; i++) {
+            for (int i = 1; i <= WatermelonActivity.TV_SERIES_MOST_POPULAR_PAGES_COUNT; i++) {
                 apiService.getTvSeriesBasic(i).enqueue(new Callback<JsonTvSeriesBasicRoot>() {
                     @Override
                     public void onResponse(Call<JsonTvSeriesBasicRoot> call, Response<JsonTvSeriesBasicRoot> response) {
@@ -180,7 +180,7 @@ public class AppRepository {
         new AsyncTask<Void, Void, List<String>>() {
             @Override
             protected List<String> doInBackground(Void... voids) {
-                List<TvSeriesFull> tvSeriesFulls = appDao.getStatisticsTvSeriesFull(WatermelonMainActivity.TVSERIES_WATCHED_FLAG_YES);
+                List<TvSeriesFull> tvSeriesFulls = appDao.getStatisticsTvSeriesFull(WatermelonActivity.TVSERIES_WATCHED_FLAG_YES);
                 List<String> dataForStatistics = new ArrayList<>();
                 int showsWithNextEpisodesCounter = 0;
                 int showsRunningCounter = 0;
@@ -193,7 +193,7 @@ public class AppRepository {
                     if (TvSeriesHelper.getNextWatched(episodes) != null) {
                         showsWithNextEpisodesCounter++;
                     }
-                    if (tvSeries.getTvSeriesStatus() == WatermelonMainActivity.STATUS_RUNNING) {
+                    if (tvSeries.getTvSeriesStatus().contains(WatermelonActivity.STATUS_RUNNING)) {
                         showsRunningCounter++;
                     }
                     episodesCounter += episodes.size();
@@ -335,23 +335,28 @@ public class AppRepository {
 
 //        TvSeriesEpisode testEpisode = new TvSeriesEpisode(35624, 7, 1, "Test Episode", "2020-08-11");
 //        episodes.add(testEpisode);
-        if (dbTvSeries.getEpisodes().size() == 0) {
+
+        if (dbTvSeries == null){
             appDao.insertAllTvSeriesEpisodes(episodes);
-        } else {
-            String lastEpisodeDate = appDao.getDateForTheLastEpisodeOfTvSeriesAired(id);
-            for (TvSeriesEpisode episode : episodes) {
-                if (DateHelper.compareDates(lastEpisodeDate, episode.getEpisodeAirDate())) {
-                    appDao.insertTvSeriesEpisode(episode);
+            appDao.insertAllTvSeriesGenres(genres);
+            appDao.insertAllTvSeriesPictures(pictures);
+        }else {
+            if (dbTvSeries.getEpisodes().size() == 0) {
+                appDao.insertAllTvSeriesEpisodes(episodes);
+            } else {
+                String lastEpisodeDate = appDao.getDateForTheLastEpisodeOfTvSeriesAired(id);
+                for (TvSeriesEpisode episode : episodes) {
+                    if (DateHelper.compareDates(lastEpisodeDate, episode.getEpisodeAirDate())) {
+                        appDao.insertTvSeriesEpisode(episode);
+                    }
                 }
             }
-        }
-
-        if (dbTvSeries.getGenres().size() == 0) {
-            appDao.insertAllTvSeriesGenres(genres);
-        }
-
-        if (dbTvSeries.getPictures().size() == 0) {
-            appDao.insertAllTvSeriesPictures(pictures);
+            if (dbTvSeries.getGenres().size() == 0) {
+                appDao.insertAllTvSeriesGenres(genres);
+            }
+            if (dbTvSeries.getPictures().size() == 0) {
+                appDao.insertAllTvSeriesPictures(pictures);
+            }
         }
     }
 
@@ -393,14 +398,14 @@ public class AppRepository {
             @Override
             protected void onPostExecute(Void aVoid) {
 
-                if (!WatermelonMainActivity.TEST_MODE) {
+                if (!WatermelonActivity.TEST_MODE) {
                     handler.taskComplete();
                 }
             }
         }.execute(tvSeries);
     }
 
-    public void addTvSeriesToDb(TvSeries tvSeries) {
+    public void addSingleTvSeriesToDb(TvSeries tvSeries) {
         Log.d("", "add tv shows to db");
         new AsyncTask<TvSeries, Void, Void>() {
             @Override

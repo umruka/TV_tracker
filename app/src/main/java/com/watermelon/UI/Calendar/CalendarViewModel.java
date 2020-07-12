@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CalendarViewModel extends AndroidViewModel {
     private AppRepository repository;
-    private LiveData<List<TvSeriesCalendarEpisode>> calendarListObservable = new MediatorLiveData<>();
+    private LiveData<List<TvSeriesCalendarEpisode>> calendarListObservable;
 
     public CalendarViewModel(@NonNull Application application) {
         super(application);

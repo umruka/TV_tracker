@@ -20,7 +20,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.watermelon.UI.WatermelonMainActivity;
+import com.watermelon.UI.WatermelonActivity;
 import com.watermelon.Models.TvSeries;
 import com.watermelon.R;
 
@@ -76,7 +76,7 @@ public class DiscoverFragment extends Fragment implements DiscoverAdapter.OnItem
     public void onItemClick(TvSeries tvSeries) {
         if (navController.getCurrentDestination().getId() == R.id.navigation_discover) {
             Bundle bundle = new Bundle();
-            bundle.putString(WatermelonMainActivity.TVSERIES_ID, String.valueOf(tvSeries.getTvSeriesId()));
+            bundle.putString(WatermelonActivity.TVSERIES_ID, String.valueOf(tvSeries.getTvSeriesId()));
             navController.navigate(R.id.action_navigation_discover_to_details_fragment, bundle);
         }
     }
@@ -105,39 +105,39 @@ public class DiscoverFragment extends Fragment implements DiscoverAdapter.OnItem
                 }
                 break;
             case R.id.menu_filter_mostPopular:
-                discoverAdapter.filter(WatermelonMainActivity.NETWORK_DEFAULT, WatermelonMainActivity.NETWORKS_CODE);
+                discoverAdapter.filter(WatermelonActivity.NETWORK_DEFAULT, WatermelonActivity.NETWORKS_CODE);
                 discoverFilterTitle.setText("Most Popular");
                 break;
             //Networks
             case R.id.netflix:
-                discoverAdapter.filter(WatermelonMainActivity.NETWORK_NETFLIX, WatermelonMainActivity.NETWORKS_CODE);
-                discoverFilterTitle.setText(WatermelonMainActivity.NETWORK_NETFLIX);
+                discoverAdapter.filter(WatermelonActivity.NETWORK_NETFLIX, WatermelonActivity.NETWORKS_CODE);
+                discoverFilterTitle.setText(WatermelonActivity.NETWORK_NETFLIX);
                 break;
             case R.id.thecw:
-                discoverAdapter.filter(WatermelonMainActivity.NETWORK_CW, WatermelonMainActivity.NETWORKS_CODE);
-                discoverFilterTitle.setText(WatermelonMainActivity.NETWORK_CW);
+                discoverAdapter.filter(WatermelonActivity.NETWORK_CW, WatermelonActivity.NETWORKS_CODE);
+                discoverFilterTitle.setText(WatermelonActivity.NETWORK_CW);
                 break;
             case R.id.hbo:
-                discoverAdapter.filter(WatermelonMainActivity.NETWORK_HBO, WatermelonMainActivity.NETWORKS_CODE);
-                discoverFilterTitle.setText(WatermelonMainActivity.NETWORK_HBO);
+                discoverAdapter.filter(WatermelonActivity.NETWORK_HBO, WatermelonActivity.NETWORKS_CODE);
+                discoverFilterTitle.setText(WatermelonActivity.NETWORK_HBO);
                 break;
             case R.id.amc:
-                discoverAdapter.filter(WatermelonMainActivity.NETWORK_AMC, WatermelonMainActivity.NETWORKS_CODE);
-                discoverFilterTitle.setText(WatermelonMainActivity.NETWORK_AMC);
+                discoverAdapter.filter(WatermelonActivity.NETWORK_AMC, WatermelonActivity.NETWORKS_CODE);
+                discoverFilterTitle.setText(WatermelonActivity.NETWORK_AMC);
                 break;
             case R.id.fox:
-                discoverAdapter.filter(WatermelonMainActivity.NETWORK_FOX, WatermelonMainActivity.NETWORKS_CODE);
-                discoverFilterTitle.setText(WatermelonMainActivity.NETWORK_FOX);
+                discoverAdapter.filter(WatermelonActivity.NETWORK_FOX, WatermelonActivity.NETWORKS_CODE);
+                discoverFilterTitle.setText(WatermelonActivity.NETWORK_FOX);
                 break;
 
             //Statuses
             case R.id.running:
-                discoverAdapter.filter(WatermelonMainActivity.STATUS_RUNNING, WatermelonMainActivity.STATUS_CODE);
-                discoverFilterTitle.setText(WatermelonMainActivity.STATUS_RUNNING + " Series");
+                discoverAdapter.filter(WatermelonActivity.STATUS_RUNNING, WatermelonActivity.STATUS_CODE);
+                discoverFilterTitle.setText(WatermelonActivity.STATUS_RUNNING + " Series");
                 break;
             case R.id.ended:
-                discoverAdapter.filter(WatermelonMainActivity.STATUS_ENDED, WatermelonMainActivity.STATUS_CODE);
-                discoverFilterTitle.setText(WatermelonMainActivity.STATUS_ENDED + " Series");
+                discoverAdapter.filter(WatermelonActivity.STATUS_ENDED, WatermelonActivity.STATUS_CODE);
+                discoverFilterTitle.setText(WatermelonActivity.STATUS_ENDED + " Series");
             default:
                 break;
         }

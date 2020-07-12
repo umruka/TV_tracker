@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.watermelon.Models.TvSeriesCalendarEpisode;
-import com.watermelon.UI.WatermelonMainActivity;
+import com.watermelon.UI.WatermelonActivity;
 import com.watermelon.R;
 
 import java.util.List;
@@ -82,7 +82,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         if (navHostController.getCurrentDestination().getId() == R.id.navigation_calendar) {
             Bundle bundle = new Bundle();
             int id = tvSeriesCalendarEpisode.tvSeries.getTvSeriesId();
-            bundle.putString(WatermelonMainActivity.TVSERIES_ID, String.valueOf(id));
+            bundle.putString(WatermelonActivity.TVSERIES_ID, String.valueOf(id));
             navHostController.navigate(R.id.action_navigation_calendar_to_fragment_details, bundle);
         }
     }

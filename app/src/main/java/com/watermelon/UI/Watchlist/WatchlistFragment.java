@@ -23,7 +23,7 @@ import android.widget.RelativeLayout;
 
 import com.watermelon.Models.TvSeriesFull;
 import com.watermelon.Helpers.TvSeriesHelper;
-import com.watermelon.UI.WatermelonMainActivity;
+import com.watermelon.UI.WatermelonActivity;
 import com.watermelon.R;
 
 import java.util.List;
@@ -82,7 +82,7 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnIt
         if (navController.getCurrentDestination().getId() == R.id.navigation_watchlist) {
             Bundle bundle = new Bundle();
             int id = tvSeriesFull.tvSeries.getTvSeriesId();
-            bundle.putString(WatermelonMainActivity.TVSERIES_ID, String.valueOf(id));
+            bundle.putString(WatermelonActivity.TVSERIES_ID, String.valueOf(id));
             navController.navigate(R.id.action_navigation_watchlist_to_details_fragment, bundle);
         }
     }
@@ -90,9 +90,9 @@ public class WatchlistFragment extends Fragment implements WatchlistAdapter.OnIt
     @Override
     public void onButtonClick(TvSeriesFull tvSeriesFull, int position) {
 
-        if(TvSeriesHelper.getNextWatched(tvSeriesFull.episodes) != null) {
-            int id = TvSeriesHelper.getNextWatched(tvSeriesFull.episodes).getId();
-            Pair<Integer, Boolean> params = new Pair<>(id, WatermelonMainActivity.TVSERIES_WATCHED_EPISODE_FLAG_YES);
+        if(TvSeriesHelper.getNextWatched(tvSeriesFull.getEpisodes()) != null) {
+            int id = TvSeriesHelper.getNextWatched(tvSeriesFull.getEpisodes()).getId();
+            Pair<Integer, Boolean> params = new Pair<>(id, WatermelonActivity.TVSERIES_WATCHED_EPISODE_FLAG_YES);
             watchlistViewModel.changeEpisodeWatchedFlag(params);
 //            watchlistViewModel.fetchWatchlistData();
         }

@@ -24,7 +24,7 @@ import android.widget.ImageView;
 
 import com.watermelon.Helpers.KeyboardHelper;
 import com.watermelon.Models.TvSeries;
-import com.watermelon.UI.WatermelonMainActivity;
+import com.watermelon.UI.WatermelonActivity;
 import com.watermelon.R;
 
 import java.util.List;
@@ -90,7 +90,7 @@ public class SearchFragment extends Fragment implements SearchAdapter.OnItemClic
         NavController navHostController = Navigation.findNavController(getView());
         if(navHostController.getCurrentDestination().getId() == R.id.fragment_search){
             Bundle bundle = new Bundle();
-            bundle.putString(WatermelonMainActivity.TVSERIES_ID, String.valueOf(id));
+            bundle.putString(WatermelonActivity.TVSERIES_ID, String.valueOf(id));
             navHostController.navigate(R.id.action_searchFragment_to_details_fragment, bundle);
         }
     }

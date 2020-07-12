@@ -64,9 +64,6 @@ public class TvSeries {
         this.id = id;
     }
 
-    public boolean isTvSeriesWatchingFlag() {
-        return tvSeriesWatchingFlag;
-    }
 
     public int getTvSeriesId() {
         return tvSeriesId;
@@ -164,6 +161,9 @@ public class TvSeries {
         this.tvSeriesRating = tvSeriesRating;
     }
 
+    public boolean isTvSeriesWatchingFlag() {
+        return tvSeriesWatchingFlag;
+    }
 
     public void setTvSeriesWatchingFlag(boolean tvSeriesWatchingFlag) {
         this.tvSeriesWatchingFlag = tvSeriesWatchingFlag;

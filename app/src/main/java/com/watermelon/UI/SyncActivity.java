@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,8 +29,9 @@ private SyncViewModel syncViewModel;
                 @Override
                 public void onChanged(Boolean aBoolean) {
                     if(aBoolean){
-                        Intent intent = new Intent(SyncActivity.this, WatermelonMainActivity.class);
+                        Intent intent = new Intent(SyncActivity.this, WatermelonActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 }
             });

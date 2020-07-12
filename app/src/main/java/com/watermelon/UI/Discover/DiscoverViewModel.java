@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.watermelon.Models.TvSeries;
-import com.watermelon.UI.WatermelonMainActivity;
+import com.watermelon.UI.WatermelonActivity;
 import com.watermelon.Repository.AppRepository;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class DiscoverViewModel extends AndroidViewModel {
         repository = new AppRepository(application);
         discoverListObservable = repository.getDiscoverListObservable();
 
-        if(WatermelonMainActivity.TEST_MODE) {
+        if(WatermelonActivity.TEST_MODE) {
             repository.fetchTestDetailsFromOffline();
         }
     }

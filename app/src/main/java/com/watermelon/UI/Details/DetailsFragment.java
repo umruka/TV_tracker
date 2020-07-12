@@ -31,7 +31,7 @@ import com.watermelon.Models.TvSeriesEpisode;
 import com.watermelon.Models.TvSeriesFull;
 import com.watermelon.Helpers.StringHelper;
 import com.watermelon.Helpers.TvSeriesHelper;
-import com.watermelon.UI.WatermelonMainActivity;
+import com.watermelon.UI.WatermelonActivity;
 import com.watermelon.Repository.AppRepoHelpClasses.Resource;
 import com.watermelon.Repository.AppRepoHelpClasses.Status;
 import com.watermelon.Models.TvSeries;
@@ -77,7 +77,7 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
         detailsSeasonsAdapter = new DetailsSeasonsAdapter();
         detailsPicturesViewPagerAdapter = new DetailsPicturesViewPagerAdapter();
         detailsPicturesViewPagerAdapter.setContext(getContext());
-        tvSeriesId = Integer.parseInt(getArguments().getString(WatermelonMainActivity.TVSERIES_ID));
+        tvSeriesId = Integer.parseInt(getArguments().getString(WatermelonActivity.TVSERIES_ID));
         detailsSeasonsAdapter.setOnItemClickListener(this);
     }
 
@@ -162,7 +162,7 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
                         detailsPicturesViewPagerAdapter.setPictures(tvSeriesFull.getPictures());
                     }
                     if (tvSeriesFullResource.data.getEpisodes() != null) {
-                        detailsSeasonsAdapter.setEpisodes(TvSeriesHelper.getTvSeriesSeasons(tvSeriesFull.getEpisodes()));
+                        detailsSeasonsAdapter.setSeasons(TvSeriesHelper.getTvSeriesSeasons(tvSeriesFull.getEpisodes()));
                     }
                 }
             }
@@ -175,10 +175,10 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
         NavController navHostController = Navigation.findNavController(getView());
         if (navHostController.getCurrentDestination().getId() == R.id.fragment_details) {
             Bundle bundle = new Bundle();
-            int id = Integer.parseInt(getArguments().getString(WatermelonMainActivity.TVSERIES_ID));
+            int id = Integer.parseInt(getArguments().getString(WatermelonActivity.TVSERIES_ID));
             int seasonNum = season.getSeasonNum();
-            bundle.putString(WatermelonMainActivity.TVSERIES_ID, String.valueOf(id));
-            bundle.putString(WatermelonMainActivity.TVSERIES_SEASON_NUM, String.valueOf(seasonNum));
+            bundle.putString(WatermelonActivity.TVSERIES_ID, String.valueOf(id));
+            bundle.putString(WatermelonActivity.TVSERIES_SEASON_NUM, String.valueOf(seasonNum));
             navHostController.navigate(R.id.action_fragment_details_to_fragment_episodes, bundle);
         }
     }
@@ -198,10 +198,10 @@ public class DetailsFragment extends Fragment implements DetailsSeasonsAdapter.O
     public void onClick(View view) {
         Pair<Integer, Boolean> params;
         if(((CompoundButton) view).isChecked()){
-            params = new Pair<>(tvSeriesId, WatermelonMainActivity.TVSERIES_WATCHED_FLAG_YES);
+            params = new Pair<>(tvSeriesId, WatermelonActivity.TVSERIES_WATCHED_FLAG_YES);
             detailsViewModel.changeTvSeriesWatchedFlag(params);
         } else {
-            params = new Pair<>(tvSeriesId, WatermelonMainActivity.TVSERIES_WATCHED_FLAG_NO);
+            params = new Pair<>(tvSeriesId, WatermelonActivity.TVSERIES_WATCHED_FLAG_NO);
             detailsViewModel.changeTvSeriesWatchedFlag(params);
         }
     }

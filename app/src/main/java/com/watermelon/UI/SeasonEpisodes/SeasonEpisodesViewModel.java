@@ -11,7 +11,6 @@ import com.watermelon.Models.TvSeriesSeason;
 import com.watermelon.Repository.AppRepository;
 
 public class SeasonEpisodesViewModel extends AndroidViewModel {
-    // TODO: Implement the ViewModel
     private AppRepository repository;
     private LiveData<TvSeriesSeason> seasonEpisodesObservable;
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-//copied class from Internet
 public class KeyboardHelper {
     public static void hideKeyboard(Context context) {
         try {

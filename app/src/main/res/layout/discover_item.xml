@@ -15,8 +15,7 @@
             android:id="@+id/text_view_discover_image_thumbnail"
             android:layout_width="96dp"
             android:layout_height="112dp"
-            android:background="@drawable/image_border"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:background="@drawable/image_border" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_view_tv_series_name"

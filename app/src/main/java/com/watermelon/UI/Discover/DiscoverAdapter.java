@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.watermelon.Models.TvSeries;
-import com.watermelon.UI.WatermelonMainActivity;
+import com.watermelon.UI.WatermelonActivity;
 import com.watermelon.R;
 import com.squareup.picasso.Picasso;
 
@@ -70,13 +70,13 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.TvSeri
 
     void filter(String charText, int type) {
         tvSeries.clear();
-        if (type == WatermelonMainActivity.NETWORKS_CODE) {
+        if (type == WatermelonActivity.NETWORKS_CODE) {
             for (TvSeries tvSeries : filteredTvSeries) {
                 if (tvSeries.getTvSeriesNetwork().contains(charText)) {
                     this.tvSeries.add(tvSeries);
                 }
             }
-        } else if (type == WatermelonMainActivity.STATUS_CODE) {
+        } else if (type == WatermelonActivity.STATUS_CODE) {
             for (TvSeries tvSeries : filteredTvSeries) {
                 if (tvSeries.getTvSeriesStatus().contains(charText)) {
                     this.tvSeries.add(tvSeries);

@@ -1,6 +1,6 @@
 package com.watermelon.Repository.AppRepoHelpClasses;
 
-public abstract class MultiTaskHandler {
+public abstract class  MultiTaskHandler {
     private int mTasksLeft;
     private boolean mIsCanceled = false;
 
@@ -15,11 +15,6 @@ public abstract class MultiTaskHandler {
         if (mTasksLeft==0 && !mIsCanceled) {
             onAllTasksCompleted();
         }
-    }
-
-    public void reset(int numOfTasks) {
-        mTasksLeft = numOfTasks;
-        mIsCanceled=false;
     }
 
     public void cancel() {

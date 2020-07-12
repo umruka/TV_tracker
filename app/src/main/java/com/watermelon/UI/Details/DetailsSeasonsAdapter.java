@@ -61,13 +61,16 @@ public class DetailsSeasonsAdapter extends RecyclerView.Adapter<DetailsSeasonsAd
             holder.checkBoxSeason.setChecked(false);
         }
         holder.textViewSeasonNumber.setText(context.getString(R.string.details_seasonNumber, currentTvSeriesSeason.getSeasonNum()));
-        holder.progressBarSeason.setProgress(seasonCurrentProgress);
+
         holder.progressBarSeason.setMax(seasonMaxProgress);
+        holder.progressBarSeason.setProgress(seasonCurrentProgress);
+
         holder.textViewProgressText.setText(context.getString(R.string.details_seasonProgress, StringHelper.addZero(seasonCurrentProgress), StringHelper.addZero(seasonMaxProgress)));
+
     }
 
-    public void setEpisodes(List<TvSeriesSeason> pictures) {
-        this.seasons = pictures;
+    void setSeasons(List<TvSeriesSeason> seasons) {
+        this.seasons = seasons;
         notifyDataSetChanged();
     }
 
