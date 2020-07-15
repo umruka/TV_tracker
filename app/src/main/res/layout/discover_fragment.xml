@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.Discover.DiscoverFragment">
 
-    
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/discover_linear_layout"
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
     >
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="16dp"

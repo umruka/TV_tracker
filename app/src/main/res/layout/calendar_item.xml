@@ -1,89 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Widget.MaterialComponents.CardView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipToPadding="false"
-    android:paddingStart="16dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="8dp"
-    app:cardBackgroundColor="#E0E0E0">
-
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        >
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/calendar_image"
-                android:layout_width="96dp"
-                android:layout_height="112dp"
-                />
+            android:layout_height="112dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/calendar_image">
 
-            <RelativeLayout
-                android:layout_toEndOf="@id/calendar_image"
-                android:layout_width="match_parent"
-                android:layout_height="112dp"
-                android:layout_marginStart="8dp"
-                >
-
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="name"
+                android:textAppearance="?textAppearanceListItem"
                 />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_episodeNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:layout_below="@id/calendar_name"
+                android:layout_marginTop="4dp"
                 android:text="episodeNum"
+                android:textAppearance="?textAppearanceCaption"
                 />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_seasonNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 android:layout_below="@id/calendar_episodeNum"
-                android:text="seasonNum"
-                />
+                android:layout_marginTop="2dp"
 
-            <androidx.appcompat.widget.AppCompatTextView
+                android:textAppearance="?textAppearanceCaption"
+                android:text="seasonNum" />
+
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_air_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 android:layout_below="@id/calendar_seasonNum"
-                android:text="air_date"
-                />
+                android:textAppearance="?textAppearanceCaption"
+                android:layout_marginTop="2dp"
+                android:text="air_date" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_marginTop="8dp"
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_days_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/calendar_air_date"
-                android:textColor="@android:color/black"
+                android:layout_marginTop="8dp"
                 android:text="days left"
+                android:textAppearance="?textAppearanceListItemSmall"
                 />
-
-            </RelativeLayout>
-
 
         </RelativeLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/calendar_image"
+            android:layout_width="96dp"
+            android:layout_height="112dp"
+            android:background="@drawable/image_border"
+            />
+
+
+    </RelativeLayout>
 
 
 

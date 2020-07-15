@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipToPadding="false"
-    android:paddingStart="16dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="8dp"
-    app:cardBackgroundColor="#E0E0E0">
-
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        >
 
         <LinearLayout
             android:id="@+id/first_row"
@@ -23,30 +20,33 @@
             android:layout_toEndOf="@id/watchlist_image_thumbnail"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/watchlist_episode_progress_text"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:maxLines="1"
                 android:text="... remaining"
+                android:textAppearance="?textAppearanceCaption"
                 android:textSize="12sp" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/watchlist_tv_show_country"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/watchlist_tv_series_country"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:maxLines="1"
                 android:text="US"
+                android:textAppearance="?textAppearanceCaption"
                 android:textSize="12sp" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_watchlist_tv_show_network"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_watchlist_tv_series_network"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:maxLines="1"
                 android:text="CW"
+                android:textAppearance="?textAppearanceCaption"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -65,7 +65,8 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/watchlist_image_thumbnail"
             android:layout_width="96dp"
-            android:layout_height="112dp" />
+            android:layout_height="112dp"
+            android:background="@drawable/image_border" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/episode_watch_button"
@@ -73,7 +74,7 @@
             android:layout_height="24dp"
             android:layout_alignParentRight="true" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/watchlist_episode_release_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,10 +83,11 @@
             android:layout_marginTop="4dp"
             android:layout_toEndOf="@id/watchlist_image_thumbnail"
             android:text="Episode release date"
+            android:textAppearance="?textAppearanceCaption"
             android:textSize="12sp" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/watchlist_tv_show_name"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/watchlist_tv_series_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/first_row"
@@ -94,26 +96,23 @@
             android:layout_toStartOf="@id/episode_watch_button"
             android:layout_toEndOf="@+id/watchlist_image_thumbnail"
             android:ellipsize="end"
+            android:textAppearance="?textAppearanceListItem"
             android:maxLines="1"
-            android:text="name"
-            android:textColor="@android:color/black" />
+            android:text="name" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/watchlist_episode_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/watchlist_tv_show_name"
+            android:layout_below="@id/watchlist_tv_series_name"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_toEndOf="@id/watchlist_image_thumbnail"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Episode name"
-            android:textColor="@android:color/black" />
+            android:textAppearance="?textAppearanceListItemSecondary"
+            android:singleLine="true"
+            android:text="Episode name" />
 
     </RelativeLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

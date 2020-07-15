@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    tools:context=".UI.Statistics.StatisticsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/statistics_show_with_next_episodes"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statistics_show_placeholder_text"
+            android:layout_marginBottom="4dp" />
+
+        <ProgressBar
+            android:id="@+id/statistics_show_count_still_running_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statistics_show_with_next_episodes_text"
+            android:layout_marginBottom="4dp" />
+
+        <ProgressBar
+            android:id="@+id/statistics_episodes_count_watched_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statistics_episode_count_placeholder_text"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/statistics_show_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="4"
+            android:textAppearance="?textAppearanceHeadline2" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/statistics_show_placeholder_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/statistics_show_count"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:text="SHOWS"
+            android:textAppearance="?textAppearanceBody2" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/statistics_show_with_next_episodes_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statistics_show_with_next_episodes"
+            android:layout_marginBottom="8dp"
+            android:text="4 with next episodes"
+            android:textAppearance="?textAppearanceBody2" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/statistics_show_count_still_running_progress_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statistics_show_count_still_running_progress"
+            android:layout_marginBottom="16dp"
+            android:text="4 running"
+            android:textAppearance="?textAppearanceBody2" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/statistics_all_episodes_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statistics_show_count_still_running_progress_text"
+            android:layout_centerHorizontal="true"
+            android:text="444"
+            android:textAppearance="?textAppearanceHeadline2" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/statistics_episode_count_placeholder_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/statistics_all_episodes_count"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:text="EPISODES"
+            android:textAppearance="?textAppearanceBody2" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/statistics_episodes_count_watched_progress_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statistics_episodes_count_watched_progress"
+            android:layout_marginBottom="16dp"
+            android:text="33 WATCHED"
+            android:textAppearance="?textAppearanceBody2" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/statistics_total_runtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statistics_episodes_count_watched_progress_text"
+            android:layout_centerHorizontal="true"
+            android:text="1 day 10 hours 20 minutes"
+            android:textAppearance="?textAppearanceHeadline5" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/statistics_total_runtime_placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statistics_total_runtime"
+            android:layout_centerHorizontal="true"
+            android:text="RUNTIME OF ALL EPISODES"
+            android:textAppearance="?textAppearanceBody2" />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

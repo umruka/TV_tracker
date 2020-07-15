@@ -6,13 +6,13 @@
     app:startDestination="@id/navigation_watchlist">
 
     <fragment
-        android:id="@+id/navigation_profile"
-        android:name="com.example.tvtracker.UI.Profile.ProfileFragment"
+        android:id="@+id/navigation_statistics"
+        android:name="com.watermelon.UI.Statistics.StatisticsFragment"
         android:label="profile_fragment"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/statistic_fragment" />
     <fragment
         android:id="@+id/navigation_watchlist"
-        android:name="com.example.tvtracker.UI.Watchlist.WatchlistFragment"
+        android:name="com.watermelon.UI.Watchlist.WatchlistFragment"
         android:label="watchlist_fragment"
         tools:layout="@layout/watchlist_fragment" >
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_discover"
-        android:name="com.example.tvtracker.UI.Discover.DiscoverFragment"
+        android:name="com.watermelon.UI.Discover.DiscoverFragment"
         android:label="discover_fragment"
         tools:layout="@layout/discover_fragment" >
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_calendar"
-        android:name="com.example.tvtracker.UI.Calendar.CalendarFragment"
+        android:name="com.watermelon.UI.Calendar.CalendarFragment"
         android:label="calendar_fragment"
         tools:layout="@layout/calendar_fragment" >
         <action
@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_search"
-        android:name="com.example.tvtracker.UI.Search.SearchFragment"
+        android:name="com.watermelon.UI.Search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/search_fragment">
         <action
@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_details"
-        android:name="com.example.tvtracker.UI.Details.DetailsFragment"
+        android:name="com.watermelon.UI.Details.DetailsFragment"
         android:label="fragment_details">
         <action
             android:id="@+id/action_fragment_details_to_fragment_episodes"
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_episodes"
-        android:name="com.example.tvtracker.UI.SeasonEpisodes.SeasonEpisodesFragment"
+        android:name="com.watermelon.UI.SeasonEpisodes.SeasonEpisodesFragment"
         android:label="fragment_episodes"
         tools:layout="@layout/episodes_fragment" >
     </fragment>

@@ -5,22 +5,39 @@
     android:layout_height="match_parent"
     tools:context=".UI.SeasonEpisodes.SeasonEpisodesFragment">
 
-   <RelativeLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-   >
-    <ProgressBar
-        android:id="@+id/season_progress"
-       style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-       />
+        android:layout_height="match_parent">
 
-   <androidx.recyclerview.widget.RecyclerView
-       android:id="@+id/episode_recyclerView"
-       android:layout_height="match_parent"
-       android:layout_width="match_parent"
-       android:layout_below="@id/season_progress"
-       />
-   </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/progress_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp">
+
+            <ProgressBar
+                android:id="@+id/season_progress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="3.5" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/season_progress_text"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="0.5"
+                android:text="00/11" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/episode_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/progress_layout" />
+    </RelativeLayout>
 </FrameLayout>
